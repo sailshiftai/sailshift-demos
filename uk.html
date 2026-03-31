@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yacht Listings — Powered by SailShift AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--accent:#1a3a5c;--accent-l:#2a5a8c;--text:#111827;--muted:#6b7280;--border:#e5e7eb;--bg:#f3f4f6;--card:#fff;--r:12px}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── HEADER ── */
+.hdr{background:var(--accent);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:200;box-shadow:0 2px 16px rgba(0,0,0,.2)}
+.hdr-logo{display:flex;align-items:center;gap:10px;color:#fff}
+.logo-mk{width:34px;height:34px;background:rgba(255,255,255,.18);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;letter-spacing:-.5px}
+.logo-nm{font-weight:700;font-size:17px;letter-spacing:-.3px}
+.hdr-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.88);padding:5px 13px;border-radius:20px;font-size:11.5px;font-weight:500;letter-spacing:.4px}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(150deg,var(--accent) 0%,#0d2540 100%);color:#fff;padding:2.75rem 2rem 2.25rem;text-align:center}
+.hero h1{font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.5px;margin-bottom:.4rem}
+.hero p{color:rgba(255,255,255,.72);font-size:.9rem;margin-bottom:1.75rem}
+.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.tab{padding:9px 22px;border-radius:50px;border:2px solid rgba(255,255,255,.35);background:transparent;color:rgba(255,255,255,.78);font-family:inherit;font-size:.83rem;font-weight:500;cursor:pointer;transition:all .18s}
+.tab:hover{border-color:rgba(255,255,255,.65);color:#fff}
+.tab.active{background:#fff;color:var(--accent);border-color:#fff;font-weight:700}
+
+/* ── STATS BAR ── */
+.stats{background:#fff;border-bottom:1px solid var(--border);padding:.7rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.stats-txt{font-size:.85rem;color:var(--muted)}.stats-txt strong{color:var(--text)}
+.stats-sort{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
+.sort-sel{border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:.8rem;font-family:inherit;color:var(--text);background:#fff;cursor:pointer;outline:none}
+
+/* ── GRID ── */
+.wrap{max-width:1200px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.125rem}
+@media(max-width:960px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:580px){.grid{grid-template-columns:1fr}.wrap{padding:1rem 1rem 3rem}.hero{padding:2rem 1rem 2rem}.hdr{padding:0 1rem}}
+
+/* ── CARD ── */
+.card{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column;cursor:pointer}
+.card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.1),0 1px 4px rgba(0,0,0,.06)}
+.c-img-wrap{position:relative;overflow:hidden}
+.c-img{width:100%;height:200px;object-fit:cover;display:block;background:linear-gradient(135deg,#b8cfe0,#7a9fb8)}
+.c-img-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:55px;background:linear-gradient(transparent,rgba(0,0,0,.28));pointer-events:none}
+.c-price-badge{position:absolute;bottom:9px;right:9px;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);color:#fff;padding:4px 10px;border-radius:6px;font-size:.85rem;font-weight:700}
+.c-body{padding:.9rem 1rem 1rem;flex:1;display:flex;flex-direction:column}
+.c-title{font-size:.97rem;font-weight:700;color:var(--text);margin-bottom:.2rem;letter-spacing:-.2px}
+.c-year{color:var(--muted);font-weight:400;font-size:.85rem}
+.c-specs{display:flex;gap:10px;margin:.45rem 0;flex-wrap:wrap}
+.chip{display:flex;align-items:center;gap:3px;font-size:.73rem;color:var(--muted);font-weight:500}
+.c-loc{font-size:.78rem;color:var(--muted);margin-bottom:.6rem;display:flex;align-items:center;gap:4px}
+.c-desc{font-size:.78rem;color:var(--muted);line-height:1.5;margin-bottom:.85rem;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.c-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:auto}
+.c-price{font-size:1.1rem;font-weight:800;color:var(--accent)}
+.btn-view{background:var(--accent);color:#fff;border:none;padding:8px 15px;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;transition:background .18s;font-family:inherit;white-space:nowrap}
+.btn-view:hover{background:var(--accent-l)}
+
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(3px);z-index:500;align-items:flex-start;justify-content:center;padding:1.5rem 1rem;overflow-y:auto}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;max-width:860px;width:100%;margin:auto;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.3);position:relative}
+.m-close{position:absolute;top:1rem;right:1rem;width:34px;height:34px;border-radius:50%;border:none;background:#f3f4f6;color:var(--muted);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background .18s}
+.m-close:hover{background:#e5e7eb}
+.m-img{width:100%;height:300px;object-fit:cover;display:block;background:linear-gradient(135deg,#b8cfe0,#7a9fb8)}
+.m-body{padding:1.75rem 2rem 2rem}
+.m-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.m-title-block .m-make{font-size:1.35rem;font-weight:800;letter-spacing:-.4px;color:var(--text)}
+.m-title-block .m-sub{font-size:.88rem;color:var(--muted);margin-top:.2rem}
+.m-price-block{text-align:right}
+.m-price{font-size:1.6rem;font-weight:800;color:var(--accent);white-space:nowrap}
+.m-price-note{font-size:.75rem;color:var(--muted);margin-top:.15rem}
+
+/* Spec grid */
+.spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;background:#f8f9fa;border-radius:10px;padding:1rem;margin-bottom:1.25rem}
+@media(max-width:600px){.spec-grid{grid-template-columns:repeat(2,1fr)}}
+.spec-box{background:#fff;border-radius:8px;padding:.6rem .75rem;border:1px solid var(--border)}
+.spec-box .sk{font-size:.7rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+.spec-box .sv{font-size:.88rem;font-weight:600;color:var(--text)}
+
+/* Full spec table */
+.m-section{margin-bottom:1.25rem}
+.m-section h4{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:.6rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.spec-tbl{width:100%;border-collapse:collapse}
+.spec-tbl tr:not(:last-child) td{border-bottom:1px solid #f3f4f6}
+.spec-tbl td{padding:.4rem .2rem;font-size:.83rem;vertical-align:top}
+.spec-tbl td:first-child{color:var(--muted);font-weight:500;width:45%;padding-right:.75rem}
+.spec-tbl td:last-child{color:var(--text);font-weight:500}
+
+/* Enquiry form */
+.m-enq-title{font-size:1rem;font-weight:700;margin-bottom:.25rem}
+.m-enq-sub{font-size:.8rem;color:var(--muted);margin-bottom:1rem}
+.fg{margin-bottom:.875rem}
+.fg label{display:block;font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
+.fg input,.fg textarea{width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;font-family:inherit;color:var(--text);transition:border-color .18s;outline:none}
+.fg input:focus,.fg textarea:focus{border-color:var(--accent)}
+.fg textarea{resize:vertical;min-height:80px}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.btn-submit{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-size:.9rem;font-weight:700;font-family:inherit;cursor:pointer;transition:background .18s;margin-top:.25rem}
+.btn-submit:hover{background:var(--accent-l)}
+.success-wrap{text-align:center;padding:2.5rem 1rem}
+.success-wrap .si{font-size:2.5rem;margin-bottom:.5rem}
+.success-wrap h3{font-size:1.1rem;font-weight:700;margin-bottom:.35rem}
+.success-wrap p{color:var(--muted);font-size:.85rem}
+
+/* Footer */
+footer{text-align:center;padding:1.25rem;background:#fff;border-top:1px solid var(--border);font-size:.78rem;color:var(--muted)}
+footer a{color:var(--accent);text-decoration:none;font-weight:500}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-logo">
+    <div class="logo-mk" id="logoMk">C</div>
+    <span class="logo-nm" id="brokerNm">Coastal Marine</span>
+  </div>
+  <span class="hdr-badge">Powered by SailShift AI</span>
+</header>
+
+<section class="hero">
+  <h1 id="heroTitle">Browse Our Current Yacht Listings</h1>
+  <p id="heroSub">Sail-ready yachts across all price ranges — select your budget below</p>
+  <div class="tabs">
+    <button class="tab" data-r="budget" onclick="switchTab('budget')">Budget &middot; £40k–£100k</button>
+    <button class="tab" data-r="mid" onclick="switchTab('mid')">Mid-Range &middot; £100k–£300k</button>
+    <button class="tab" data-r="premium" onclick="switchTab('premium')">Premium &middot; £300k–£1.5M</button>
+  </div>
+</section>
+
+<div class="stats">
+  <span class="stats-txt"><strong id="listCt">20</strong> listings available</span>
+  <div class="stats-sort">Sort: <select class="sort-sel" id="sortSel" onchange="render()">
+    <option value="default">Featured</option>
+    <option value="price-asc">Price ↑</option>
+    <option value="price-desc">Price ↓</option>
+    <option value="year-desc">Newest first</option>
+    <option value="length-desc">Longest first</option>
+  </select></div>
+</div>
+
+<main class="wrap"><div class="grid" id="grid"></div></main>
+
+<!-- Detail + Enquiry Modal -->
+<div class="overlay" id="overlay" onclick="bgClose(event)">
+  <div class="modal" id="modal">
+    <button class="m-close" onclick="closeModal()">×</button>
+    <img class="m-img" id="mImg" src="" alt="" onerror="this.style.background='linear-gradient(135deg,#b8cfe0,#7a9fb8)';this.src=''">
+    <div class="m-body">
+      <div id="mContent"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Listings managed by <a href="#">SailShift AI</a> · Intelligent lead management for yacht brokers</p>
+</footer>
+
+<script>
+// ── URL PARAMS ──────────────────────────────────────────────────────────────
+(function(){
+  const p = new URLSearchParams(location.search);
+  const broker = p.get('broker') || 'Coastal Marine';
+  const colour = p.get('colour') || '1a3a5c';
+  const range  = p.get('range')  || 'mid';
+  document.getElementById('brokerNm').textContent = broker;
+  document.getElementById('logoMk').textContent   = broker.charAt(0).toUpperCase();
+  document.getElementById('heroTitle').textContent = `Browse ${broker}'s Current Listings`;
+  document.documentElement.style.setProperty('--accent', '#' + colour.replace('#',''));
+  document.documentElement.style.setProperty('--accent-l', '#' + lighten(colour.replace('#','')));
+  window._INIT_RANGE = range;
+})();
+
+function lighten(hex){
+  try{
+    let r=parseInt(hex.slice(0,2),16)+30, g=parseInt(hex.slice(2,4),16)+30, b=parseInt(hex.slice(4,6),16)+30;
+    return [Math.min(r,255),Math.min(g,255),Math.min(b,255)].map(x=>x.toString(16).padStart(2,'0')).join('');
+  }catch(e){return '2a5a8c';}
+}
+
+// ── IMAGES ──────────────────────────────────────────────────────────────────
+const IMGS = [
+  'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1476103791524-45e7c9aa7193?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1519400197429-404ae5da9f94?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1534722050945-14b40b5a2c78?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1540946485063-45e8f9e92e11?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1511316695145-4992006ffddb?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1585366116878-6c4e7a456d5e?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1499774063499-9da51f51e44e?auto=format&fit=crop&w=900&q=80',
+];
+function img(i){ return IMGS[i % IMGS.length]; }
+
+// ── LISTINGS DATA ────────────────────────────────────────────────────────────
+const DATA = {
+  budget: [
+    {id:1,  make:'Beneteau', model:'Oceanis 35.1',       year:2018, price:42500,  loa:"10.55m / 34'7\"", beam:"3.71m / 12'2\"", draft:"1.85m / 6'1\"", disp:"6,800kg", rig:'Sloop', sails:"47.5m²", engine:'Yanmar 2YM15, 15hp', hrs:210, svc:2024, berths:6, cabins:2, heads:1, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 742', vhf:'Standard Horizon GX1700', ais:'Class B transponder', ap:'Garmin GHP Reactor', windlass:'Lofrans Tigres electric', anchor:'10kg Delta + 40m chain', loc:'Hamble, Hampshire',    desc:'Single-owner from new, maintained to a superb standard. Full wardrobe of Elvström sails, recent antifoul and engine service. Comprehensive electronics package, ready to cruise from day one.', i:0},
+    {id:2,  make:'Jeanneau', model:'Sun Odyssey 369',    year:2017, price:49950,  loa:"11.00m / 36'1\"", beam:"3.76m / 12'4\"", draft:"1.80m / 5'11\"", disp:"7,100kg", rig:'Sloop', sails:"51.0m²", engine:'Yanmar 3YM20, 20hp', hrs:380, svc:2023, berths:6, cabins:2, heads:1, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'B&G Vulcan 5', vhf:'Icom IC-M323', ais:'Class B transponder', ap:'Simrad TP32', windlass:'Maxwell HRC8 electric', anchor:'12kg CQR + 40m chain', loc:'Falmouth, Cornwall',   desc:'Excellent coastal cruiser in very good condition throughout. Roller furling headsail, slab reefing main, full spray hood and bimini. Survey available, lying afloat Falmouth marina.', i:1},
+    {id:3,  make:'Bavaria',  model:'Cruiser 37',         year:2016, price:54750,  loa:"11.20m / 36'9\"", beam:"3.74m / 12'3\"", draft:"1.80m / 5'11\"", disp:"7,500kg", rig:'Sloop', sails:"53.2m²", engine:'Volvo D1-30, 29hp', hrs:445, svc:2024, berths:6, cabins:3, heads:1, keel:'Fin keel', construction:'GRP', cond:'Good', plotter:'Garmin echoMAP 74sv', vhf:'Standard Horizon GX1600', ais:'Class B transponder', ap:'Simrad TP22', windlass:'Lofrans Tigres electric', anchor:'12kg Delta + 45m chain', loc:'Lymington, Hampshire', desc:'Popular three-cabin family cruiser. Well equipped for coastal and offshore work, holding tank fitted, new standing rigging 2022. Strong and roomy with good passage-making ability.', i:2},
+    {id:4,  make:'Hanse',    model:'345',                year:2017, price:72500,  loa:"10.45m / 34'3\"", beam:"3.50m / 11'6\"", draft:"1.79m / 5'11\"", disp:"5,900kg", rig:'Sloop', sails:"52.0m²", engine:'Volvo D1-20, 21hp', hrs:290, svc:2024, berths:6, cabins:2, heads:1, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Vulcan 7', vhf:'Icom IC-M330', ais:'Class B transponder', ap:'B&G Triton2 autopilot', windlass:'Harken 700 electric', anchor:'10kg Bruce + 40m chain', loc:'Gosport, Hampshire',  desc:'Modern German sloop in exceptional condition. In-mast furling mainsail option fitted, very manageable single-handed. One meticulous owner, full service history, antifoul 2024.', i:3},
+    {id:5,  make:'Beneteau', model:'Oceanis 38',         year:2015, price:78000,  loa:"11.55m / 37'11\"", beam:"3.99m / 13'1\"", draft:"1.92m / 6'4\"", disp:"8,400kg", rig:'Sloop', sails:"57.0m²", engine:'Yanmar 3YM30, 27hp', hrs:510, svc:2023, berths:8, cabins:3, heads:2, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 741', vhf:'Standard Horizon GX1700', ais:'Class B', ap:'Garmin GHP Autopilot', windlass:'Lofrans electric', anchor:'12kg Delta + 50m chain', loc:'Cowes, Isle of Wight', desc:'Spacious three-cabin layout with two separate heads. Electric winches, full cockpit enclosure, solar panel fitted. Well-maintained cruiser ready for extended passages.', i:4},
+    {id:6,  make:'Jeanneau', model:'349',                year:2016, price:55000,  loa:"10.70m / 35'1\"", beam:"3.76m / 12'4\"", draft:"1.78m / 5'10\"", disp:"6,900kg", rig:'Sloop', sails:"49.0m²", engine:'Yanmar 2YM15, 15hp', hrs:320, svc:2024, berths:6, cabins:2, heads:1, keel:'Fin keel', construction:'GRP', cond:'Good', plotter:'B&G Zeus 7', vhf:'Icom IC-M323', ais:'Class B', ap:'B&G Pilot', windlass:'Maxwell VX1 electric', anchor:'10kg Delta + 40m chain', loc:'Swansea, Wales',   desc:'Contemporary and well-proportioned yacht in good all-round condition. Furlex headsail system, slab reefing main, new antifoul 2024. Ideal for family coastal cruising.', i:5},
+    {id:7,  make:'Bavaria',  model:'36 Cruiser',         year:2013, price:47500,  loa:"10.99m / 36'1\"", beam:"3.74m / 12'3\"", draft:"1.80m / 5'11\"", disp:"7,200kg", rig:'Sloop', sails:"51.0m²", engine:'Volvo D1-30, 29hp', hrs:620, svc:2023, berths:6, cabins:3, heads:1, keel:'Fin keel', construction:'GRP', cond:'Good', plotter:'Garmin GPSMap 526', vhf:'Standard Horizon GX1500', ais:'Icom MA-500TR', ap:'Simrad TP22', windlass:'Lofrans electric', anchor:'12kg CQR + 45m chain', loc:'Dartmouth, Devon',  desc:'Solid family cruiser with three separate cabins, spacious saloon and well-equipped galley. Standing rigging replaced 2020, sails in good condition. Good value passage-maker.', i:6},
+    {id:8,  make:'X-Yachts', model:'X-362',              year:2011, price:85000,  loa:"11.00m / 36'1\"", beam:"3.55m / 11'8\"", draft:"1.98m / 6'6\"", disp:"5,400kg", rig:'Sloop', sails:"58.0m²", engine:'Volvo D1-20, 21hp', hrs:280, svc:2024, berths:4, cabins:2, heads:1, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Vulcan 9', vhf:'Icom IC-M330', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Harken 700 electric', anchor:'10kg Delta + 40m chain', loc:'Lymington, Hampshire', desc:'Premium Danish performance cruiser maintained to the highest standard. Dry-sailed for first eight years, consistent club racer. Exceptional build quality, light and stiff hull.', i:7},
+    {id:9,  make:'Dufour',   model:'360 GL',             year:2018, price:79500,  loa:"10.98m / 36'0\"", beam:"3.75m / 12'4\"", draft:"1.80m / 5'11\"", disp:"6,700kg", rig:'Sloop', sails:"52.0m²", engine:'Yanmar 3YM20, 20hp', hrs:180, svc:2024, berths:6, cabins:2, heads:1, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 742', vhf:'Standard Horizon GX1700', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Lofrans Tigres', anchor:'12kg Delta + 45m chain', loc:'Portsmouth, Hampshire', desc:'Low hours, nearly new condition. Innovative flat-plan sails, lazy jacks, electric windlass, comprehensive B&G electronics suite. Sails beautifully upwind and off the breeze.', i:8},
+    {id:10, make:'Beneteau', model:'Oceanis 35',         year:2013, price:52000,  loa:"10.50m / 34'5\"", beam:"3.71m / 12'2\"", draft:"1.85m / 6'1\"", disp:"6,600kg", rig:'Sloop', sails:"46.5m²", engine:'Yanmar 2YM15, 15hp', hrs:490, svc:2023, berths:6, cabins:2, heads:1, keel:'Fin keel', construction:'GRP', cond:'Good', plotter:'Garmin GPSMap 526s', vhf:'Icom IC-M323', ais:'Icom MA-500TR', ap:'Simrad TP10', windlass:'Lofrans Cayman electric', anchor:'10kg Delta + 40m chain', loc:'Chichester, West Sussex', desc:'Proven design in good cruising condition. Well-found inventory including storm sails, life raft (serviced 2023) and full flare pack. Two comfortable cabins and functional galley.', i:9},
+    {id:11, make:'Jeanneau', model:'Sun Odyssey 340',    year:2016, price:61500,  loa:"10.35m / 33'11\"", beam:"3.76m / 12'4\"", draft:"1.78m / 5'10\"", disp:"6,200kg", rig:'Sloop', sails:"47.5m²", engine:'Yanmar 2YM15, 15hp', hrs:340, svc:2024, berths:6, cabins:2, heads:1, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'B&G Vulcan 5', vhf:'Standard Horizon GX1600', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Maxwell HRC8', anchor:'10kg Bruce + 40m chain', loc:'Plymouth, Devon',  desc:'Sporty modern design with twin helm stations and walk-around side decks. Clean bilge, recent antifoul, new upholstery 2023. Easy to sail, ideal for shorthanded cruising.', i:10},
+    {id:12, make:'Southerly','model':'38RS',             year:2008, price:63000,  loa:"11.50m / 37'9\"", beam:"3.78m / 12'5\"", draft:"0.65m–1.80m", disp:"9,200kg", rig:'Sloop', sails:"55.0m²", engine:'Volvo D2-40, 39hp', hrs:680, svc:2023, berths:6, cabins:3, heads:2, keel:'Lifting keel', construction:'GRP', cond:'Good', plotter:'Garmin GPSMap 741', vhf:'Icom IC-M330', ais:'Class B', ap:'Simrad AP24', windlass:'Maxwell electric', anchor:'12kg Delta + 45m chain', loc:'Hamble, Hampshire',  desc:'Unique lifting keel design — dry out or explore shallow estuaries. Three-cabin layout with two heads. New keel ram seals 2022, engine overhauled 2021. Hugely versatile cruiser.', i:11},
+    {id:13, make:'Bavaria',  model:'34 Cruiser',         year:2015, price:45750,  loa:"10.35m / 33'11\"", beam:"3.68m / 12'1\"", draft:"1.78m / 5'10\"", disp:"6,800kg", rig:'Sloop', sails:"46.5m²", engine:'Volvo D1-20, 21hp', hrs:390, svc:2024, berths:6, cabins:2, heads:1, keel:'Fin keel', construction:'GRP', cond:'Good', plotter:'Garmin echoMAP 64sv', vhf:'Standard Horizon GX1500', ais:'Icom MA-500TR', ap:'None', windlass:'Lofrans electric', anchor:'10kg Bruce + 35m chain', loc:'Plymouth, Devon',  desc:'Great entry-level offshore cruiser. Full sail inventory, chart table with compass, VHF and depth sounder. Recent antifoul and fresh engine service. Priced for a quick sale.', i:0},
+    {id:14, make:'Hanse',    model:'348',                year:2016, price:69000,  loa:"10.60m / 34'9\"", beam:"3.60m / 11'10\"", draft:"1.79m / 5'11\"", disp:"6,300kg", rig:'Sloop', sails:"52.0m²", engine:'Volvo D1-20, 21hp', hrs:260, svc:2024, berths:6, cabins:2, heads:1, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'B&G Vulcan 7', vhf:'Icom IC-M323', ais:'Class B', ap:'B&G Triton2 Pilot', windlass:'Harken 700 electric', anchor:'10kg Bruce + 40m chain', loc:'Gosport, Hampshire',  desc:'Sport-touring design with excellent light-wind performance. Carbon tiller option, competitive sail wardrobe, clean well-presented interior. Surveys and service records available.', i:1},
+    {id:15, make:'Hunter',   model:'410',                year:2012, price:58000,  loa:"12.50m / 41'0\"", beam:"4.30m / 14'1\"", draft:"1.60m / 5'3\"", disp:"9,800kg", rig:'Sloop', sails:"68.0m²", engine:'Yanmar 3GM30, 27hp', hrs:520, svc:2023, berths:8, cabins:3, heads:2, keel:'Fin keel', construction:'GRP', cond:'Good', plotter:'Garmin GPSMap 441s', vhf:'Standard Horizon GX1700', ais:'Class B', ap:'Garmin GHP Autopilot', windlass:'Maxwell electric', anchor:'14kg Delta + 50m chain', loc:'Poole, Dorset',  desc:'Voluminous charter-style yacht with three equal cabins and two separate heads compartments. Large cockpit, self-tacking jib, easy to handle. Standing rigging replaced 2021.', i:2},
+    {id:16, make:'Catalina', model:'400 MkII',           year:2007, price:56000,  loa:"12.19m / 40'0\"", beam:"4.21m / 13'10\"", draft:"1.91m / 6'3\"", disp:"9,600kg", rig:'Sloop', sails:"65.0m²", engine:'Universal M25, 25hp', hrs:720, svc:2022, berths:6, cabins:3, heads:2, keel:'Fin keel', construction:'GRP', cond:'Good', plotter:'Garmin GPSMap 526s', vhf:'Icom IC-M323', ais:'Class B', ap:'Simrad AP16', windlass:'Lofrans electric', anchor:'14kg CQR + 50m chain', loc:'Falmouth, Cornwall',  desc:'Classic American bluewater cruiser with a proven offshore record. Solid hand-laid fibreglass, full standing headroom throughout, well-equipped galley. Life raft and EPIRB included.', i:3},
+    {id:17, make:'Beneteau', model:'First 36.7',         year:2008, price:48000,  loa:"11.00m / 36'1\"", beam:"3.74m / 12'3\"", draft:"2.00m / 6'7\"", disp:"5,800kg", rig:'Sloop', sails:"62.0m²", engine:'Yanmar 2YM15, 15hp', hrs:310, svc:2023, berths:4, cabins:2, heads:1, keel:'Deep fin keel', construction:'GRP', cond:'Good', plotter:'B&G Zeus 7', vhf:'Standard Horizon GX1600', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Harken electric', anchor:'10kg Delta + 40m chain', loc:'Cowes, Isle of Wight', desc:'Racer-cruiser with strong regatta history. IRC-rated, carbon boom, racing sail wardrobe with furling headsail. Balances offshore performance with comfortable accommodation for four.', i:4},
+    {id:18, make:'Bavaria',  model:'38 Cruiser',         year:2014, price:67500,  loa:"11.60m / 38'1\"", beam:"3.74m / 12'3\"", draft:"1.80m / 5'11\"", disp:"8,100kg", rig:'Sloop', sails:"56.0m²", engine:'Volvo D2-40, 39hp', hrs:430, svc:2024, berths:6, cabins:3, heads:2, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 741', vhf:'Icom IC-M330', ais:'Class B', ap:'Simrad AP24', windlass:'Lofrans Cayman electric', anchor:'12kg Delta + 50m chain', loc:'Chichester, West Sussex', desc:'Generous three-cabin cruiser with two full heads compartments. Recent engine service, new standing rigging 2022, holding tank fitted. Excellent passage-maker for the family.', i:5},
+    {id:19, make:'Jeanneau', model:'36i',                year:2015, price:44950,  loa:"10.98m / 36'0\"", beam:"3.76m / 12'4\"", draft:"1.80m / 5'11\"", disp:"7,000kg", rig:'Sloop', sails:"50.0m²", engine:'Yanmar 3YM20, 20hp', hrs:290, svc:2024, berths:6, cabins:2, heads:1, keel:'Fin keel', construction:'GRP', cond:'Good', plotter:'Garmin echoMAP 74sv', vhf:'Standard Horizon GX1500', ais:'Icom MA-500TR', ap:'Garmin GHP', windlass:'Lofrans electric', anchor:'10kg Delta + 40m chain', loc:'Chichester, West Sussex', desc:'Previous charter yacht, now lightly used by one private owner. New sail inventory fitted 2022, fresh antifoul and full service 2024. Priced to sell at the start of the season.', i:6},
+    {id:20, make:'Moody',    model:'336',                year:2010, price:72000,  loa:"10.20m / 33'6\"", beam:"3.62m / 11'11\"", draft:"1.52m / 5'0\"", disp:"7,000kg", rig:'Sloop', sails:"48.0m²", engine:'Yanmar 2YM15, 15hp', hrs:390, svc:2023, berths:4, cabins:2, heads:1, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'B&G Vulcan 5', vhf:'Icom IC-M323', ais:'Class B', ap:'Simrad TP22', windlass:'Maxwell HRC8', anchor:'10kg Bruce + 35m chain', loc:'Poole, Dorset',  desc:'Superbly built British motorsailer with raised saloon and outstanding all-round visibility. Protected helm station, comfortable interior, shallow draught for Solent and estuary work.', i:7},
+  ],
+  mid: [
+    {id:21, make:'Beneteau', model:'Oceanis 46.1',       year:2021, price:189000, loa:"14.34m / 47'1\"", beam:"4.50m / 14'9\"", draft:"2.05m / 6'9\"", disp:"11,500kg", rig:'Sloop', sails:"96.0m²", engine:'Yanmar 4JH45, 45hp', hrs:320, svc:2024, berths:6, cabins:3, heads:2, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Vulcan 9', vhf:'Standard Horizon GX2200', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Lofrans Project 1000 electric', anchor:'16kg Delta + 60m chain', loc:'Hamble, Hampshire',    desc:'Latest generation Beneteau flagship, barely used. Electric mainsheet system, removable cockpit table, carbon boom. Three-cabin owner version with two full heads. Turnkey condition.', i:8},
+    {id:22, make:'Jeanneau', model:'Sun Odyssey 490',    year:2020, price:225000, loa:"14.83m / 48'8\"", beam:"4.49m / 14'9\"", draft:"2.03m / 6'8\"", disp:"12,400kg", rig:'Sloop', sails:"101.0m²", engine:'Yanmar 4JH45, 45hp', hrs:280, svc:2024, berths:8, cabins:4, heads:2, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8612', vhf:'Standard Horizon GX2200', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell VX3 electric', anchor:'16kg Delta + 60m chain', loc:'Falmouth, Cornwall',   desc:"Innovative modern interior with 'open space' concept saloon. Twin helm stations, walk-around side decks, full electronics suite. Ready for the Channel Islands or beyond.", i:9},
+    {id:23, make:'Hallberg-Rassy', model:'37',           year:2015, price:175000, loa:"11.30m / 37'1\"", beam:"3.73m / 12'3\"", draft:"1.75m / 5'9\"", disp:"8,700kg", rig:'Sloop', sails:"63.0m²", engine:'Volvo D2-55, 54hp', hrs:490, svc:2024, berths:6, cabins:2, heads:2, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'B&G Zeus 3', vhf:'Icom IC-M506', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell HRC10 electric', anchor:'14kg Delta + 50m chain', loc:'Lymington, Hampshire', desc:'Swedish blue-water icon. Hull-side windows, protected cockpit with full enclosure, Lewmar Ocean hatches. One careful owner, full Hallberg-Rassy service history. Offshore ready.', i:10},
+    {id:24, make:'Bavaria',  model:'C45',                year:2019, price:149500, loa:"13.70m / 44'11\"", beam:"4.42m / 14'6\"", draft:"2.10m / 6'11\"", disp:"10,900kg", rig:'Sloop', sails:"88.0m²", engine:'Volvo D2-55, 54hp', hrs:390, svc:2024, berths:6, cabins:3, heads:2, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 742', vhf:'Standard Horizon GX1700', ais:'Class B', ap:'Garmin GHP Autopilot', windlass:'Lofrans Cayman electric', anchor:'14kg Delta + 60m chain', loc:'Chichester, West Sussex', desc:'Modern beamy performance cruiser with sport heritage. Roller furling mainsail, large open cockpit with twin helms, comprehensive electronics. Three cabins and two heads.', i:11},
+    {id:25, make:'Oyster',   model:'435',                year:2005, price:145000, loa:"13.18m / 43'3\"", beam:"4.20m / 13'9\"", draft:"1.95m / 6'5\"", disp:"12,800kg", rig:'Cutter', sails:"82.0m²", engine:'Perkins M50, 50hp', hrs:2100, svc:2022, berths:6, cabins:3, heads:2, keel:'Fin keel', construction:'GRP', cond:'Good', plotter:'Garmin GPSMap 741', vhf:'Icom IC-M505', ais:'Class B', ap:'Simrad AP35', windlass:'Lofrans Tigres electric', anchor:'16kg CQR + 50m chain', loc:'Hamble, Hampshire',    desc:'Classic Oyster cutter — purpose-built for offshore passagemaking. Inner forestay, heavy-displacement hull, proven across two Atlantic circuits. Recent engine service, new standing rigging 2020.', i:0},
+    {id:26, make:'Hanse',    model:'505',                year:2018, price:165000, loa:"15.20m / 49'10\"", beam:"4.65m / 15'3\"", draft:"2.20m / 7'3\"", disp:"14,200kg", rig:'Sloop', sails:"107.0m²", engine:'Volvo D2-75, 74hp', hrs:340, svc:2024, berths:8, cabins:4, heads:2, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'B&G Vulcan 9', vhf:'Standard Horizon GX2200', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Harken 1500 electric', anchor:'18kg Delta + 60m chain', loc:'Brighton Marina', desc:'Spacious four-cabin cruiser with twin-rudder design. Large charter cockpit, aft heads compartment accessible from deck, solar panels fitted. Easy to sail, impressive volume.', i:1},
+    {id:27, make:'Beneteau', model:'Oceanis 51.1',       year:2022, price:279000, loa:"15.56m / 51'1\"", beam:"4.77m / 15'8\"", draft:"2.22m / 7'3\"", disp:"15,000kg", rig:'Sloop', sails:"119.0m²", engine:'Yanmar 4JH57, 57hp', hrs:85,  svc:2024, berths:8, cabins:3, heads:3, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Zeus 3 12"', vhf:'Standard Horizon GX2200', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Maxwell VX3 electric', anchor:'20kg Delta + 65m chain', loc:'Cowes, Isle of Wight', desc:'Brand new model, barely commissioned. Owner three-cabin version with three separate heads. Electric mainsheet, B&G Vulcan navigation network, solar panel array. Warranty in place.', i:2},
+    {id:28, make:'X-Yachts', model:'Xp 44',             year:2019, price:189950, loa:"13.41m / 44'0\"", beam:"4.19m / 13'9\"", draft:"2.45m / 8'0\"", disp:"9,200kg", rig:'Sloop', sails:"92.0m²", engine:'Volvo D2-55, 54hp', hrs:210, svc:2024, berths:5, cabins:2, heads:2, keel:'Deep fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Zeus 3', vhf:'Icom IC-M506', ais:'Class B transponder', ap:'B&G H5000 Pilot', windlass:'Harken 1500 electric', anchor:'14kg Delta + 50m chain', loc:'Gosport, Hampshire',  desc:"Danish performance cruiser-racer in exceptional condition. Competitive under IRC, ready for Fastnet or offshore racing circuit. Carbon rig, powerful sail wardrobe, impeccably maintained.", i:3},
+    {id:29, make:'Jeanneau', model:'54 DS',              year:2019, price:229000, loa:"16.43m / 53'11\"", beam:"4.88m / 16'0\"", draft:"2.15m / 7'1\"", disp:"17,500kg", rig:'Sloop', sails:"124.0m²", engine:'Yanmar 4JH45, 57hp', hrs:410, svc:2024, berths:10, cabins:5, heads:3, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 8612', vhf:'Standard Horizon GX2400', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell electric', anchor:'22kg Delta + 65m chain', loc:'Plymouth, Devon',   desc:'Panoramic deck-saloon with spectacular natural light below. Five-cabin layout, generator, air conditioning, watermaker fitted. Three separate heads. Outstanding cruising performance.', i:4},
+    {id:30, make:'Swan',     model:'42',                 year:2010, price:178000, loa:"12.70m / 41'8\"", beam:"3.99m / 13'1\"", draft:"2.20m / 7'3\"", disp:"9,400kg", rig:'Sloop', sails:"79.0m²", engine:'Yanmar 4JH3TE, 55hp', hrs:840, svc:2023, berths:6, cabins:2, heads:2, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'B&G Zeus 3', vhf:'Icom IC-M505', ais:'Class B', ap:'B&G Triton Autopilot', windlass:'Maxwell HRC10 electric', anchor:'14kg Delta + 50m chain', loc:'Lymington, Hampshire', desc:'Finnish craftsmanship at its finest. Flush deck design with deep cockpit, powerful sail plan, renowned Nautor build quality. Regular offshore campaigns, full service history.', i:5},
+    {id:31, make:'Southerly', model:'480',               year:2016, price:195000, loa:"14.63m / 48'0\"", beam:"4.60m / 15'1\"", draft:"0.85m–2.45m", disp:"15,000kg", rig:'Sloop', sails:"103.0m²", engine:'Volvo D3-110, 110hp', hrs:520, svc:2024, berths:8, cabins:3, heads:2, keel:'Lifting keel', construction:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 8412', vhf:'Icom IC-M506', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell VX3 electric', anchor:'18kg Delta + 60m chain', loc:'Poole, Dorset',   desc:'Lifting-keel flagship allowing access to shallow harbours no fixed-keel yacht can reach. Outstanding light-wind performance thanks to carbon mast option. Three cabins, two heads.', i:6},
+    {id:32, make:'Moody',    model:'41 DS',              year:2011, price:118000, loa:"12.50m / 41'0\"", beam:"4.19m / 13'9\"", draft:"1.55m / 5'1\"", disp:"10,500kg", rig:'Sloop', sails:"72.0m²", engine:'Yanmar 4JH3TE, 55hp', hrs:680, svc:2023, berths:6, cabins:3, heads:2, keel:'Fin keel', construction:'GRP', cond:'Good', plotter:'Garmin GPSMap 741', vhf:'Standard Horizon GX1700', ais:'Class B', ap:'Simrad AP24', windlass:'Lofrans electric', anchor:'14kg Delta + 50m chain', loc:'Southampton, Hampshire', desc:'Motorsailer concept with raised saloon and excellent visibility from the helm. Bow thruster fitted, protected helm station, comfortable three-cabin layout with two heads. Ideal for long passages in comfort.', i:7},
+    {id:33, make:'Hallberg-Rassy', model:'40',           year:2018, price:248000, loa:"12.10m / 39'8\"", beam:"3.95m / 12'12\"", draft:"1.90m / 6'3\"", disp:"10,200kg", rig:'Sloop', sails:"76.0m²", engine:'Volvo D2-55, 54hp', hrs:310, svc:2024, berths:4, cabins:2, heads:2, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Zeus 3 9"', vhf:'Icom IC-M506', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell HRC10 electric', anchor:'14kg Delta + 50m chain', loc:'Falmouth, Cornwall',  desc:'Superbly maintained offshore passage yacht. Two-cabin owner layout maximises comfort below. Full B&G electronics, Doyle sails, life raft (serviced 2023), EPIRB. Ocean proven.', i:8},
+    {id:34, make:'Dufour',   model:'460 GL',             year:2020, price:189000, loa:"14.30m / 46'11\"", beam:"4.47m / 14'8\"", draft:"1.95m / 6'5\"", disp:"11,800kg", rig:'Sloop', sails:"95.0m²", engine:'Yanmar 4JH45, 45hp', hrs:230, svc:2024, berths:8, cabins:4, heads:2, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8612', vhf:'Standard Horizon GX2200', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Lofrans Project electric', anchor:'16kg Delta + 60m chain', loc:'Hamble, Hampshire',    desc:'Modern lightweight performance cruiser with innovative standing rigging. Four-cabin version, generous sole area, excellent galley ergonomics. Shallow draught option fitted, versatile choice.', i:9},
+    {id:35, make:'Bavaria',  model:'C42',                year:2020, price:142500, loa:"12.80m / 42'0\"", beam:"4.28m / 14'1\"", draft:"2.02m / 6'8\"", disp:"9,900kg", rig:'Sloop', sails:"79.0m²", engine:'Volvo D2-55, 54hp', hrs:180, svc:2024, berths:6, cabins:3, heads:2, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Vulcan 9', vhf:'Icom IC-M323', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Harken 1000 electric', anchor:'14kg Delta + 55m chain', loc:'Chichester, West Sussex', desc:'Contemporary cruiser with sport heritage and easy sail handling. Clean modern interior, three separate cabins, ample storage. Lightly used with full service history. Antifoul 2024.', i:10},
+    {id:36, make:'Najad',    model:'391',                year:2008, price:134000, loa:"11.90m / 39'0\"", beam:"3.95m / 12'12\"", draft:"1.72m / 5'8\"", disp:"9,600kg", rig:'Sloop', sails:"67.0m²", engine:'Volvo D2-40, 39hp', hrs:760, svc:2023, berths:6, cabins:2, heads:2, keel:'Fin keel', construction:'GRP', cond:'Good', plotter:'Garmin GPSMap 741', vhf:'Icom IC-M505', ais:'Class B', ap:'Simrad AP35', windlass:'Maxwell HRC8 electric', anchor:'14kg CQR + 50m chain', loc:'Lymington, Hampshire', desc:'Premium Swedish cruiser with centre-cockpit design for exceptional offshore safety. Teak side decks, Yanmar engine, classic below-decks layout. New standing rigging 2020, sails in good order.', i:11},
+    {id:37, make:'Beneteau', model:'Oceanis 45',         year:2016, price:139000, loa:"13.65m / 44'9\"", beam:"4.49m / 14'9\"", draft:"2.05m / 6'9\"", disp:"11,200kg", rig:'Sloop', sails:"90.0m²", engine:'Yanmar 4JH45, 45hp', hrs:460, svc:2024, berths:8, cabins:3, heads:2, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 742', vhf:'Standard Horizon GX1700', ais:'Class B', ap:'Garmin GHP', windlass:'Lofrans Project electric', anchor:'16kg Delta + 60m chain', loc:'Cowes, Isle of Wight', desc:'Three-cabin owner version with electric main traveller, solar panels, AIS transponder. Recent running and standing rigging check, new antifoul 2024. Ready for extended cruising.', i:0},
+    {id:38, make:'Jeanneau', model:'479',                year:2016, price:155000, loa:"14.55m / 47'9\"", beam:"4.64m / 15'3\"", draft:"2.12m / 6'12\"", disp:"13,500kg", rig:'Sloop', sails:"100.0m²", engine:'Yanmar 4JH45, 45hp', hrs:540, svc:2023, berths:8, cabins:4, heads:2, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 742', vhf:'Icom IC-M506', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell VX3 electric', anchor:'18kg Delta + 60m chain', loc:'Dartmouth, Devon',   desc:'Generous family offshore cruiser with four independent cabins, two full heads. Large volume below, well-designed galley with ample worktop. Consistent performer on passage.', i:1},
+    {id:39, make:'Bavaria',  model:'C57',                year:2021, price:285000, loa:"17.25m / 56'7\"", beam:"4.90m / 16'1\"", draft:"2.40m / 7'11\"", disp:"19,000kg", rig:'Sloop', sails:"140.0m²", engine:'Volvo D3-110, 110hp', hrs:290, svc:2024, berths:10, cabins:4, heads:3, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8612', vhf:'Standard Horizon GX2400', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Lofrans Project 1500 electric', anchor:'22kg Delta + 70m chain', loc:'Plymouth, Devon',   desc:'Premium large-volume offshore cruiser. Four cabins, three heads, generator, solar array, watermaker, 10kW inverter. Electric winch package, carbon boom. The complete long-range package.', i:2},
+    {id:40, make:'Discovery', model:'55',                year:2016, price:195000, loa:"16.74m / 54'11\"", beam:"4.80m / 15'9\"", draft:"2.00m / 6'7\"", disp:"18,000kg", rig:'Sloop', sails:"127.0m²", engine:'Yanmar 4JH57, 57hp', hrs:680, svc:2023, berths:8, cabins:4, heads:3, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 8612', vhf:'Icom IC-M506', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell VX3 electric', anchor:'22kg Delta + 70m chain', loc:'Falmouth, Cornwall',  desc:'British-built bluewater passage yacht. Centre cockpit, well-protected helm position, offshore-proven. Three Atlantic crossings logged. Watermaker, generator, life raft, EPIRB — turnkey ocean yacht.', i:3},
+  ],
+  premium: [
+    {id:41, make:'Oyster',   model:'575',                year:2019, price:875000, loa:"17.52m / 57'6\"", beam:"5.00m / 16'5\"", draft:"2.45m / 8'0\"", disp:"25,500kg", rig:'Cutter', sails:"168.0m²", engine:'Volvo D6-300, 300hp', hrs:410, svc:2024, berths:6, cabins:3, heads:3, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8616', vhf:'Icom IC-M605', ais:'Class A transponder', ap:'Garmin GHP Reactor 40', windlass:'Maxwell VX3 electric', anchor:'25kg Delta + 80m chain', loc:'Hamble, Hampshire',    desc:'Factory-fresh condition, ARC ready with full complement of safety gear. Watermaker, generator, all-carbon spars, B&G Triton network throughout. One careful owner since new, full Oyster service history.', i:4},
+    {id:42, make:'Hallberg-Rassy', model:'57',           year:2021, price:1250000,loa:"17.33m / 56'10\"", beam:"4.97m / 16'4\"", draft:"2.40m / 7'10\"", disp:"28,000kg", rig:'Sloop', sails:"165.0m²", engine:'Volvo D4-300, 300hp', hrs:180, svc:2024, berths:6, cabins:3, heads:3, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Zeus 3 12"', vhf:'Icom IC-M605', ais:'Class A', ap:'B&G H5000 Pilot', windlass:'Maxwell VX3 electric', anchor:'28kg Delta + 80m chain', loc:'Lymington, Hampshire', desc:'Barely commissioned Swedish masterpiece. Two-cabin owner layout maximising aft stateroom. Full B&G electronics network, Yanmar 110hp, bow thruster, generator. Truly turnkey.', i:5},
+    {id:43, make:'Swan',     model:'60',                 year:2017, price:985000, loa:"18.29m / 60'0\"", beam:"5.23m / 17'2\"", draft:"2.70m / 8'10\"", disp:"28,000kg", rig:'Sloop', sails:"185.0m²", engine:'Volvo D4-260, 260hp', hrs:640, svc:2024, berths:8, cabins:4, heads:3, keel:'Deep fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Zeus 3 16"', vhf:'Icom IC-M605', ais:'Class A', ap:'B&G H5000 Pilot', windlass:'Harken 3500 electric', anchor:'28kg Delta + 80m chain', loc:'Cowes, Isle of Wight', desc:'Finnish offshore racing excellence. Competed in multiple offshore campaigns by experienced crew, always professionally maintained. Full refit and repaint 2023. Carbon rig throughout.', i:6},
+    {id:44, make:'Oyster',   model:'495',                year:2020, price:595000, loa:"15.09m / 49'6\"", beam:"4.72m / 15'6\"", draft:"2.28m / 7'6\"", disp:"17,000kg", rig:'Cutter', sails:"125.0m²", engine:'Volvo D4-175, 175hp', hrs:210, svc:2024, berths:6, cabins:3, heads:2, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8616', vhf:'Icom IC-M605', ais:'Class A', ap:'Garmin GHP Reactor 40', windlass:'Maxwell VX3 electric', anchor:'22kg Delta + 70m chain', loc:'Falmouth, Cornwall',   desc:'Two-year-old flagship in immaculate condition. Regeneration system charges batteries under sail. Garmin 8617 chartplotter, electric anchor windlass. Comprehensive safety fit-out included.', i:7},
+    {id:45, make:'Hanse',    model:'675',                year:2020, price:425000, loa:"20.52m / 67'4\"", beam:"5.61m / 18'5\"", draft:"2.74m / 9'0\"", disp:"30,000kg", rig:'Sloop', sails:"225.0m²", engine:'Volvo D6-440, 440hp', hrs:380, svc:2024, berths:10, cabins:5, heads:4, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'B&G Zeus 3 16"', vhf:'Icom IC-M605', ais:'Class A', ap:'B&G H5000 Pilot', windlass:'Harken 4500 electric', anchor:'32kg Delta + 90m chain', loc:'Gosport, Hampshire',  desc:'Hanse flagship with five-cabin layout and owner suite. Generator, watermaker, full electric winch package, large cockpit with twin helms. Charter-capable or private luxury cruiser.', i:8},
+    {id:46, make:'Jeanneau', model:'64',                 year:2022, price:425000, loa:"19.40m / 63'8\"", beam:"5.35m / 17'7\"", draft:"2.47m / 8'1\"", disp:"25,000kg", rig:'Sloop', sails:"187.0m²", engine:'Yanmar 4JH110, 110hp', hrs:150, svc:2024, berths:10, cabins:5, heads:4, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8616', vhf:'Standard Horizon GX2400', ais:'Class A', ap:'Garmin GHP Reactor 40', windlass:'Maxwell VX3 electric', anchor:'28kg Delta + 80m chain', loc:'Plymouth, Devon',   desc:'Brand-new model barely off the yard. Five-cabin charter layout, full Raymarine Axiom Pro network, generator, watermaker, air conditioning. Ready to charter from day one.', i:9},
+    {id:47, make:'Bavaria',  model:'55 Cruiser',         year:2020, price:385000, loa:"16.73m / 54'11\"", beam:"4.90m / 16'1\"", draft:"2.30m / 7'7\"", disp:"20,000kg", rig:'Sloop', sails:"145.0m²", engine:'Volvo D4-175, 175hp', hrs:320, svc:2024, berths:10, cabins:5, heads:4, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 8612', vhf:'Icom IC-M506', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Lofrans Project 1500 electric', anchor:'24kg Delta + 75m chain', loc:'Chichester, West Sussex', desc:'Large-volume offshore cruiser with five-cabin layout, generator, solar array, watermaker and 10kW inverter. Electric anchor and electric winch package. Excellent charter history.', i:10},
+    {id:48, make:'Hallberg-Rassy', model:'44',           year:2017, price:489000, loa:"13.40m / 43'11\"", beam:"4.18m / 13'9\"", draft:"2.05m / 6'9\"", disp:"14,800kg", rig:'Sloop', sails:"93.0m²", engine:'Volvo D2-75, 74hp', hrs:520, svc:2024, berths:4, cabins:2, heads:2, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Zeus 3', vhf:'Icom IC-M606', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Maxwell HRC10 electric', anchor:'16kg Delta + 55m chain', loc:'Lymington, Hampshire', desc:'Centre-cockpit design with luxurious aft owners stateroom, separate forward guest cabin. Swedish-built to the highest standards. One careful owner from new, immaculate throughout.', i:11},
+    {id:49, make:'Swan',     model:'48',                 year:2015, price:595000, loa:"14.63m / 48'0\"", beam:"4.50m / 14'9\"", draft:"2.50m / 8'2\"", disp:"16,000kg", rig:'Sloop', sails:"117.0m²", engine:'Volvo D3-110, 110hp', hrs:680, svc:2024, berths:6, cabins:3, heads:2, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Zeus 3', vhf:'Icom IC-M605', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Harken 2000 electric', anchor:'18kg Delta + 60m chain', loc:'Cowes, Isle of Wight', desc:'Fast offshore cruiser-racer regularly campaigned in RORC events. Recently refitted — carbon boom, new sails, standing rigging. Three cabins, two heads. Ready for next season.', i:0},
+    {id:50, make:'Oyster',   model:'445',                year:2019, price:445000, loa:"13.53m / 44'5\"", beam:"4.46m / 14'8\"", draft:"2.15m / 7'1\"", disp:"14,000kg", rig:'Cutter', sails:"100.0m²", engine:'Volvo D3-110, 110hp', hrs:290, svc:2024, berths:4, cabins:2, heads:2, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8612', vhf:'Icom IC-M605', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell VX3 electric', anchor:'18kg Delta + 60m chain', loc:'Hamble, Hampshire',    desc:'Modern Oyster with contemporary styling and stunning interior finish. Two-cabin layout, hydraulic backstay adjuster, in-boom furling system. Immaculate — presented as new.', i:1},
+    {id:51, make:'Southerly', model:'600',               year:2019, price:625000, loa:"18.29m / 60'0\"", beam:"5.15m / 16'11\"", draft:"0.95m–2.90m", disp:"28,000kg", rig:'Sloop', sails:"195.0m²", engine:'Volvo D6-370, 370hp', hrs:420, svc:2024, berths:8, cabins:4, heads:3, keel:'Lifting keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8616', vhf:'Icom IC-M605', ais:'Class A', ap:'Garmin GHP Reactor 40', windlass:'Maxwell VX3 electric', anchor:'28kg Delta + 80m chain', loc:'Hamble, Hampshire',    desc:'Flagship lifting-keel cruiser. Four cabins, generator, watermaker, air conditioning, exceptional offshore range. Access harbours impossible for conventional yachts. Carbon mast fitted.', i:2},
+    {id:52, make:'Hallberg-Rassy', model:'48 MkII',      year:2020, price:745000, loa:"14.72m / 48'3\"", beam:"4.40m / 14'5\"", draft:"2.18m / 7'2\"", disp:"18,000kg", rig:'Sloop', sails:"110.0m²", engine:'Volvo D4-175, 175hp', hrs:310, svc:2024, berths:4, cabins:3, heads:2, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Zeus 3 9"', vhf:'Icom IC-M606', ais:'Class A', ap:'B&G H5000 Pilot', windlass:'Maxwell HRC10 electric', anchor:'20kg Delta + 65m chain', loc:'Lymington, Hampshire', desc:'Latest generation Hallberg-Rassy in near-new condition. Owners aft cabin, two guest cabins, bow thruster, Volvo IPS propulsion, tender garage. Truly exceptional.', i:3},
+    {id:53, make:'Swan',     model:'53',                 year:2014, price:725000, loa:"16.15m / 53'0\"", beam:"4.87m / 16'0\"", draft:"2.65m / 8'8\"", disp:"22,000kg", rig:'Sloop', sails:"152.0m²", engine:'Volvo D4-175, 175hp', hrs:820, svc:2024, berths:8, cabins:4, heads:3, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Zeus 3 12"', vhf:'Icom IC-M605', ais:'Class A', ap:'B&G H5000 Pilot', windlass:'Harken 3000 electric', anchor:'24kg Delta + 75m chain', loc:'Cowes, Isle of Wight', desc:'World-class performance cruiser. Offshore raced and delivery crewed worldwide with full maintenance records. Complete interior refit and antifoul 2022. Carbon rig throughout.', i:4},
+    {id:54, make:'Oyster',   model:'625',                year:2020, price:1350000,loa:"19.05m / 62'6\"", beam:"5.25m / 17'3\"", draft:"2.65m / 8'8\"", disp:"34,000kg", rig:'Cutter', sails:"212.0m²", engine:'Volvo D6-370, 370hp', hrs:280, svc:2024, berths:8, cabins:4, heads:4, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8617', vhf:'Icom IC-M605', ais:'Class A', ap:'Garmin GHP Reactor 40', windlass:'Maxwell VX3 electric', anchor:'32kg Delta + 90m chain', loc:'Hamble, Hampshire',    desc:'Flagship Oyster model. Four-cabin owner layout, full ocean communications suite, HF radio, SSB, EPIRB, life raft. Watermaker, generator, air conditioning. Truly turnkey offshore yacht.', i:5},
+    {id:55, make:'Hanse',    model:'588',                year:2021, price:365000, loa:"17.86m / 58'7\"", beam:"5.24m / 17'2\"", draft:"2.60m / 8'6\"", disp:"23,500kg", rig:'Sloop', sails:"188.0m²", engine:'Volvo D4-175, 175hp', hrs:240, svc:2024, berths:10, cabins:5, heads:4, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Zeus 3 16"', vhf:'Icom IC-M506', ais:'Class A', ap:'B&G H5000 Pilot', windlass:'Harken 4000 electric', anchor:'28kg Delta + 80m chain', loc:'Gosport, Hampshire',  desc:'Nearly-new performance flagship. All-carbon rig option fitted, electric winch package, full B&G navigation network. Five-cabin layout ideal for charter or large family cruising.', i:6},
+    {id:56, make:'Bavaria',  model:'66 Cruiser',         year:2021, price:495000, loa:"20.10m / 65'11\"", beam:"5.54m / 18'2\"", draft:"2.60m / 8'6\"", disp:"31,000kg", rig:'Sloop', sails:"218.0m²", engine:'Volvo D6-440, 440hp', hrs:290, svc:2024, berths:12, cabins:6, heads:5, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8616', vhf:'Standard Horizon GX2400', ais:'Class A', ap:'Garmin GHP Reactor 40', windlass:'Lofrans Project 2000 electric', anchor:'34kg Delta + 90m chain', loc:'Plymouth, Devon',   desc:'Premium long-range cruiser yacht. Six-cabin charter layout, four heads, generator, electric anchor, bow thruster, watermaker. Comprehensive electronics suite throughout.', i:7},
+    {id:57, make:'Nautor',   model:'Swan 55',            year:2016, price:825000, loa:"16.76m / 55'0\"", beam:"4.87m / 16'0\"", draft:"2.85m / 9'4\"", disp:"25,000kg", rig:'Sloop', sails:"170.0m²", engine:'Yanmar 4JH110, 110hp', hrs:580, svc:2024, berths:8, cabins:4, heads:3, keel:'Deep fin keel', construction:'GRP', cond:'Excellent', plotter:'B&G Zeus 3 12"', vhf:'Icom IC-M605', ais:'Class A', ap:'B&G H5000 Pilot', windlass:'Harken 3000 electric', anchor:'24kg Delta + 75m chain', loc:'Cowes, Isle of Wight', desc:'Finnish craftsmanship and racing DNA. Extensively raced in Swan Cup regattas, full professional maintenance programme. Carbon spars, complete service history. Ready to race or cruise.', i:8},
+    {id:58, make:'Oyster',   model:'565',                year:2018, price:975000, loa:"17.22m / 56'6\"", beam:"4.98m / 16'4\"", draft:"2.50m / 8'2\"", disp:"28,500kg", rig:'Cutter', sails:"180.0m²", engine:'Volvo D6-300, 300hp', hrs:640, svc:2024, berths:6, cabins:3, heads:3, keel:'Fin keel', construction:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8616', vhf:'Icom IC-M605', ais:'Class A', ap:'Garmin GHP Reactor 40', windlass:'Maxwell VX3 electric', anchor:'28kg Delta + 80m chain', loc:'Falmouth, Cornwall',   desc:'Iconic bluewater passagemaker. Two transatlantic crossings, full refit and repaint 2023. Watermaker, generator, air conditioning, SSB radio. The definitive offshore Oyster.', i:9},
+    {id:59, make:'Discovery', model:'67',                year:2017, price:695000, loa:"20.42m / 67'0\"", beam:"5.20m / 17'1\"", draft:"2.30m / 7'7\"", disp:"34,000kg", rig:'Sloop', sails:"215.0m²", engine:'Yanmar 4JH110, 110hp', hrs:720, svc:2024, berths:8, cabins:4, heads:4, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 8612', vhf:'Icom IC-M606', ais:'Class A', ap:'Garmin GHP Reactor 40', windlass:'Maxwell VX3 electric', anchor:'34kg Delta + 90m chain', loc:'Falmouth, Cornwall',   desc:'British expedition yacht built for serious offshore work. Centre cockpit, dual steering stations, ocean-proven in all conditions. Watermaker, generator, full safety equipment outfit.', i:10},
+    {id:60, make:'Moody',    model:'54 DS',              year:2018, price:348000, loa:"16.42m / 53'11\"", beam:"4.97m / 16'4\"", draft:"1.85m / 6'1\"", disp:"18,500kg", rig:'Sloop', sails:"138.0m²", engine:'Yanmar 4JH110, 110hp', hrs:480, svc:2024, berths:8, cabins:3, heads:3, keel:'Fin keel', construction:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 8612', vhf:'Icom IC-M506', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell VX3 electric', anchor:'22kg Delta + 70m chain', loc:'Southampton, Hampshire', desc:'Raised saloon design with panoramic visibility. Bow thruster, generator, three independent cabins, three separate heads. Comfortable motorsailer for distance cruising in style.', i:11},
+  ]
+};
+
+// ── STATE ───────────────────────────────────────────────────────────────────
+let curRange = 'mid';
+let curListing = null;
+
+// ── INIT ────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  switchTab(window._INIT_RANGE || 'mid');
+});
+
+// ── TABS ────────────────────────────────────────────────────────────────────
+function switchTab(r) {
+  curRange = r;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.r === r));
+  render();
+}
+
+// ── RENDER ──────────────────────────────────────────────────────────────────
+function fmt(n){ return '£' + n.toLocaleString('en-GB'); }
+function loa(s){ return s.split('/')[0].trim(); }
+
+function render() {
+  const sort = document.getElementById('sortSel').value;
+  let items = [...DATA[curRange]];
+  if (sort === 'price-asc')   items.sort((a,b) => a.price - b.price);
+  if (sort === 'price-desc')  items.sort((a,b) => b.price - a.price);
+  if (sort === 'year-desc')   items.sort((a,b) => b.year - a.year);
+  if (sort === 'length-desc') items.sort((a,b) => parseFloat(b.loa) - parseFloat(a.loa));
+  document.getElementById('listCt').textContent = items.length;
+  document.getElementById('grid').innerHTML = items.map(card).join('');
+}
+
+function card(L) {
+  return `
+  <div class="card" onclick="openModal(${L.id})">
+    <div class="c-img-wrap">
+      <img class="c-img" src="${img(L.i)}" alt="${L.make} ${L.model}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#b8cfe0,#7a9fb8)';this.removeAttribute('src')">
+      <span class="c-price-badge">${fmt(L.price)}</span>
+    </div>
+    <div class="c-body">
+      <div class="c-title">${L.make} ${L.model} <span class="c-year">${L.year}</span></div>
+      <div class="c-specs">
+        <span class="chip">⛵ ${loa(L.loa)}</span>
+        <span class="chip">🛏 ${L.berths} berths</span>
+        <span class="chip">🚪 ${L.cabins} cabins</span>
+        <span class="chip">⚙️ ${L.engine.split(',')[0]}</span>
+      </div>
+      <div class="c-loc">📍 ${L.loc}</div>
+      <div class="c-desc">${L.desc}</div>
+      <div class="c-foot">
+        <span class="c-price">${fmt(L.price)}</span>
+        <button class="btn-view">View Listing</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── MODAL ───────────────────────────────────────────────────────────────────
+function findListing(id) {
+  for (const band of Object.values(DATA)) {
+    const l = band.find(x => x.id === id);
+    if (l) return l;
+  }
+}
+
+function openModal(id) {
+  const L = findListing(id);
+  if (!L) return;
+  curListing = L;
+  document.getElementById('mImg').src = img(L.i);
+  document.getElementById('mImg').alt = `${L.make} ${L.model}`;
+  document.getElementById('mContent').innerHTML = detailHTML(L);
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function bgClose(e) {
+  if (e.target === document.getElementById('overlay')) closeModal();
+}
+
+function detailHTML(L) {
+  return `
+    <div class="m-header">
+      <div class="m-title-block">
+        <div class="m-make">${L.make} ${L.model}</div>
+        <div class="m-sub">${L.year} · ${L.cat||'Sailing Yacht'} · ${L.cond} condition · ${L.loc}</div>
+      </div>
+      <div class="m-price-block">
+        <div class="m-price">${fmt(L.price)}</div>
+        <div class="m-price-note">Asking price inc. VAT</div>
+      </div>
+    </div>
+
+    <div class="spec-grid">
+      <div class="spec-box"><div class="sk">LOA</div><div class="sv">${L.loa}</div></div>
+      <div class="spec-box"><div class="sk">Beam</div><div class="sv">${L.beam}</div></div>
+      <div class="spec-box"><div class="sk">Draft</div><div class="sv">${L.draft}</div></div>
+      <div class="spec-box"><div class="sk">Displacement</div><div class="sv">${L.disp}</div></div>
+      <div class="spec-box"><div class="sk">Berths</div><div class="sv">${L.berths}</div></div>
+      <div class="spec-box"><div class="sk">Cabins</div><div class="sv">${L.cabins}</div></div>
+      <div class="spec-box"><div class="sk">Heads</div><div class="sv">${L.heads}</div></div>
+      <div class="spec-box"><div class="sk">Engine hrs</div><div class="sv">${L.hrs} hrs</div></div>
+    </div>
+
+    <div class="m-section">
+      <h4>Description</h4>
+      <p style="font-size:.88rem;line-height:1.7;color:#374151">${L.desc}</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem">
+      <div class="m-section" style="margin:0">
+        <h4>Rig &amp; Sails</h4>
+        <table class="spec-tbl">
+          <tr><td>Rig type</td><td>${L.rig}</td></tr>
+          <tr><td>Sail area</td><td>${L.sails}</td></tr>
+          <tr><td>Keel</td><td>${L.keel}</td></tr>
+          <tr><td>Construction</td><td>${L.construction}</td></tr>
+        </table>
+      </div>
+      <div class="m-section" style="margin:0">
+        <h4>Engine</h4>
+        <table class="spec-tbl">
+          <tr><td>Engine</td><td>${L.engine}</td></tr>
+          <tr><td>Hours</td><td>${L.hrs} hrs</td></tr>
+          <tr><td>Last service</td><td>${L.svc}</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+      <div class="m-section" style="margin:0">
+        <h4>Electronics</h4>
+        <table class="spec-tbl">
+          <tr><td>Chartplotter</td><td>${L.plotter}</td></tr>
+          <tr><td>VHF radio</td><td>${L.vhf}</td></tr>
+          <tr><td>AIS</td><td>${L.ais}</td></tr>
+          <tr><td>Autopilot</td><td>${L.ap}</td></tr>
+        </table>
+      </div>
+      <div class="m-section" style="margin:0">
+        <h4>Deck Equipment</h4>
+        <table class="spec-tbl">
+          <tr><td>Windlass</td><td>${L.windlass}</td></tr>
+          <tr><td>Anchor</td><td>${L.anchor}</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="m-section">
+      <h4>Request a Viewing</h4>
+    </div>
+    <p class="m-enq-sub">Complete the form below and ${document.getElementById('brokerNm').textContent} will be in touch within the hour.</p>
+    <form id="enqForm" onsubmit="submitEnq(event)">
+      <input type="hidden" name="listing" value="${L.make} ${L.model} ${L.year} — ${fmt(L.price)}">
+      <div class="fg-row">
+        <div class="fg"><label>First Name</label><input type="text" name="fn" required placeholder="James"></div>
+        <div class="fg"><label>Last Name</label><input type="text" name="ln" required placeholder="Henderson"></div>
+      </div>
+      <div class="fg"><label>Email</label><input type="email" name="email" required placeholder="james@example.com"></div>
+      <div class="fg"><label>Phone</label><input type="tel" name="phone" placeholder="+44 7700 000000"></div>
+      <div class="fg"><label>Message</label><textarea name="msg">I'd like to arrange a viewing of the ${L.make} ${L.model} (${L.year}) listed at ${fmt(L.price)}. Please contact me at your earliest convenience.</textarea></div>
+      <button type="submit" class="btn-submit">Send Enquiry</button>
+    </form>`;
+}
+
+function submitEnq(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = Object.fromEntries(new FormData(form));
+  // POST to n8n webhook — update URL below
+  const WEBHOOK = 'https://your-n8n-instance.com/webhook/sailshift-uk';
+  fetch(WEBHOOK, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({...data, broker: document.getElementById('brokerNm').textContent, market:'UK', ts: new Date().toISOString()})})
+    .catch(()=>{});
+  document.getElementById('mContent').innerHTML = `
+    <div class="success-wrap">
+      <div class="si">✓</div>
+      <h3>Enquiry Sent</h3>
+      <p>${document.getElementById('brokerNm').textContent} will be in touch with you shortly.<br>Average response time: under 1 hour.</p>
+      <button onclick="closeModal()" style="margin-top:1.25rem;padding:10px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit">Back to Listings</button>
+    </div>`;
+  document.getElementById('mImg').style.display='none';
+}
+</script>
+</body>
+</html>
