@@ -100,6 +100,16 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .si svg{width:24px;height:24px}
 footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;padding:1.5rem;font-size:.78rem}
 footer a{color:rgba(255,255,255,.75);text-decoration:none}
+/* ── CAROUSEL ── */
+.carousel{position:relative;width:100%;height:300px;background:linear-gradient(135deg,#1a4a6e,#0d2137);overflow:hidden;flex-shrink:0}
+.car-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease}
+.car-slide.active{opacity:1}
+.car-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.15);color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.car-btn:hover{background:rgba(0,0,0,.7)}
+.car-prev{left:14px}.car-next{right:14px}
+.car-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10}
+.car-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:all .2s;border:none;padding:0}
+.car-dot.active{background:#fff;transform:scale(1.25)}
 </style>
 </head>
 <body>
@@ -147,7 +157,11 @@ footer a{color:rgba(255,255,255,.75);text-decoration:none}
 <div class="overlay" id="overlay" onclick="bgClose(event)">
   <div class="modal" id="modal">
     <button class="m-close" onclick="closeModal()">&#x2715;</button>
-    <img class="m-img" id="mImg" src="" alt="" onerror="this.style.background='linear-gradient(135deg,#1a4a6e,#0d2137)';this.src=''">
+    <div class="carousel" id="mCarousel">
+      <button class="car-btn car-prev" onclick="carPrev()"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="car-btn car-next" onclick="carNext()"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+      <div class="car-dots" id="carDots"></div>
+    </div>
     <div class="m-body"><div id="mContent"></div></div>
   </div>
 </div>
@@ -171,26 +185,8 @@ footer a{color:rgba(255,255,255,.75);text-decoration:none}
 })();
 function lighten(h){try{let r=parseInt(h.slice(0,2),16)+28,g=parseInt(h.slice(2,4),16)+28,b=parseInt(h.slice(4,6),16)+28;return[Math.min(r,255),Math.min(g,255),Math.min(b,255)].map(x=>x.toString(16).padStart(2,'0')).join('');}catch(e){return'0891b2';}}
 
-const MAKE_IMG={
-  'Beneteau':        'beneteau+oceanis+sailing+yacht+cruiser',
-  'Bavaria':         'bavaria+sailing+cruiser+yacht',
-  'Catalina':        'catalina+sailing+yacht+cruiser',
-  'Hunter':          'hunter+sailing+yacht+cruiser',
-  'Jeanneau':        'jeanneau+sun+odyssey+sailing+yacht',
-  'Hanse':           'hanse+sailing+yacht+modern',
-  'Hallberg-Rassy':  'hallberg+rassy+bluewater+sailing+yacht',
-  'Island Packet':   'island+packet+bluewater+sailing',
-  'Oyster':          'oyster+luxury+sailing+yacht',
-  'Nautor':          'swan+sailing+yacht+luxury',
-  'J/Boats':         'j+boat+racing+sailing+yacht',
-  'C&C':             'performance+sailing+yacht+racing',
-  'Hinckley':        'hinckley+classic+sailing+yacht',
-  'Pacific Seacraft':'offshore+bluewater+sailing+yacht',
-};
-function img(make,id){
-  const kw=MAKE_IMG[make]||'sailing+yacht+cruiser+marina';
-  return`https://source.unsplash.com/900x600/?${kw}&sig=${id}`;
-}
+function img(id){return`images/uss-${id}/1.jpg`;}
+function imgSet(id){return[`images/uss-${id}/1.jpg`,`images/uss-${id}/2.jpg`,`images/uss-${id}/3.jpg`];}
 
 const DATA={
   budget:[
@@ -256,7 +252,7 @@ const PIN=`<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBo
 
 function card(L){return`
 <div class="card" onclick="openModal(${L.id})">
-  <div class="c-img-wrap"><img class="c-img" src="${img(L.make,L.id)}" alt="${L.make} ${L.model}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#1a4a6e,#0d2137)';this.removeAttribute('src')"></div>
+  <div class="c-img-wrap"><img class="c-img" src="${img(L.id)}" alt="${L.make} ${L.model}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#1a4a6e,#0d2137)';this.removeAttribute('src')"></div>
   <div class="c-body">
     <div class="c-head">
       <div><div class="c-make">${L.make}</div><div class="c-model">${L.model} <span class="c-year">${L.year}</span></div></div>
@@ -278,9 +274,7 @@ function findListing(id){for(const b of Object.values(DATA)){const l=b.find(x=>x
 
 function openModal(id){
   const L=findListing(id);if(!L)return;
-  document.getElementById('mImg').src=img(L.make,L.id);
-  document.getElementById('mImg').alt=`${L.make} ${L.model}`;
-  document.getElementById('mImg').style.display='';
+  carInit(imgSet(L.id));
   document.getElementById('mContent').innerHTML=detailHTML(L);
   document.getElementById('overlay').classList.add('open');
   document.body.style.overflow='hidden';
@@ -360,7 +354,29 @@ function submitEnq(e){
   const data=Object.fromEntries(new FormData(e.target));
   fetch('https://your-n8n-instance.com/webhook/sailshift-us-sail',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...data,broker:document.getElementById('brokerNm').textContent,market:'US-Sail',ts:new Date().toISOString()})}).catch(()=>{});
   document.getElementById('mContent').innerHTML=`<div class="success-wrap"><div class="si"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><h3 style="font-size:1.3rem;margin-bottom:.5rem">Enquiry sent</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.6">${document.getElementById('brokerNm').textContent} will be in touch shortly.<br>Average response time: under 1 hour.</p><button onclick="closeModal()" style="margin-top:1.5rem;padding:10px 28px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit">Back to listings</button></div>`;
-  document.getElementById('mImg').style.display='none';
+  document.getElementById('mCarousel').style.display='none';
+}
+
+let _ci=0,_cs=[];
+function carShow(i){
+  _ci=(i+_cs.length)%_cs.length;
+  document.querySelectorAll('#mCarousel .car-slide').forEach((s,j)=>s.classList.toggle('active',j===_ci));
+  document.querySelectorAll('#carDots .car-dot').forEach((d,j)=>d.classList.toggle('active',j===_ci));
+}
+function carPrev(){carShow(_ci-1);}
+function carNext(){carShow(_ci+1);}
+function carInit(imgs){
+  _cs=imgs;_ci=0;
+  const c=document.getElementById('mCarousel');
+  c.querySelectorAll('.car-slide').forEach(el=>el.remove());
+  imgs.forEach((src,i)=>{
+    const el=document.createElement('img');
+    el.className='car-slide'+(i===0?' active':'');
+    el.src=src;
+    el.onerror=function(){this.style.display='none';};
+    c.appendChild(el);
+  });
+  document.getElementById('carDots').innerHTML=imgs.map((_,i)=>`<button class="car-dot${i===0?' active':''}" onclick="carShow(${i})"></button>`).join('');
 }
 </script>
 </body>
