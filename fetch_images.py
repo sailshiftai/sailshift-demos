@@ -125,7 +125,10 @@ def pexels_search(key, query, page=1):
         'query': query, 'per_page': 3, 'page': page,
         'orientation': 'landscape'
     })
-    req = urllib.request.Request(url, headers={'Authorization': key})
+    req = urllib.request.Request(url, headers={
+        'Authorization': key,
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    })
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:
             return json.loads(resp.read())['photos']
@@ -134,10 +137,15 @@ def pexels_search(key, query, page=1):
         return []
 
 
+UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+
 def download_file(url, dest):
     """Download url → dest, return True on success."""
     try:
-        urllib.request.urlretrieve(url, dest)
+        req = urllib.request.Request(url, headers={'User-Agent': UA})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            with open(dest, 'wb') as f:
+                f.write(resp.read())
         return True
     except Exception as e:
         print(f'  ⚠  Download failed: {e}')
