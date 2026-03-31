@@ -5,390 +5,361 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yacht Listings — Powered by SailShift AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--accent:#0a3050;--accent-l:#184870;--text:#111827;--muted:#6b7280;--border:#e5e7eb;--bg:#f3f4f6;--card:#fff;--r:12px}
-body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.hdr{background:var(--accent);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:200;box-shadow:0 2px 16px rgba(0,0,0,.2)}
-.hdr-logo{display:flex;align-items:center;gap:10px;color:#fff}
-.logo-mk{width:34px;height:34px;background:rgba(255,255,255,.18);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;letter-spacing:-.5px}
-.logo-nm{font-weight:700;font-size:17px;letter-spacing:-.3px}
-.hdr-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.88);padding:5px 13px;border-radius:20px;font-size:11.5px;font-weight:500;letter-spacing:.4px}
-.hero{background:linear-gradient(150deg,var(--accent) 0%,#041a2e 100%);color:#fff;padding:2.75rem 2rem 2.25rem;text-align:center}
-.hero h1{font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.5px;margin-bottom:.4rem}
-.hero p{color:rgba(255,255,255,.72);font-size:.9rem;margin-bottom:1.75rem}
-.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.tab{padding:9px 22px;border-radius:50px;border:2px solid rgba(255,255,255,.35);background:transparent;color:rgba(255,255,255,.78);font-family:inherit;font-size:.83rem;font-weight:500;cursor:pointer;transition:all .18s}
-.tab:hover{border-color:rgba(255,255,255,.65);color:#fff}
-.tab.active{background:#fff;color:var(--accent);border-color:#fff;font-weight:700}
-.stats{background:#fff;border-bottom:1px solid var(--border);padding:.7rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
-.stats-txt{font-size:.85rem;color:var(--muted)}.stats-txt strong{color:var(--text)}
-.stats-sort{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
-.sort-sel{border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:.8rem;font-family:inherit;color:var(--text);background:#fff;cursor:pointer;outline:none}
-.wrap{max-width:1200px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.125rem}
-@media(max-width:960px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:580px){.grid{grid-template-columns:1fr}.wrap{padding:1rem 1rem 3rem}.hero{padding:2rem 1rem 2rem}.hdr{padding:0 1rem}}
-.card{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column;cursor:pointer}
-.card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.1),0 1px 4px rgba(0,0,0,.06)}
+:root{
+  --navy:#0d2137;--navy-d:#071528;
+  --accent:#0e7490;--accent-l:#0891b2;
+  --text:#0f172a;--text-2:#334155;--muted:#64748b;
+  --border:#e2e8f0;--bg:#f1f5f9;--card:#fff;--chip:#e8eef4;--r:14px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px}
+.hdr{background:var(--navy);height:64px;display:flex;align-items:center;padding:0 2rem;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+.hdr-inner{width:100%;max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:36px;height:36px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;letter-spacing:-.5px;flex-shrink:0}
+.logo-name{font-weight:700;font-size:17px;color:#fff;letter-spacing:-.2px}
+.hdr-badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);padding:5px 14px;border-radius:20px;font-size:11.5px;font-weight:500;letter-spacing:.4px}
+.hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-d) 100%);padding:3.5rem 2rem 3rem;text-align:center;color:#fff}
+.hero-inner{max-width:640px;margin:0 auto}
+.hero-eyebrow{font-size:.78rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.9rem}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:400;letter-spacing:-.5px;margin-bottom:.7rem;line-height:1.2}
+.hero-sub{color:rgba(255,255,255,.6);font-size:.95rem;line-height:1.6;margin-bottom:2.25rem}
+.price-nav{display:inline-flex;background:rgba(255,255,255,.1);border-radius:12px;padding:5px;gap:4px}
+.pnav-btn{padding:10px 26px;border-radius:8px;border:none;background:transparent;color:rgba(255,255,255,.7);font-family:'Inter',sans-serif;font-size:.84rem;font-weight:500;cursor:pointer;transition:all .18s;white-space:nowrap}
+.pnav-btn:hover{color:#fff;background:rgba(255,255,255,.08)}
+.pnav-btn.active{background:#fff;color:var(--accent);font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.controls{background:#fff;border-bottom:1px solid var(--border);padding:.8rem 2rem}
+.controls-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.listing-ct{font-size:.85rem;color:var(--muted)}.listing-ct strong{color:var(--text);font-weight:600}
+.sort-wrap{display:flex;align-items:center;gap:8px;font-size:.84rem;color:var(--muted)}
+.sort-sel{border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:.82rem;font-family:'Inter',sans-serif;color:var(--text);background:#fff;cursor:pointer;outline:none;transition:border-color .15s}
+.sort-sel:focus{border-color:var(--accent)}
+.wrap{max-width:1280px;margin:0 auto;padding:2rem 1.5rem 5rem}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.wrap{padding:1.5rem 1rem 3.5rem}.hero{padding:2.5rem 1rem 2.5rem}.hdr{padding:0 1rem}}
+.card{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06),0 4px 20px rgba(0,0,0,.07);transition:transform .22s,box-shadow .22s;display:flex;flex-direction:column;cursor:pointer}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.06)}
 .c-img-wrap{position:relative;overflow:hidden}
-.c-img{width:100%;height:200px;object-fit:cover;display:block;background:linear-gradient(135deg,#9db8c8,#5a7f9a)}
-.c-img-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:55px;background:linear-gradient(transparent,rgba(0,0,0,.28));pointer-events:none}
-.c-price-badge{position:absolute;bottom:9px;right:9px;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);color:#fff;padding:4px 10px;border-radius:6px;font-size:.85rem;font-weight:700}
-.c-body{padding:.9rem 1rem 1rem;flex:1;display:flex;flex-direction:column}
-.c-title{font-size:.97rem;font-weight:700;color:var(--text);margin-bottom:.2rem;letter-spacing:-.2px}
-.c-year{color:var(--muted);font-weight:400;font-size:.85rem}
-.c-specs{display:flex;gap:10px;margin:.45rem 0;flex-wrap:wrap}
-.chip{display:flex;align-items:center;gap:3px;font-size:.73rem;color:var(--muted);font-weight:500}
-.c-loc{font-size:.78rem;color:var(--muted);margin-bottom:.6rem;display:flex;align-items:center;gap:4px}
-.c-desc{font-size:.78rem;color:var(--muted);line-height:1.5;margin-bottom:.85rem;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.c-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:auto}
-.c-price{font-size:1.1rem;font-weight:800;color:var(--accent)}
-.btn-view{background:var(--accent);color:#fff;border:none;padding:8px 15px;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;transition:background .18s;font-family:inherit;white-space:nowrap}
+.c-img{width:100%;height:220px;object-fit:cover;display:block;background:linear-gradient(135deg,#1a4a6e,#0d2137);transition:transform .4s}
+.card:hover .c-img{transform:scale(1.04)}
+.c-body{padding:1.35rem 1.35rem 1.25rem;flex:1;display:flex;flex-direction:column;gap:.85rem}
+.c-head{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
+.c-make{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:.2rem}
+.c-model{font-size:1.02rem;font-weight:700;color:var(--text);letter-spacing:-.2px;line-height:1.3}
+.c-year{font-weight:400;color:var(--muted);font-size:.9rem}
+.c-price-block{text-align:right;flex-shrink:0}
+.c-price{font-size:1.12rem;font-weight:800;color:var(--accent);letter-spacing:-.3px}
+.c-chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{background:var(--chip);color:var(--text-2);padding:4px 10px;border-radius:5px;font-size:.7rem;font-weight:600;letter-spacing:.35px;text-transform:uppercase;white-space:nowrap}
+.c-loc{display:flex;align-items:center;gap:5px;font-size:.8rem;color:var(--muted);line-height:1}
+.c-loc svg{flex-shrink:0;color:var(--muted)}
+.c-desc{font-size:.82rem;color:var(--text-2);line-height:1.65;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.c-foot{margin-top:auto;padding-top:.75rem;border-top:1px solid var(--border)}
+.btn-view{background:var(--accent);color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .18s;font-family:'Inter',sans-serif;letter-spacing:.1px}
 .btn-view:hover{background:var(--accent-l)}
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(3px);z-index:500;align-items:flex-start;justify-content:center;padding:1.5rem 1rem;overflow-y:auto}
+.overlay{display:none;position:fixed;inset:0;background:rgba(7,21,40,.7);backdrop-filter:blur(4px);z-index:500;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
 .overlay.open{display:flex}
-.modal{background:#fff;border-radius:16px;width:100%;max-width:780px;overflow:hidden;position:relative;margin:auto}
-.m-close{position:absolute;top:14px;right:14px;z-index:10;background:rgba(0,0,0,.55);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:18px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.m-img{width:100%;height:280px;object-fit:cover;display:block;background:linear-gradient(135deg,#9db8c8,#5a7f9a)}
-.m-body{padding:1.5rem}
-.m-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap}
-.m-title-block .m-make{font-size:1.3rem;font-weight:800;letter-spacing:-.4px}
-.m-title-block .m-sub{font-size:.82rem;color:var(--muted);margin-top:.2rem}
-.m-price-block{text-align:right}
-.m-price{font-size:1.6rem;font-weight:800;color:var(--accent)}
-.m-price-note{font-size:.75rem;color:var(--muted)}
-.spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1.25rem}
+.modal{background:#fff;border-radius:18px;width:100%;max-width:800px;overflow:hidden;position:relative;margin:auto;box-shadow:0 24px 80px rgba(0,0,0,.3)}
+.m-close{position:absolute;top:14px;right:14px;z-index:10;background:rgba(0,0,0,.5);border:none;color:#fff;width:34px;height:34px;border-radius:50%;font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.m-close:hover{background:rgba(0,0,0,.75)}
+.m-img{width:100%;height:300px;object-fit:cover;display:block;background:linear-gradient(135deg,#1a4a6e,#0d2137)}
+.m-body{padding:2rem}
+.m-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1.5rem;margin-bottom:1.75rem;flex-wrap:wrap}
+.m-make{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:.3rem}
+.m-title{font-family:'DM Serif Display',serif;font-size:1.7rem;font-weight:400;letter-spacing:-.3px;color:var(--text);line-height:1.2}
+.m-sub{font-size:.84rem;color:var(--muted);margin-top:.4rem;line-height:1.5}
+.m-price-block{text-align:right;flex-shrink:0}
+.m-price{font-size:1.9rem;font-weight:800;color:var(--accent);letter-spacing:-.5px}
+.m-price-note{font-size:.75rem;color:var(--muted);margin-top:.15rem}
+.spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.75rem}
 @media(max-width:560px){.spec-grid{grid-template-columns:repeat(2,1fr)}}
-.spec-box{background:var(--bg);border-radius:8px;padding:.6rem .75rem}
-.sk{font-size:.7rem;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.15rem}
-.sv{font-size:.92rem;font-weight:700;color:var(--text)}
-.m-section{margin-bottom:1.25rem}
-.m-section h4{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:.6rem;border-bottom:1px solid var(--border);padding-bottom:.4rem}
-.spec-tbl{width:100%;border-collapse:collapse;font-size:.83rem}
-.spec-tbl td{padding:.3rem 0;vertical-align:top}
-.spec-tbl td:first-child{color:var(--muted);width:48%;padding-right:.5rem}
-.spec-tbl td:last-child{font-weight:500;color:var(--text)}
-.m-enq-sub{font-size:.82rem;color:var(--muted);margin:-0.5rem 0 1rem}
-.fg{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.85rem}
-.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.spec-box{background:var(--bg);border-radius:10px;padding:.75rem 1rem}
+.sk{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:.3rem}
+.sv{font-size:.95rem;font-weight:700;color:var(--text)}
+.m-section{margin-bottom:1.5rem}
+.m-section h4{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:.85rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.spec-tbl{width:100%;border-collapse:collapse;font-size:.85rem}
+.spec-tbl td{padding:.4rem 0;vertical-align:top;line-height:1.5}
+.spec-tbl td:first-child{color:var(--muted);width:46%;padding-right:.5rem}
+.spec-tbl td:last-child{font-weight:500;color:var(--text-2)}
+.m-desc{font-size:.88rem;line-height:1.75;color:var(--text-2);margin-bottom:1.75rem}
+.m-enq-sub{font-size:.83rem;color:var(--muted);margin-bottom:1.25rem;line-height:1.5}
+.fg{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1rem}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
 @media(max-width:480px){.fg-row{grid-template-columns:1fr}}
 .fg label{font-size:.78rem;font-weight:600;color:var(--text)}
-.fg input,.fg textarea,.fg select{border:1px solid var(--border);border-radius:8px;padding:.55rem .75rem;font-size:.85rem;font-family:inherit;color:var(--text);outline:none;transition:border-color .15s;background:#fff}
-.fg input:focus,.fg textarea:focus{border-color:var(--accent)}
-.fg textarea{resize:vertical;min-height:72px}
-.btn-submit{width:100%;background:var(--accent);color:#fff;border:none;padding:.8rem;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .18s}
+.fg input,.fg textarea{border:1px solid var(--border);border-radius:9px;padding:.6rem .85rem;font-size:.88rem;font-family:'Inter',sans-serif;color:var(--text);outline:none;transition:border-color .15s;background:#fff;width:100%}
+.fg input:focus,.fg textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(14,116,144,.08)}
+.fg textarea{resize:vertical;min-height:80px}
+.btn-submit{width:100%;background:var(--accent);color:#fff;border:none;padding:.9rem;border-radius:9px;font-size:.92rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .18s;margin-top:.25rem}
 .btn-submit:hover{background:var(--accent-l)}
-.success-wrap{text-align:center;padding:2.5rem 1rem}
-.si{width:52px;height:52px;border-radius:50%;background:#dcfce7;color:#16a34a;font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
-footer{background:var(--accent);color:rgba(255,255,255,.6);text-align:center;padding:1.25rem;font-size:.78rem}
-footer a{color:rgba(255,255,255,.85);text-decoration:none}
+.success-wrap{text-align:center;padding:3rem 1.5rem}
+.si{width:56px;height:56px;border-radius:50%;background:#dcfce7;color:#16a34a;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem}
+.si svg{width:24px;height:24px}
+footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;padding:1.5rem;font-size:.78rem}
+footer a{color:rgba(255,255,255,.75);text-decoration:none}
 </style>
 </head>
 <body>
 
 <header class="hdr">
-  <div class="hdr-logo">
-    <div class="logo-mk" id="logoMk">C</div>
-    <span class="logo-nm" id="brokerNm">Coastal Yacht Sales</span>
+  <div class="hdr-inner">
+    <div class="logo">
+      <div class="logo-mark" id="logoMk">C</div>
+      <span class="logo-name" id="brokerNm">Coastal Yacht Sales</span>
+    </div>
+    <span class="hdr-badge">Powered by SailShift AI</span>
   </div>
-  <span class="hdr-badge">Powered by SailShift AI</span>
 </header>
 
 <section class="hero">
-  <h1 id="heroTitle">Browse Our Current Yacht Listings</h1>
-  <p id="heroSub">Sailing yachts and cruising vessels — select your price range</p>
-  <div class="tabs">
-    <button class="tab" data-r="budget" onclick="switchTab('budget')">Value · $30k–$100k</button>
-    <button class="tab" data-r="mid" onclick="switchTab('mid')">Mid-Range · $100k–$350k</button>
-    <button class="tab" data-r="premium" onclick="switchTab('premium')">Premium · $350k+</button>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Current Inventory</p>
+    <h1 id="heroTitle">Browse Our Listings</h1>
+    <p class="hero-sub" id="heroSub">Sailing yachts and cruising vessels — select your price range below</p>
+    <nav class="price-nav">
+      <button class="pnav-btn" data-r="budget" onclick="switchTab('budget')">Under $100k</button>
+      <button class="pnav-btn" data-r="mid"    onclick="switchTab('mid')">$100k – $350k</button>
+      <button class="pnav-btn" data-r="premium" onclick="switchTab('premium')">$350k +</button>
+    </nav>
   </div>
 </section>
 
-<div class="stats">
-  <span class="stats-txt"><strong id="listCt">12</strong> listings available</span>
-  <div class="stats-sort">Sort: <select class="sort-sel" id="sortSel" onchange="render()">
-    <option value="default">Featured</option>
-    <option value="price-asc">Price ↑</option>
-    <option value="price-desc">Price ↓</option>
-    <option value="year-desc">Newest first</option>
-    <option value="length-desc">Longest first</option>
-  </select></div>
+<div class="controls">
+  <div class="controls-inner">
+    <span class="listing-ct"><strong id="listCt">12</strong> listings available</span>
+    <div class="sort-wrap">Sort by:
+      <select class="sort-sel" id="sortSel" onchange="render()">
+        <option value="default">Featured</option>
+        <option value="price-asc">Price — low to high</option>
+        <option value="price-desc">Price — high to low</option>
+        <option value="year-desc">Newest first</option>
+        <option value="length-desc">Longest first</option>
+      </select>
+    </div>
+  </div>
 </div>
 
 <main class="wrap"><div class="grid" id="grid"></div></main>
 
 <div class="overlay" id="overlay" onclick="bgClose(event)">
   <div class="modal" id="modal">
-    <button class="m-close" onclick="closeModal()">×</button>
-    <img class="m-img" id="mImg" src="" alt="" onerror="this.style.background='linear-gradient(135deg,#9db8c8,#5a7f9a)';this.src=''">
-    <div class="m-body">
-      <div id="mContent"></div>
-    </div>
+    <button class="m-close" onclick="closeModal()">&#x2715;</button>
+    <img class="m-img" id="mImg" src="" alt="" onerror="this.style.background='linear-gradient(135deg,#1a4a6e,#0d2137)';this.src=''">
+    <div class="m-body"><div id="mContent"></div></div>
   </div>
 </div>
 
 <footer>
-  <p>Listings managed by <a href="#">SailShift AI</a> · Intelligent lead management for marine dealers</p>
+  <p>Listings managed by <a href="#">SailShift AI</a> &mdash; Intelligent lead management for marine dealers</p>
 </footer>
 
 <script>
 (function(){
-  const p = new URLSearchParams(location.search);
-  const broker = p.get('broker') || 'Coastal Yacht Sales';
-  const colour = p.get('colour') || '0a3050';
-  const range  = p.get('range')  || 'mid';
-  document.getElementById('brokerNm').textContent = broker;
-  document.getElementById('logoMk').textContent   = broker.charAt(0).toUpperCase();
-  document.getElementById('heroTitle').textContent = `Browse ${broker}'s Current Listings`;
-  document.documentElement.style.setProperty('--accent', '#' + colour.replace('#',''));
-  document.documentElement.style.setProperty('--accent-l', '#' + lighten(colour.replace('#','')));
-  window._INIT_RANGE = range;
+  const p=new URLSearchParams(location.search);
+  const broker=p.get('broker')||'Coastal Yacht Sales';
+  const colour=p.get('colour')||'0e7490';
+  const range=p.get('range')||'mid';
+  document.getElementById('brokerNm').textContent=broker;
+  document.getElementById('logoMk').textContent=broker.charAt(0).toUpperCase();
+  document.getElementById('heroTitle').textContent=`Browse ${broker}'s Current Listings`;
+  document.documentElement.style.setProperty('--accent','#'+colour.replace('#',''));
+  document.documentElement.style.setProperty('--accent-l','#'+lighten(colour.replace('#','')));
+  window._INIT_RANGE=range;
 })();
+function lighten(h){try{let r=parseInt(h.slice(0,2),16)+28,g=parseInt(h.slice(2,4),16)+28,b=parseInt(h.slice(4,6),16)+28;return[Math.min(r,255),Math.min(g,255),Math.min(b,255)].map(x=>x.toString(16).padStart(2,'0')).join('');}catch(e){return'0891b2';}}
 
-function lighten(hex){
-  try{
-    let r=parseInt(hex.slice(0,2),16)+30, g=parseInt(hex.slice(2,4),16)+30, b=parseInt(hex.slice(4,6),16)+30;
-    return [Math.min(r,255),Math.min(g,255),Math.min(b,255)].map(x=>x.toString(16).padStart(2,'0')).join('');
-  }catch(e){return '184870';}
+const MAKE_IMG={
+  'Beneteau':        'beneteau+oceanis+sailing+yacht+cruiser',
+  'Bavaria':         'bavaria+sailing+cruiser+yacht',
+  'Catalina':        'catalina+sailing+yacht+cruiser',
+  'Hunter':          'hunter+sailing+yacht+cruiser',
+  'Jeanneau':        'jeanneau+sun+odyssey+sailing+yacht',
+  'Hanse':           'hanse+sailing+yacht+modern',
+  'Hallberg-Rassy':  'hallberg+rassy+bluewater+sailing+yacht',
+  'Island Packet':   'island+packet+bluewater+sailing',
+  'Oyster':          'oyster+luxury+sailing+yacht',
+  'Nautor':          'swan+sailing+yacht+luxury',
+  'J/Boats':         'j+boat+racing+sailing+yacht',
+  'C&C':             'performance+sailing+yacht+racing',
+  'Hinckley':        'hinckley+classic+sailing+yacht',
+  'Pacific Seacraft':'offshore+bluewater+sailing+yacht',
+};
+function img(make,id){
+  const kw=MAKE_IMG[make]||'sailing+yacht+cruiser+marina';
+  return`https://source.unsplash.com/900x600/?${kw}&sig=${id}`;
 }
 
-const IMGS = [
-  'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1476103791524-45e7c9aa7193?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1519400197429-404ae5da9f94?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1534722050945-14b40b5a2c78?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1540946485063-45e8f9e92e11?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1511316695145-4992006ffddb?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1585366116878-6c4e7a456d5e?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1499774063499-9da51f51e44e?auto=format&fit=crop&w=900&q=80',
-];
-function img(i){ return IMGS[i % IMGS.length]; }
-
-const DATA = {
-  budget: [
-    {id:1,  make:'Catalina',         model:'42 MkII',          year:2010, price:52000,  loa:"42'0\" / 12.80m", beam:"13'11\" / 4.24m", draft:"5'10\" / 1.78m", disp:'20,500 lbs', rig:'Sloop', sails:'706 sq ft', eng:'Universal M35B, 35hp', hrs:620, svc:2024, berths:7, cabs:3, heads:2, keel:'Fin keel', hull:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 742xs', vhf:'Icom IC-M506', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell VX2 elec.', loc:'Annapolis, MD', desc:"One of the most trusted bluewater designs on the Chesapeake. Three-cabin layout, two full heads, standing headroom throughout. Recent engine and standing rigging service. Turn-key passage-maker.", i:0},
-    {id:2,  make:'Hunter',           model:'45CC',             year:2008, price:68000,  loa:"45'0\" / 13.72m", beam:"14'7\" / 4.45m", draft:"4'9\" / 1.45m",  disp:'24,300 lbs', rig:'Sloop', sails:'815 sq ft', eng:'Yanmar 4JH4-TE, 54hp', hrs:780, svc:2023, berths:6, cabs:3, heads:2, keel:'Wing keel', hull:'GRP', cond:'Good', plotter:'Garmin GPSMap 741', vhf:'Standard Horizon GX1700', ais:'Class B', ap:'Simrad AP24', windlass:'Lofrans Cayman elec.', loc:'Newport, RI', desc:'Center cockpit design with full owner and guest stateroom separation. Walk-through stern, sugar scoop, extended swim platform. Roller furling main and headsail. Ideal family liveaboard-cruiser.', i:1},
-    {id:3,  make:'Beneteau',         model:'Oceanis 38',       year:2013, price:74000,  loa:"38'9\" / 11.82m", beam:"12'10\" / 3.91m", draft:"5'11\" / 1.80m", disp:'14,800 lbs', rig:'Sloop', sails:'612 sq ft', eng:'Yanmar 3YM30, 27hp', hrs:490, svc:2024, berths:6, cabs:2, heads:2, keel:'Fin keel', hull:'GRP', cond:'Very Good', plotter:'B&G Zeus 7', vhf:'Standard Horizon GX1600', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Maxwell HRC8 elec.', loc:'Marblehead, MA', desc:'Sporty French cruiser with two full heads and private forward cabin. Electric furling main, carbon boom, full Sunbrella canvas package. Recent antifoul and sail wash. Ready for New England offshore.', i:2},
-    {id:4,  make:'Jeanneau',         model:'Sun Odyssey 45.2', year:2006, price:59000,  loa:"44'7\" / 13.60m", beam:"13'6\" / 4.12m", draft:"6'3\" / 1.91m",  disp:'22,500 lbs', rig:'Sloop', sails:'778 sq ft', eng:'Yanmar 4JH3-TCE, 53hp', hrs:840, svc:2023, berths:8, cabs:3, heads:2, keel:'Fin keel', hull:'GRP', cond:'Good', plotter:'Garmin GPSMap 741', vhf:'Icom IC-M422', ais:'Class B', ap:'Simrad AP16', windlass:'Lofrans Project elec.', loc:'Seattle, WA', desc:'Popular Pacific Northwest family cruiser. Three cabins, two heads, large saloon. Radar, chart table VHF, full enclosure. Engine recently overhauled. Excellent value for the size.', i:3},
-    {id:5,  make:'Catalina',         model:'36 MkII',          year:2007, price:44500,  loa:"36'0\" / 10.97m", beam:"12'5\" / 3.78m", draft:"6'0\" / 1.83m",  disp:'13,500 lbs', rig:'Sloop', sails:'537 sq ft', eng:'Universal M25XP, 25hp', hrs:530, svc:2024, berths:6, cabs:2, heads:1, keel:'Fin keel', hull:'GRP', cond:'Good', plotter:'Garmin echoMAP 74sv', vhf:'Standard Horizon GX1500', ais:'Class B', ap:'None', windlass:'Lofrans Tigres elec.', loc:'San Diego, CA', desc:'Classic and proven Catalina cruiser. Roller furling headsail, slab reefing main, bimini and full enclosure. Recent canvas, new battery bank 2023. Outstanding first bluewater boat.', i:4},
-    {id:6,  make:'Hunter',           model:'41',               year:2009, price:55000,  loa:"41'0\" / 12.50m", beam:"14'0\" / 4.27m", draft:"5'3\" / 1.60m",  disp:'20,000 lbs', rig:'Sloop', sails:'703 sq ft', eng:'Universal M40, 38hp', hrs:590, svc:2024, berths:6, cabs:3, heads:2, keel:'Fin keel', hull:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 526', vhf:'Icom IC-M323', ais:'Class B', ap:'Garmin GHP', windlass:'Maxwell HRC8 elec.', loc:'Annapolis, MD', desc:'Spacious three-cabin Hunter with large cockpit and twin-helm stations. Roller furling main, in-boom furling headsail. Maintained by the same yard since purchase. Sail inventory in excellent condition.', i:5},
-    {id:7,  make:'C&C',              model:'115',              year:2004, price:42000,  loa:"37'10\" / 11.53m", beam:"11'8\" / 3.56m", draft:"6'8\" / 2.03m", disp:'12,000 lbs', rig:'Sloop', sails:'594 sq ft', eng:'Westerbeke 40B, 40hp', hrs:470, svc:2023, berths:4, cabs:2, heads:1, keel:'Fin keel', hull:'GRP', cond:'Good', plotter:'B&G Vulcan 7', vhf:'Standard Horizon GX1600', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Harken elec.', loc:'Newport, RI', desc:'Canadian performance cruiser with offshore pedigree. IRC-rated with strong regatta history. Deep fin keel, carbon boom, lightweight sail wardrobe. Balances bluewater capability with excellent upwind performance.', i:6},
-    {id:8,  make:'Beneteau',         model:'Oceanis 35.1',     year:2016, price:78000,  loa:"35'9\" / 10.90m", beam:"12'2\" / 3.71m", draft:"6'1\" / 1.85m",  disp:'15,000 lbs', rig:'Sloop', sails:'511 sq ft', eng:'Yanmar 2YM15, 15hp', hrs:220, svc:2024, berths:6, cabs:2, heads:1, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 742', vhf:'Standard Horizon GX1700', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Lofrans Tigres elec.', loc:'Sausalito, CA', desc:'Low-hours, near-new condition. Full Elvström sail wardrobe, recent antifoul and engine service. Garmin electronics suite, electric windlass. Ready to sail San Francisco Bay and beyond from day one.', i:7},
-    {id:9,  make:'Jeanneau',         model:'Sun Odyssey 40',   year:2008, price:51000,  loa:"39'4\" / 12.00m", beam:"13'1\" / 3.99m", draft:"5'11\" / 1.80m", disp:'17,600 lbs', rig:'Sloop', sails:'667 sq ft', eng:'Yanmar 3YM20, 20hp', hrs:640, svc:2023, berths:6, cabs:2, heads:2, keel:'Fin keel', hull:'GRP', cond:'Good', plotter:'Garmin echoMAP 74sv', vhf:'Icom IC-M323', ais:'Class B', ap:'Simrad TP22', windlass:'Maxwell VX1 elec.', loc:'Seattle, WA', desc:'Versatile Pacific Northwest cruiser, two heads, large cockpit with twin helms. Roller furling on both sails, spray hood and bimini. Previous charter yacht with log-book documented maintenance history.', i:8},
-    {id:10, make:'Island Packet',    model:'370',              year:2001, price:65000,  loa:"37'6\" / 11.43m", beam:"12'4\" / 3.76m", draft:"4'9\" / 1.45m",  disp:'22,000 lbs', rig:'Sloop', sails:'610 sq ft', eng:'Universal M35, 35hp', hrs:1100, svc:2022, berths:4, cabs:2, heads:2, keel:'Full keel', hull:'GRP', cond:'Good', plotter:'Garmin GPSMap 526s', vhf:'Icom IC-M422', ais:'Class B', ap:'Simrad AP24', windlass:'Lofrans Project elec.', loc:'Annapolis, MD', desc:'Island Packet quality is legendary — massively built, shallow draft, full keel. Extensive cruising inventory including life raft, EPIRB, storm sails and sea anchor. Proven offshore passagemaker with Bahamas history.', i:9},
-    {id:11, make:'Catalina',         model:'400 MkII',         year:2005, price:57000,  loa:"40'0\" / 12.19m", beam:"13'10\" / 4.22m", draft:"6'3\" / 1.91m", disp:'18,000 lbs', rig:'Sloop', sails:'710 sq ft', eng:'Universal M35, 35hp', hrs:780, svc:2023, berths:6, cabs:3, heads:2, keel:'Fin keel', hull:'GRP', cond:'Good', plotter:'Garmin GPSMap 741', vhf:'Standard Horizon GX1700', ais:'Class B', ap:'Simrad AP16', windlass:'Maxwell VX2 elec.', loc:'Newport, RI', desc:'Three-cabin bluewater cruiser. Standing headroom throughout, large galley, separate nav station. New standing rigging 2022, antifoul 2024. Life raft and EPIRB included. Excellent offshore passage-maker.', i:10},
-    {id:12, make:'Hunter',           model:'430',              year:2004, price:62000,  loa:"43'0\" / 13.11m", beam:"14'5\" / 4.39m", draft:"4'11\" / 1.50m", disp:'23,000 lbs', rig:'Sloop', sails:'790 sq ft', eng:'Yanmar 4JH2E, 45hp', hrs:860, svc:2023, berths:6, cabs:3, heads:2, keel:'Fin keel', hull:'GRP', cond:'Good', plotter:'Garmin GPSMap 541', vhf:'Icom IC-M422', ais:'Class B', ap:'Garmin GHP', windlass:'Lofrans Cayman elec.', loc:'Marblehead, MA', desc:'Spacious family cruiser with three comfortable cabins and two full heads. Large cockpit, sugar scoop, in-boom furling. New canvas 2022, standing rigging inspected and re-tuned 2023. Excellent New England cruiser.', i:11},
+const DATA={
+  budget:[
+    {id:1,  make:'Catalina',        model:'42 MkII',         year:2010,price:52000, loa:"42'0\"",beam:"13'11\"",draft:"5'10\"",disp:'20,500 lbs',rig:'Sloop',sails:'706 sq ft',eng:'Universal M35B, 35hp',hrs:620,svc:2024,berths:7,cabs:3,heads:2,keel:'Fin keel',hull:'GRP',cond:'Very Good', plotter:'Garmin GPSMap 742xs',vhf:'Icom IC-M506',ais:'Class B',ap:'Garmin GHP Reactor',windlass:'Maxwell VX2 elec.',loc:'Annapolis, MD',    desc:"One of the most trusted bluewater designs on the Chesapeake. Three-cabin layout, two full heads, standing headroom throughout. Recent engine and standing rigging service. Turn-key passage-maker."},
+    {id:2,  make:'Hunter',          model:'45CC',            year:2008,price:68000, loa:"45'0\"",beam:"14'7\"", draft:"4'9\"", disp:'24,300 lbs',rig:'Sloop',sails:'815 sq ft',eng:'Yanmar 4JH4-TE, 54hp',hrs:780,svc:2023,berths:6,cabs:3,heads:2,keel:'Wing keel',hull:'GRP',cond:'Good',      plotter:'Garmin GPSMap 741',  vhf:'Standard Horizon GX1700',ais:'Class B',ap:'Simrad AP24',windlass:'Lofrans Cayman elec.',loc:'Newport, RI',      desc:'Center cockpit design with complete owner/guest stateroom separation. Walk-through stern, sugar scoop, extended swim platform. Roller furling main and headsail. Ideal family liveaboard-cruiser.'},
+    {id:3,  make:'Beneteau',        model:'Oceanis 38',      year:2013,price:74000, loa:"38'9\"",beam:"12'10\"",draft:"5'11\"",disp:'14,800 lbs',rig:'Sloop',sails:'612 sq ft',eng:'Yanmar 3YM30, 27hp',hrs:490,svc:2024,berths:6,cabs:2,heads:2,keel:'Fin keel',hull:'GRP',cond:'Very Good', plotter:'B&G Zeus 7',         vhf:'Standard Horizon GX1600',ais:'Class B',ap:'B&G H5000 Pilot',windlass:'Maxwell HRC8 elec.',loc:'Marblehead, MA',   desc:'Sporty French cruiser with two full heads and private forward cabin. Electric furling main, carbon boom, full Sunbrella canvas. Recent antifoul. Ready for New England offshore.'},
+    {id:4,  make:'Jeanneau',        model:'Sun Odyssey 45.2',year:2006,price:59000, loa:"44'7\"",beam:"13'6\"", draft:"6'3\"", disp:'22,500 lbs',rig:'Sloop',sails:'778 sq ft',eng:'Yanmar 4JH3-TCE, 53hp',hrs:840,svc:2023,berths:8,cabs:3,heads:2,keel:'Fin keel',hull:'GRP',cond:'Good',      plotter:'Garmin GPSMap 741',  vhf:'Icom IC-M422',           ais:'Class B',ap:'Simrad AP16',windlass:'Lofrans Project elec.',loc:'Seattle, WA',       desc:'Popular Pacific Northwest family cruiser. Three cabins, two heads, large saloon. Radar, chart table, full enclosure. Engine recently overhauled. Excellent value for the size.'},
+    {id:5,  make:'Catalina',        model:'36 MkII',         year:2007,price:44500, loa:"36'0\"",beam:"12'5\"", draft:"6'0\"", disp:'13,500 lbs',rig:'Sloop',sails:'537 sq ft',eng:'Universal M25XP, 25hp',hrs:530,svc:2024,berths:6,cabs:2,heads:1,keel:'Fin keel',hull:'GRP',cond:'Good',      plotter:'Garmin echoMAP 74sv',vhf:'Standard Horizon GX1500',ais:'Class B',ap:'None',windlass:'Lofrans Tigres elec.',loc:'San Diego, CA',    desc:'Classic and proven Catalina cruiser. Roller furling headsail, slab reefing main, bimini and full enclosure. Recent canvas, new battery bank 2023. Outstanding first bluewater boat.'},
+    {id:6,  make:'C&C',             model:'115',             year:2004,price:42000, loa:"37'10\"",beam:"11'8\"",draft:"6'8\"", disp:'12,000 lbs',rig:'Sloop',sails:'594 sq ft',eng:'Westerbeke 40B, 40hp',hrs:470,svc:2023,berths:4,cabs:2,heads:1,keel:'Fin keel',hull:'GRP',cond:'Good',      plotter:'B&G Vulcan 7',       vhf:'Standard Horizon GX1600',ais:'Class B',ap:'B&G H5000 Pilot',windlass:'Harken elec.',loc:'Newport, RI',      desc:'Canadian performance cruiser with offshore pedigree. IRC-rated, deep fin keel, carbon boom, lightweight sail wardrobe. Balances bluewater capability with excellent upwind performance.'},
+    {id:7,  make:'Hunter',          model:'41',              year:2009,price:55000, loa:"41'0\"",beam:"14'0\"", draft:"5'3\"", disp:'20,000 lbs',rig:'Sloop',sails:'703 sq ft',eng:'Universal M40, 38hp',hrs:590,svc:2024,berths:6,cabs:3,heads:2,keel:'Fin keel',hull:'GRP',cond:'Very Good', plotter:'Garmin GPSMap 526',  vhf:'Icom IC-M323',           ais:'Class B',ap:'Garmin GHP',windlass:'Maxwell HRC8 elec.',loc:'Annapolis, MD',    desc:'Spacious three-cabin Hunter with large cockpit and twin-helm stations. Roller furling main, in-boom furling headsail. Same yard since purchase. Sail inventory in excellent condition.'},
+    {id:8,  make:'Beneteau',        model:'Oceanis 35.1',    year:2016,price:78000, loa:"35'9\"",beam:"12'2\"", draft:"6'1\"", disp:'15,000 lbs',rig:'Sloop',sails:'511 sq ft',eng:'Yanmar 2YM15, 15hp',hrs:220,svc:2024,berths:6,cabs:2,heads:1,keel:'Fin keel',hull:'GRP',cond:'Excellent',  plotter:'Garmin GPSMap 742',  vhf:'Standard Horizon GX1700',ais:'Class B',ap:'Garmin GHP Reactor',windlass:'Lofrans Tigres elec.',loc:'Sausalito, CA',    desc:'Low hours, near-new condition. Full Elvström sail wardrobe, recent antifoul and engine service. Garmin electronics suite, electric windlass. Ready to cruise the Bay from day one.'},
+    {id:9,  make:'Island Packet',   model:'370',             year:2001,price:65000, loa:"37'6\"",beam:"12'4\"", draft:"4'9\"", disp:'22,000 lbs',rig:'Sloop',sails:'610 sq ft',eng:'Universal M35, 35hp',hrs:1100,svc:2022,berths:4,cabs:2,heads:2,keel:'Full keel',hull:'GRP',cond:'Good',      plotter:'Garmin GPSMap 526s', vhf:'Icom IC-M422',           ais:'Class B',ap:'Simrad AP24',windlass:'Lofrans Project elec.',loc:'Annapolis, MD',    desc:'Island Packet quality is legendary — massively built, full keel, shallow draft. Life raft, EPIRB, storm sails and sea anchor included. Proven offshore passagemaker with Bahamas history.'},
+    {id:10, make:'Catalina',        model:'400 MkII',        year:2005,price:57000, loa:"40'0\"",beam:"13'10\"",draft:"6'3\"", disp:'18,000 lbs',rig:'Sloop',sails:'710 sq ft',eng:'Universal M35, 35hp',hrs:780,svc:2023,berths:6,cabs:3,heads:2,keel:'Fin keel',hull:'GRP',cond:'Good',      plotter:'Garmin GPSMap 741',  vhf:'Standard Horizon GX1700',ais:'Class B',ap:'Simrad AP16',windlass:'Maxwell VX2 elec.',loc:'Newport, RI',      desc:'Three-cabin bluewater cruiser. Standing headroom throughout, large galley, nav station. New standing rigging 2022, antifoul 2024. Life raft and EPIRB included. Excellent offshore passage-maker.'},
+    {id:11, make:'Jeanneau',        model:'Sun Odyssey 40',  year:2008,price:51000, loa:"39'4\"",beam:"13'1\"", draft:"5'11\"",disp:'17,600 lbs',rig:'Sloop',sails:'667 sq ft',eng:'Yanmar 3YM20, 20hp',hrs:640,svc:2023,berths:6,cabs:2,heads:2,keel:'Fin keel',hull:'GRP',cond:'Good',      plotter:'Garmin echoMAP 74sv',vhf:'Icom IC-M323',           ais:'Class B',ap:'Simrad TP22',windlass:'Maxwell VX1 elec.',loc:'Seattle, WA',       desc:'Versatile Pacific Northwest cruiser, two heads, large cockpit with twin helms. Roller furling on both sails, spray hood and bimini. Previous charter yacht with documented maintenance history.'},
+    {id:12, make:'Hunter',          model:'430',             year:2004,price:62000, loa:"43'0\"",beam:"14'5\"", draft:"4'11\"",disp:'23,000 lbs',rig:'Sloop',sails:'790 sq ft',eng:'Yanmar 4JH2E, 45hp',hrs:860,svc:2023,berths:6,cabs:3,heads:2,keel:'Fin keel',hull:'GRP',cond:'Good',      plotter:'Garmin GPSMap 541',  vhf:'Icom IC-M422',           ais:'Class B',ap:'Garmin GHP',windlass:'Lofrans Cayman elec.',loc:'Marblehead, MA',   desc:'Spacious family cruiser, three comfortable cabins and two full heads. Large cockpit, sugar scoop, in-boom furling. New canvas 2022, standing rigging inspected 2023. Excellent New England cruiser.'},
   ],
-  mid: [
-    {id:21, make:'Beneteau',         model:'Oceanis 46.1',     year:2019, price:198000, loa:"46'9\" / 14.26m", beam:"14'9\" / 4.50m", draft:"6'9\" / 2.05m",  disp:'25,400 lbs', rig:'Sloop', sails:'1,033 sq ft', eng:'Yanmar 4JH45, 45hp', hrs:310, svc:2024, berths:6, cabs:3, heads:2, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'B&G Vulcan 9', vhf:'Standard Horizon GX2200', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Lofrans Project 1000', loc:'Annapolis, MD', desc:'Latest-generation Beneteau flagship, barely used. Electric mainsheet, removable cockpit table, carbon boom. Three-cabin owner version with two full heads. Completely turnkey — nothing to do.', i:0},
-    {id:22, make:'Jeanneau',         model:'Sun Odyssey 490',  year:2020, price:229000, loa:"48'8\" / 14.83m", beam:"14'9\" / 4.49m", draft:"6'8\" / 2.03m",  disp:'27,300 lbs', rig:'Sloop', sails:'1,087 sq ft', eng:'Yanmar 4JH45, 45hp', hrs:285, svc:2024, berths:8, cabs:4, heads:2, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8612', vhf:'Standard Horizon GX2200', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell VX3 elec.', loc:'Newport, RI', desc:"Innovative open-space interior, walk-around deck, twin helms. Four-cabin layout with two heads. Full Garmin electronics suite, electric winches. Ready for offshore passages from Newport to Bermuda and beyond.", i:1},
-    {id:23, make:'Catalina',         model:'50',               year:2017, price:248000, loa:"49'5\" / 15.06m", beam:"14'11\" / 4.55m", draft:"7'6\" / 2.29m", disp:'32,400 lbs', rig:'Sloop', sails:'1,140 sq ft', eng:'Yanmar 4JH57, 57hp', hrs:420, svc:2024, berths:6, cabs:3, heads:2, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8612', vhf:'Icom IC-M506', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell VX3 elec.', loc:'Marblehead, MA', desc:"Catalina's largest production yacht — 57hp engine, massive interior volume, three private staterooms. Carbon boom, in-mast furling, electric winches throughout. Offshore-capable with standing headroom 6'5\". Exceptional condition.", i:2},
-    {id:24, make:'Hallberg-Rassy',   model:'43',               year:2012, price:295000, loa:"42'10\" / 13.07m", beam:"13'0\" / 3.96m", draft:"6'5\" / 1.96m", disp:'24,700 lbs', rig:'Sloop', sails:'754 sq ft', eng:'Volvo D2-55, 54hp', hrs:510, svc:2024, berths:6, cabs:2, heads:2, keel:'Fin keel', hull:'GRP', cond:'Very Good', plotter:'B&G Zeus 3', vhf:'Icom IC-M506', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell HRC10 elec.', loc:'Newport, RI', desc:'Swedish bluewater icon — hull-side windows, protected cockpit, full spray hood. Two-cabin layout with two heads. Full Hallberg-Rassy service history, offshore ready with life raft and EPIRB included. One careful owner.', i:3},
-    {id:25, make:'Hanse',            model:'505',              year:2018, price:212000, loa:"50'5\" / 15.36m", beam:"15'5\" / 4.70m", draft:"7'3\" / 2.20m",  disp:'30,900 lbs', rig:'Sloop', sails:'1,119 sq ft', eng:'Volvo D2-60, 60hp', hrs:340, svc:2024, berths:6, cabs:3, heads:2, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'B&G Vulcan 9', vhf:'Standard Horizon GX2200', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Lofrans Project 1000', loc:'San Diego, CA', desc:'Modern German performance cruiser with exceptional light-wind capability. Three cabins, two heads, large bright saloon. Roller furling main and code zero, electric winches. Perfect for Pacific coast passages.', i:4},
-    {id:26, make:'Bavaria',          model:'C50 Style',        year:2017, price:175000, loa:"49'11\" / 15.21m", beam:"15'1\" / 4.60m", draft:"7'3\" / 2.21m", disp:'28,700 lbs', rig:'Sloop', sails:'1,065 sq ft', eng:'Volvo D2-60, 60hp', hrs:390, svc:2024, berths:6, cabs:3, heads:2, keel:'Fin keel', hull:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 742', vhf:'Standard Horizon GX1700', ais:'Class B', ap:'Garmin GHP', windlass:'Lofrans Cayman elec.', loc:'Seattle, WA', desc:'Beamy German performance cruiser suited to Pacific Northwest cruising. Three cabins, two heads, spacious saloon with excellent natural light. Roller furling main, twin helms, large cockpit with fold-down seats.', i:5},
-    {id:27, make:'J/Boats',          model:'J/46',             year:2015, price:182000, loa:"46'6\" / 14.17m", beam:"13'6\" / 4.11m", draft:"7'6\" / 2.29m",  disp:'20,900 lbs', rig:'Sloop', sails:'897 sq ft', eng:'Yanmar 4JH4-TE, 54hp', hrs:380, svc:2024, berths:4, cabs:2, heads:2, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'B&G Zeus 3', vhf:'Icom IC-M506', ais:'Class B', ap:'B&G Triton2 Pilot', windlass:'Harken 1000 elec.', loc:'Marblehead, MA', desc:"J/Boats performance cruiser with PHRF and IRC ratings. Competitive sail wardrobe including 155% genoa, staysail, asymmetric spinnaker. Carbon boom, furling main. Strong New England racing pedigree, passages to Bermuda.", i:6},
-    {id:28, make:'Pacific Seacraft', model:'37',               year:2014, price:148000, loa:"37'6\" / 11.43m", beam:"11'10\" / 3.61m", draft:"5'8\" / 1.73m", disp:'18,500 lbs', rig:'Sloop', sails:'642 sq ft', eng:'Westerbeke 44, 44hp', hrs:290, svc:2024, berths:4, cabs:2, heads:1, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 742xs', vhf:'Icom IC-M506', ais:'Class B', ap:'Simrad AP24', windlass:'Maxwell HRC8 elec.', loc:'San Diego, CA', desc:"California-built bluewater cruiser with offshore pedigree. Indestructible construction, deep fin keel, self-tacking jib. Full offshore safety inventory: life raft, EPIRB, storm sails. One meticulous owner with complete logs.", i:7},
-    {id:29, make:'Hunter',           model:'45 Legend',        year:2016, price:138000, loa:"45'0\" / 13.72m", beam:"14'7\" / 4.45m", draft:"5'6\" / 1.68m",  disp:'25,900 lbs', rig:'Sloop', sails:'841 sq ft', eng:'Yanmar 4JH57, 57hp', hrs:260, svc:2024, berths:6, cabs:3, heads:2, keel:'Fin keel', hull:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 741', vhf:'Standard Horizon GX1700', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Lofrans Cayman elec.', loc:'Annapolis, MD', desc:"Hunter's flagship sloop with three cabins and two private heads. Furling main, large cockpit, walk-through transom. Low hours for the year, always kept in covered slip. Comprehensive electronics suite.", i:8},
-    {id:30, make:'Jeanneau',         model:'54',               year:2018, price:235000, loa:"53'2\" / 16.21m", beam:"15'7\" / 4.75m", draft:"7'3\" / 2.20m",  disp:'35,000 lbs', rig:'Sloop', sails:'1,249 sq ft', eng:'Yanmar 4JH57, 57hp', hrs:310, svc:2024, berths:8, cabs:4, heads:2, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8612', vhf:'Standard Horizon GX2200', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell VX3 elec.', loc:'Sausalito, CA', desc:'Four-cabin flagship from Jeanneau. Enormous interior volume, two heads, walk-around side decks, twin helm stations. Electric winches, furling main, code zero. Perfect for extended Pacific coastal cruising.', i:9},
-    {id:31, make:'Catalina',         model:'47',               year:2016, price:162000, loa:"46'9\" / 14.26m", beam:"14'0\" / 4.27m", draft:"7'3\" / 2.21m",  disp:'27,000 lbs', rig:'Sloop', sails:'949 sq ft', eng:'Yanmar 4JH45, 45hp', hrs:335, svc:2024, berths:6, cabs:3, heads:2, keel:'Fin keel', hull:'GRP', cond:'Very Good', plotter:'Garmin GPSMap 742xs', vhf:'Icom IC-M506', ais:'Class B', ap:'Garmin GHP Reactor', windlass:'Maxwell VX3 elec.', loc:'Newport, RI', desc:'Three-cabin Catalina with standing headroom 6\'4\". Large nav station, full galley, two full heads. Garmin electronics, electric anchor windlass. Sail inventory including cruising spinnaker. Ready for Bermuda or Caribbean.', i:10},
-    {id:32, make:'Oyster',           model:'435',              year:2008, price:245000, loa:"43'1\" / 13.14m", beam:"13'5\" / 4.09m", draft:"6'7\" / 2.00m",  disp:'24,900 lbs', rig:'Sloop', sails:'812 sq ft', eng:'Volvo D2-55, 54hp', hrs:680, svc:2023, berths:4, cabs:2, heads:2, keel:'Fin keel', hull:'GRP', cond:'Very Good', plotter:'B&G Zeus 3', vhf:'Icom IC-M506', ais:'Class B', ap:'B&G H5000 Pilot', windlass:'Maxwell HRC10 elec.', loc:'Annapolis, MD', desc:"British bluewater pedigree. Oyster quality throughout — robust construction, protected cockpit, magnificent visibility. Two-cabin layout with twin heads. Full offshore safety inventory, radar, complete Oyster service history.", i:11},
+  mid:[
+    {id:21, make:'Beneteau',        model:'Oceanis 46.1',    year:2019,price:198000,loa:"46'9\"",beam:"14'9\"", draft:"6'9\"", disp:'25,400 lbs',rig:'Sloop',sails:'1,033 sq ft',eng:'Yanmar 4JH45, 45hp',hrs:310,svc:2024,berths:6,cabs:3,heads:2,keel:'Fin keel',hull:'GRP',cond:'Excellent',  plotter:'B&G Vulcan 9',       vhf:'Standard Horizon GX2200',ais:'Class B',ap:'B&G H5000 Pilot',windlass:'Lofrans Project 1000',loc:'Annapolis, MD',    desc:"Latest-generation Beneteau flagship. Electric mainsheet, removable cockpit table, carbon boom. Three-cabin owner version, two full heads. Completely turnkey — nothing to do but sail."},
+    {id:22, make:'Jeanneau',        model:'Sun Odyssey 490', year:2020,price:229000,loa:"48'8\"",beam:"14'9\"", draft:"6'8\"", disp:'27,300 lbs',rig:'Sloop',sails:'1,087 sq ft',eng:'Yanmar 4JH45, 45hp',hrs:285,svc:2024,berths:8,cabs:4,heads:2,keel:'Fin keel',hull:'GRP',cond:'Excellent',  plotter:'Garmin GPSMap 8612', vhf:'Standard Horizon GX2200',ais:'Class B',ap:'Garmin GHP Reactor',windlass:'Maxwell VX3 elec.',loc:'Newport, RI',      desc:"Innovative open-space interior, walk-around deck, twin helms. Four-cabin layout, two heads. Full Garmin electronics, electric winches. Ready for offshore passages from Newport to Bermuda."},
+    {id:23, make:'Catalina',        model:'50',              year:2017,price:248000,loa:"49'5\"",beam:"14'11\"",draft:"7'6\"", disp:'32,400 lbs',rig:'Sloop',sails:'1,140 sq ft',eng:'Yanmar 4JH57, 57hp',hrs:420,svc:2024,berths:6,cabs:3,heads:2,keel:'Fin keel',hull:'GRP',cond:'Excellent',  plotter:'Garmin GPSMap 8612', vhf:'Icom IC-M506',           ais:'Class B',ap:'Garmin GHP Reactor',windlass:'Maxwell VX3 elec.',loc:'Marblehead, MA',   desc:"Catalina's largest production yacht. 57hp engine, three private staterooms, carbon boom, in-mast furling, electric winches throughout. Standing headroom 6'5\". Exceptional condition."},
+    {id:24, make:'Hallberg-Rassy',  model:'43',              year:2012,price:295000,loa:"42'10\"",beam:"13'0\"",draft:"6'5\"", disp:'24,700 lbs',rig:'Sloop',sails:'754 sq ft',eng:'Volvo D2-55, 54hp',hrs:510,svc:2024,berths:6,cabs:2,heads:2,keel:'Fin keel',hull:'GRP',cond:'Very Good', plotter:'B&G Zeus 3',         vhf:'Icom IC-M506',           ais:'Class B',ap:'Garmin GHP Reactor',windlass:'Maxwell HRC10 elec.',loc:'Newport, RI',      desc:'Swedish bluewater icon — hull-side windows, protected cockpit, full spray hood. Complete Hallberg-Rassy service history. Offshore-ready with life raft and EPIRB included. One careful owner.'},
+    {id:25, make:'Hanse',           model:'505',             year:2018,price:212000,loa:"50'5\"",beam:"15'5\"", draft:"7'3\"", disp:'30,900 lbs',rig:'Sloop',sails:'1,119 sq ft',eng:'Volvo D2-60, 60hp',hrs:340,svc:2024,berths:6,cabs:3,heads:2,keel:'Fin keel',hull:'GRP',cond:'Excellent',  plotter:'B&G Vulcan 9',       vhf:'Standard Horizon GX2200',ais:'Class B',ap:'B&G H5000 Pilot',windlass:'Lofrans Project 1000',loc:'San Diego, CA',    desc:'Modern German performance cruiser with exceptional light-wind capability. Three cabins, two heads, bright saloon. Roller furling main and code zero, electric winches. Perfect for Pacific coast passages.'},
+    {id:26, make:'J/Boats',         model:'J/46',            year:2015,price:182000,loa:"46'6\"",beam:"13'6\"", draft:"7'6\"", disp:'20,900 lbs',rig:'Sloop',sails:'897 sq ft',eng:'Yanmar 4JH4-TE, 54hp',hrs:380,svc:2024,berths:4,cabs:2,heads:2,keel:'Fin keel',hull:'GRP',cond:'Excellent',  plotter:'B&G Zeus 3',         vhf:'Icom IC-M506',           ais:'Class B',ap:'B&G Triton2 Pilot',windlass:'Harken 1000 elec.',loc:'Marblehead, MA',   desc:"J/Boats performance cruiser with PHRF and IRC ratings. Competitive sail wardrobe including 155% genoa, staysail, asymmetric. Carbon boom. Strong New England racing pedigree with Bermuda race history."},
+    {id:27, make:'Pacific Seacraft',model:'37',              year:2014,price:148000,loa:"37'6\"",beam:"11'10\"",draft:"5'8\"", disp:'18,500 lbs',rig:'Sloop',sails:'642 sq ft',eng:'Westerbeke 44, 44hp',hrs:290,svc:2024,berths:4,cabs:2,heads:1,keel:'Fin keel',hull:'GRP',cond:'Excellent',  plotter:'Garmin GPSMap 742xs',vhf:'Icom IC-M506',           ais:'Class B',ap:'Simrad AP24',windlass:'Maxwell HRC8 elec.',loc:'San Diego, CA',    desc:"California-built bluewater cruiser. Indestructible construction, self-tacking jib. Full offshore safety inventory: life raft, EPIRB, storm sails, sea anchor. One meticulous owner with complete logs."},
+    {id:28, make:'Hunter',          model:'45 Legend',       year:2016,price:138000,loa:"45'0\"",beam:"14'7\"", draft:"5'6\"", disp:'25,900 lbs',rig:'Sloop',sails:'841 sq ft',eng:'Yanmar 4JH57, 57hp',hrs:260,svc:2024,berths:6,cabs:3,heads:2,keel:'Fin keel',hull:'GRP',cond:'Very Good', plotter:'Garmin GPSMap 741',  vhf:'Standard Horizon GX1700',ais:'Class B',ap:'Garmin GHP Reactor',windlass:'Lofrans Cayman elec.',loc:'Annapolis, MD',    desc:"Hunter's flagship sloop. Three cabins, two private heads. Furling main, large cockpit, walk-through transom. Low hours for the year, always kept in covered slip. Comprehensive electronics suite."},
+    {id:29, make:'Jeanneau',        model:'54',              year:2018,price:235000,loa:"53'2\"",beam:"15'7\"", draft:"7'3\"", disp:'35,000 lbs',rig:'Sloop',sails:'1,249 sq ft',eng:'Yanmar 4JH57, 57hp',hrs:310,svc:2024,berths:8,cabs:4,heads:2,keel:'Fin keel',hull:'GRP',cond:'Excellent',  plotter:'Garmin GPSMap 8612', vhf:'Standard Horizon GX2200',ais:'Class B',ap:'Garmin GHP Reactor',windlass:'Maxwell VX3 elec.',loc:'Sausalito, CA',    desc:'Four-cabin Jeanneau flagship. Enormous volume, two heads, walk-around deck, twin helms. Electric winches, furling main, code zero. Perfect for extended Pacific coastal cruising.'},
+    {id:30, make:'Catalina',        model:'47',              year:2016,price:162000,loa:"46'9\"",beam:"14'0\"", draft:"7'3\"", disp:'27,000 lbs',rig:'Sloop',sails:'949 sq ft',eng:'Yanmar 4JH45, 45hp',hrs:335,svc:2024,berths:6,cabs:3,heads:2,keel:'Fin keel',hull:'GRP',cond:'Very Good', plotter:'Garmin GPSMap 742xs',vhf:'Icom IC-M506',           ais:'Class B',ap:'Garmin GHP Reactor',windlass:'Maxwell VX3 elec.',loc:'Newport, RI',      desc:"Three-cabin Catalina, standing headroom 6'4\". Large nav station, full galley, two full heads. Garmin electronics, electric windlass. Sail inventory includes cruising spinnaker. Ready for Bermuda."},
+    {id:31, make:'Oyster',          model:'435',             year:2008,price:245000,loa:"43'1\"",beam:"13'5\"", draft:"6'7\"", disp:'24,900 lbs',rig:'Sloop',sails:'812 sq ft',eng:'Volvo D2-55, 54hp',hrs:680,svc:2023,berths:4,cabs:2,heads:2,keel:'Fin keel',hull:'GRP',cond:'Very Good', plotter:'B&G Zeus 3',         vhf:'Icom IC-M506',           ais:'Class B',ap:'B&G H5000 Pilot',windlass:'Maxwell HRC10 elec.',loc:'Annapolis, MD',    desc:"British bluewater pedigree. Oyster quality throughout — robust construction, protected cockpit. Full offshore safety inventory, radar. Complete Oyster service history. Two-cabin layout, twin heads."},
+    {id:32, make:'Beneteau',        model:'Oceanis 48',      year:2015,price:185000,loa:"47'3\"",beam:"14'7\"", draft:"6'7\"", disp:'24,000 lbs',rig:'Sloop',sails:'978 sq ft',eng:'Yanmar 4JH45, 45hp',hrs:445,svc:2024,berths:8,cabs:4,heads:2,keel:'Fin keel',hull:'GRP',cond:'Very Good', plotter:'Garmin GPSMap 8612', vhf:'Standard Horizon GX2200',ais:'Class B',ap:'Garmin GHP',windlass:'Maxwell VX3 elec.',loc:'Annapolis, MD',    desc:'Four-cabin cruiser with two heads, large cockpit and twin helms. Full sail wardrobe, electric winches, code zero. Recently antifouled and engine serviced. Excellent Chesapeake Bay and coastal cruiser.'},
   ],
-  premium: [
-    {id:41, make:'Hallberg-Rassy',   model:'54',               year:2018, price:895000, loa:"53'5\" / 16.28m", beam:"15'5\" / 4.70m", draft:"7'3\" / 2.21m",  disp:'44,100 lbs', rig:'Sloop', sails:'1,356 sq ft', eng:'Volvo D3-110, 110hp', hrs:280, svc:2024, berths:6, cabs:3, heads:3, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'B&G Zeus 3 Glass Bridge', vhf:'Icom IC-M506', ais:'Class B+', ap:'B&G H5000 Autopilot', windlass:'Maxwell VX3 elec.', loc:'Newport, RI', desc:'The ultimate Hallberg-Rassy — massively engineered for offshore voyaging. Hull-side windows, pilot house option, carbon rig, furling main. Three staterooms, three heads. Nearly new with minimal hours. One-owner from delivery.', i:0},
-    {id:42, make:'Oyster',           model:'575',              year:2015, price:645000, loa:"57'9\" / 17.61m", beam:"16'5\" / 5.00m", draft:"8'2\" / 2.50m",  disp:'55,000 lbs', rig:'Sloop', sails:'1,615 sq ft', eng:'Volvo D4-225, 225hp', hrs:580, svc:2024, berths:6, cabs:3, heads:3, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'B&G Zeus Glass Bridge', vhf:'Icom IC-M605', ais:'Class B+', ap:'B&G H5000 Autopilot', windlass:'Maxwell 3500 elec.', loc:'Annapolis, MD', desc:'World-class British bluewater yacht. Full Atlantic and Pacific cruising history in current ownership. Comprehensive electronics including satellite comms, watermaker, generator, solar array. Fully equipped for circumnavigation.', i:1},
-    {id:43, make:'Beneteau',         model:'Oceanis 60',       year:2020, price:568000, loa:"59'1\" / 18.01m", beam:"17'5\" / 5.30m", draft:"8'6\" / 2.60m",  disp:'52,900 lbs', rig:'Sloop', sails:'1,724 sq ft', eng:'Yanmar 4JH110, 110hp', hrs:240, svc:2024, berths:8, cabs:4, heads:3, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8616', vhf:'Standard Horizon GX2400', ais:'Class B+', ap:'Garmin GHP Reactor', windlass:'Maxwell 3500 elec.', loc:'Marblehead, MA', desc:'Near-new flagship Beneteau. Four cabins, three heads, vast interior volume. Electric mainsheet, self-tacking jib, carbon boom, electric winches throughout. Garmin full-glass cockpit. Ready for extended offshore passage-making.', i:2},
-    {id:44, make:'Nautor',           model:'Swan 54',          year:2016, price:525000, loa:"53'6\" / 16.31m", beam:"15'5\" / 4.70m", draft:"9'2\" / 2.80m",  disp:'36,400 lbs', rig:'Sloop', sails:'1,356 sq ft', eng:'Volvo D3-75, 75hp', hrs:320, svc:2024, berths:4, cabs:2, heads:2, keel:'Deep fin', hull:'GRP', cond:'Excellent', plotter:'B&G Zeus 3', vhf:'Icom IC-M506', ais:'Class B+', ap:'B&G H5000 Autopilot', windlass:'Lewmar elec.', loc:'Newport, RI', desc:"Swan quality is unmatched. Finnish craftsmanship, immaculate finish throughout. Deep fin keel, carbon rig, performance sail wardrobe including fractional code zero. Strong racing record, equally capable offshore. Two staterooms, two heads.", i:3},
-    {id:45, make:'Jeanneau',         model:'64',               year:2019, price:685000, loa:"63'8\" / 19.40m", beam:"17'9\" / 5.41m", draft:"9'2\" / 2.80m",  disp:'57,300 lbs', rig:'Sloop', sails:'1,981 sq ft', eng:'Yanmar 4JH110, 110hp', hrs:295, svc:2024, berths:10, cabs:5, heads:3, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8616', vhf:'Standard Horizon GX2400', ais:'Class B+', ap:'Garmin GHP Reactor', windlass:'Maxwell 3500 elec.', loc:'Seattle, WA', desc:"Jeanneau's flagship cruiser. Five-cabin layout, three heads, enormous saloon. Electric furling main, code zero, twin helms with flush cockpit. Watermaker, generator, solar array. Outstanding Pacific Northwest or offshore vessel.", i:4},
-    {id:46, make:'Hanse',            model:'588',              year:2019, price:425000, loa:"58'9\" / 17.91m", beam:"17'5\" / 5.30m", draft:"8'6\" / 2.60m",  disp:'47,400 lbs', rig:'Sloop', sails:'1,679 sq ft', eng:'Volvo D4-80, 80hp', hrs:310, svc:2024, berths:8, cabs:4, heads:3, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'B&G Zeus 3 Glass Bridge', vhf:'Standard Horizon GX2400', ais:'Class B+', ap:'B&G H5000 Autopilot', windlass:'Lofrans Project 3000', loc:'San Diego, CA', desc:'German precision at flagship scale. Four cabins, three heads, vast open interior. Roller furling main, overlapping genoa, bow thruster, generator. Low hours for the model year. Perfect for Pacific coast or offshore voyaging.', i:5},
-    {id:47, make:'Island Packet',    model:'445',              year:2015, price:415000, loa:"44'6\" / 13.56m", beam:"13'11\" / 4.24m", draft:"4'11\" / 1.50m", disp:'30,600 lbs', rig:'Sloop', sails:'876 sq ft', eng:'Westerbeke 60B, 60hp', hrs:490, svc:2024, berths:4, cabs:2, heads:2, keel:'Full keel', hull:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8612', vhf:'Icom IC-M506', ais:'Class B+', ap:'Garmin GHP Reactor', windlass:'Maxwell 2500 elec.', loc:'Annapolis, MD', desc:"The ultimate bluewater passagemaker. Full keel, shallow draft for Bahamas and ICW, massively built for serious offshore work. Two-cabin layout. Extensive safety inventory, Iridium sat phone, watermaker, 400Ah battery bank. Bahamas and Caribbean veteran.", i:6},
-    {id:48, make:'Hinckley',         model:'Bermuda 40 MkIII', year:2011, price:395000, loa:"40'4\" / 12.30m", beam:"12'0\" / 3.66m", draft:"5'9\" / 1.75m",  disp:'21,500 lbs', rig:'Yawl', sails:'736 sq ft', eng:'Yanmar 4JH4-TE, 54hp', hrs:440, svc:2024, berths:4, cabs:2, heads:2, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'B&G Zeus 3', vhf:'Icom IC-M506', ais:'Class B+', ap:'B&G H5000 Autopilot', windlass:'Lofrans Project elec.', loc:'Marblehead, MA', desc:"American icon. Hinckley craftsmanship is unparalleled — every detail hand-finished in Southwest Harbor, Maine. Yawl rig with mizzen staysail, complete Hinckley service history. Two staterooms, two heads. The benchmark of American yacht building.", i:7},
-    {id:49, make:'Pacific Seacraft', model:'44',               year:2018, price:385000, loa:"44'0\" / 13.41m", beam:"13'4\" / 4.06m", draft:"6'4\" / 1.93m",  disp:'28,500 lbs', rig:'Sloop', sails:'845 sq ft', eng:'Westerbeke 55B, 55hp', hrs:270, svc:2024, berths:4, cabs:2, heads:2, keel:'Fin keel', hull:'GRP', cond:'Excellent', plotter:'Garmin GPSMap 8612', vhf:'Icom IC-M506', ais:'Class B+', ap:'Simrad AP28', windlass:'Maxwell VX3 elec.', loc:'San Diego, CA', desc:"Near-new California-built offshore cruiser. The last Pacific Seacraft built before production ended — a genuine collector's yacht. Full safety inventory, watermaker, solar array, 300Ah lithium bank. Immaculate and ready for bluewater passage.", i:8},
-    {id:50, make:'Nautor',           model:'Swan 46',          year:2014, price:520000, loa:"45'11\" / 14.00m", beam:"14'2\" / 4.32m", draft:"8'10\" / 2.70m", disp:'28,600 lbs', rig:'Sloop', sails:'1,076 sq ft', eng:'Volvo D2-55, 54hp', hrs:360, svc:2024, berths:4, cabs:2, heads:2, keel:'Deep fin', hull:'GRP', cond:'Excellent', plotter:'B&G Zeus 3', vhf:'Icom IC-M506', ais:'Class B+', ap:'B&G H5000 Autopilot', windlass:'Lewmar elec.', loc:'Newport, RI', desc:"Swan's most popular model — perfectly balanced between performance and comfort. Deep fin keel, carbon rig, grand prix sail wardrobe. Two staterooms, two heads, Finnish joinery throughout. Active regatta history and proven offshore record.", i:9},
+  premium:[
+    {id:41, make:'Hallberg-Rassy',  model:'54',              year:2018,price:895000,loa:"53'5\"",beam:"15'5\"", draft:"7'3\"", disp:'44,100 lbs',rig:'Sloop',sails:'1,356 sq ft',eng:'Volvo D3-110, 110hp',hrs:280,svc:2024,berths:6,cabs:3,heads:3,keel:'Fin keel',hull:'GRP',cond:'Excellent',  plotter:'B&G Zeus 3 Glass Bridge',vhf:'Icom IC-M506',         ais:'Class B+',ap:'B&G H5000 Autopilot',windlass:'Maxwell VX3 elec.',loc:'Newport, RI',      desc:'The ultimate Hallberg-Rassy. Massively engineered for offshore voyaging. Three staterooms, three heads. Carbon rig, furling main, hull-side windows. Nearly new with minimal hours. One owner from delivery.'},
+    {id:42, make:'Oyster',          model:'575',             year:2015,price:645000,loa:"57'9\"",beam:"16'5\"", draft:"8'2\"", disp:'55,000 lbs',rig:'Sloop',sails:'1,615 sq ft',eng:'Volvo D4-225, 225hp',hrs:580,svc:2024,berths:6,cabs:3,heads:3,keel:'Fin keel',hull:'GRP',cond:'Excellent',  plotter:'B&G Zeus Glass Bridge',  vhf:'Icom IC-M605',          ais:'Class B+',ap:'B&G H5000 Autopilot',windlass:'Maxwell 3500 elec.',loc:'Annapolis, MD',    desc:'World-class British bluewater yacht. Full Atlantic and Pacific cruising history. Satellite comms, watermaker, generator, solar array. Three staterooms, three heads. Fully equipped for circumnavigation.'},
+    {id:43, make:'Beneteau',        model:'Oceanis 60',      year:2020,price:568000,loa:"59'1\"",beam:"17'5\"", draft:"8'6\"", disp:'52,900 lbs',rig:'Sloop',sails:'1,724 sq ft',eng:'Yanmar 4JH110, 110hp',hrs:240,svc:2024,berths:8,cabs:4,heads:3,keel:'Fin keel',hull:'GRP',cond:'Excellent',  plotter:'Garmin GPSMap 8616',     vhf:'Standard Horizon GX2400',ais:'Class B+',ap:'Garmin GHP Reactor',windlass:'Maxwell 3500 elec.',loc:'Marblehead, MA',   desc:'Near-new flagship Beneteau. Four cabins, three heads, vast interior volume. Electric mainsheet, self-tacking jib, carbon boom, electric winches throughout. Ready for extended offshore passage-making.'},
+    {id:44, make:'Nautor',          model:'Swan 54',         year:2016,price:525000,loa:"53'6\"",beam:"15'5\"", draft:"9'2\"", disp:'36,400 lbs',rig:'Sloop',sails:'1,356 sq ft',eng:'Volvo D3-75, 75hp',hrs:320,svc:2024,berths:4,cabs:2,heads:2,keel:'Deep fin',hull:'GRP',cond:'Excellent',  plotter:'B&G Zeus 3',             vhf:'Icom IC-M506',          ais:'Class B+',ap:'B&G H5000 Autopilot',windlass:'Lewmar elec.',loc:'Newport, RI',      desc:"Swan quality is unmatched. Finnish craftsmanship, immaculate finish throughout. Deep fin keel, carbon rig, performance sail wardrobe including code zero. Strong racing record. Two staterooms, two heads."},
+    {id:45, make:'Hinckley',        model:'Bermuda 40 MkIII',year:2011,price:395000,loa:"40'4\"",beam:"12'0\"", draft:"5'9\"", disp:'21,500 lbs',rig:'Yawl',  sails:'736 sq ft',eng:'Yanmar 4JH4-TE, 54hp',hrs:440,svc:2024,berths:4,cabs:2,heads:2,keel:'Fin keel',hull:'GRP',cond:'Excellent',  plotter:'B&G Zeus 3',             vhf:'Icom IC-M506',          ais:'Class B+',ap:'B&G H5000 Autopilot',windlass:'Lofrans Project elec.',loc:'Marblehead, MA',   desc:"American icon. Hinckley craftsmanship is unparalleled — every detail hand-finished in Southwest Harbor, Maine. Yawl rig, complete service history. Two staterooms, two heads. The benchmark of American yacht building."},
   ]
 };
 
-let curRange = 'mid';
+let curRange='mid';
+document.addEventListener('DOMContentLoaded',()=>{ switchTab(window._INIT_RANGE||'mid'); });
 
-document.addEventListener('DOMContentLoaded', () => { switchTab(window._INIT_RANGE || 'mid'); });
-
-function switchTab(r) {
-  curRange = r;
-  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.r === r));
+function switchTab(r){
+  curRange=r;
+  document.querySelectorAll('.pnav-btn').forEach(b=>b.classList.toggle('active',b.dataset.r===r));
   render();
 }
 
-function fmt(n){ return '$' + n.toLocaleString('en-US'); }
+function fmt(n){return'$'+n.toLocaleString('en-US');}
 
-function render() {
-  const sort = document.getElementById('sortSel').value;
-  let items = [...DATA[curRange]];
-  if (sort === 'price-asc')   items.sort((a,b) => a.price - b.price);
-  if (sort === 'price-desc')  items.sort((a,b) => b.price - a.price);
-  if (sort === 'year-desc')   items.sort((a,b) => b.year - a.year);
-  if (sort === 'length-desc') items.sort((a,b) => parseFloat(b.loa) - parseFloat(a.loa));
-  document.getElementById('listCt').textContent = items.length;
-  document.getElementById('grid').innerHTML = items.map(card).join('');
+function render(){
+  const sort=document.getElementById('sortSel').value;
+  let items=[...DATA[curRange]];
+  if(sort==='price-asc')  items.sort((a,b)=>a.price-b.price);
+  if(sort==='price-desc') items.sort((a,b)=>b.price-a.price);
+  if(sort==='year-desc')  items.sort((a,b)=>b.year-a.year);
+  if(sort==='length-desc')items.sort((a,b)=>parseFloat(b.loa)-parseFloat(a.loa));
+  document.getElementById('listCt').textContent=items.length;
+  document.getElementById('grid').innerHTML=items.map(card).join('');
 }
 
-function card(L) {
-  return `
-  <div class="card" onclick="openModal(${L.id})">
-    <div class="c-img-wrap">
-      <img class="c-img" src="${img(L.i)}" alt="${L.make} ${L.model}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#9db8c8,#5a7f9a)';this.removeAttribute('src')">
-      <span class="c-price-badge">${fmt(L.price)}</span>
+const PIN=`<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
+
+function card(L){return`
+<div class="card" onclick="openModal(${L.id})">
+  <div class="c-img-wrap"><img class="c-img" src="${img(L.make,L.id)}" alt="${L.make} ${L.model}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#1a4a6e,#0d2137)';this.removeAttribute('src')"></div>
+  <div class="c-body">
+    <div class="c-head">
+      <div><div class="c-make">${L.make}</div><div class="c-model">${L.model} <span class="c-year">${L.year}</span></div></div>
+      <div class="c-price-block"><div class="c-price">${fmt(L.price)}</div></div>
     </div>
-    <div class="c-body">
-      <div class="c-title">${L.make} ${L.model} <span class="c-year">${L.year}</span></div>
-      <div class="c-specs">
-        <span class="chip">⚓ ${L.loa.split('/')[0].trim()}</span>
-        <span class="chip">⛵ ${L.rig}</span>
-        <span class="chip">🛏 ${L.berths} berths</span>
-        <span class="chip">⚙️ ${L.hrs} hrs</span>
-      </div>
-      <div class="c-loc">📍 ${L.loc}</div>
-      <div class="c-desc">${L.desc}</div>
-      <div class="c-foot">
-        <span class="c-price">${fmt(L.price)}</span>
-        <button class="btn-view">View Listing</button>
-      </div>
+    <div class="c-chips">
+      <span class="chip">${L.loa}</span>
+      <span class="chip">${L.rig}</span>
+      <span class="chip">${L.berths} berths</span>
+      <span class="chip">${L.hrs} hrs</span>
     </div>
-  </div>`;
-}
+    <div class="c-loc">${PIN} ${L.loc}</div>
+    <div class="c-desc">${L.desc}</div>
+    <div class="c-foot"><button class="btn-view">View full listing &rarr;</button></div>
+  </div>
+</div>`;}
 
-function findListing(id) {
-  for (const band of Object.values(DATA)) {
-    const l = band.find(x => x.id === id);
-    if (l) return l;
-  }
-}
+function findListing(id){for(const b of Object.values(DATA)){const l=b.find(x=>x.id===id);if(l)return l;}}
 
-function openModal(id) {
-  const L = findListing(id);
-  if (!L) return;
-  document.getElementById('mImg').src = img(L.i);
-  document.getElementById('mImg').alt = `${L.make} ${L.model}`;
-  document.getElementById('mImg').style.display = '';
-  document.getElementById('mContent').innerHTML = detailHTML(L);
+function openModal(id){
+  const L=findListing(id);if(!L)return;
+  document.getElementById('mImg').src=img(L.make,L.id);
+  document.getElementById('mImg').alt=`${L.make} ${L.model}`;
+  document.getElementById('mImg').style.display='';
+  document.getElementById('mContent').innerHTML=detailHTML(L);
   document.getElementById('overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
+function closeModal(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';}
+function bgClose(e){if(e.target===document.getElementById('overlay'))closeModal();}
 
-function closeModal() {
-  document.getElementById('overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function bgClose(e) {
-  if (e.target === document.getElementById('overlay')) closeModal();
-}
-
-function detailHTML(L) {
-  return `
-    <div class="m-header">
-      <div class="m-title-block">
-        <div class="m-make">${L.make} ${L.model}</div>
-        <div class="m-sub">${L.year} · ${L.rig} · ${L.cond} condition · ${L.loc}</div>
-      </div>
-      <div class="m-price-block">
-        <div class="m-price">${fmt(L.price)}</div>
-        <div class="m-price-note">Asking price</div>
-      </div>
+function detailHTML(L){return`
+  <div class="m-header">
+    <div><div class="m-make">${L.make}</div><div class="m-title">${L.model}</div><div class="m-sub">${L.year} &middot; ${L.rig} &middot; ${L.cond} condition &middot; ${L.loc}</div></div>
+    <div class="m-price-block"><div class="m-price">${fmt(L.price)}</div><div class="m-price-note">Asking price</div></div>
+  </div>
+  <div class="spec-grid">
+    <div class="spec-box"><div class="sk">LOA</div><div class="sv">${L.loa}</div></div>
+    <div class="spec-box"><div class="sk">Beam</div><div class="sv">${L.beam}</div></div>
+    <div class="spec-box"><div class="sk">Draft</div><div class="sv">${L.draft}</div></div>
+    <div class="spec-box"><div class="sk">Displacement</div><div class="sv">${L.disp}</div></div>
+    <div class="spec-box"><div class="sk">Berths</div><div class="sv">${L.berths}</div></div>
+    <div class="spec-box"><div class="sk">Cabins</div><div class="sv">${L.cabs}</div></div>
+    <div class="spec-box"><div class="sk">Heads</div><div class="sv">${L.heads}</div></div>
+    <div class="spec-box"><div class="sk">Engine hrs</div><div class="sv">${L.hrs} hrs</div></div>
+  </div>
+  <div class="m-section"><h4>Description</h4><p class="m-desc">${L.desc}</p></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem">
+    <div class="m-section" style="margin:0"><h4>Rig &amp; Sails</h4>
+      <table class="spec-tbl">
+        <tr><td>Rig type</td><td>${L.rig}</td></tr>
+        <tr><td>Sail area</td><td>${L.sails}</td></tr>
+        <tr><td>Engine</td><td>${L.eng}</td></tr>
+        <tr><td>Engine hours</td><td>${L.hrs} hrs</td></tr>
+        <tr><td>Last service</td><td>${L.svc}</td></tr>
+      </table>
     </div>
-
-    <div class="spec-grid">
-      <div class="spec-box"><div class="sk">LOA</div><div class="sv">${L.loa.split('/')[0].trim()}</div></div>
-      <div class="spec-box"><div class="sk">Beam</div><div class="sv">${L.beam.split('/')[0].trim()}</div></div>
-      <div class="spec-box"><div class="sk">Draft</div><div class="sv">${L.draft.split('/')[0].trim()}</div></div>
-      <div class="spec-box"><div class="sk">Displacement</div><div class="sv">${L.disp}</div></div>
-      <div class="spec-box"><div class="sk">Berths</div><div class="sv">${L.berths}</div></div>
-      <div class="spec-box"><div class="sk">Cabins</div><div class="sv">${L.cabs}</div></div>
-      <div class="spec-box"><div class="sk">Heads</div><div class="sv">${L.heads}</div></div>
-      <div class="spec-box"><div class="sk">Engine hrs</div><div class="sv">${L.hrs} hrs</div></div>
+    <div class="m-section" style="margin:0"><h4>Hull &amp; Keel</h4>
+      <table class="spec-tbl">
+        <tr><td>Keel type</td><td>${L.keel}</td></tr>
+        <tr><td>Hull material</td><td>${L.hull}</td></tr>
+        <tr><td>Displacement</td><td>${L.disp}</td></tr>
+        <tr><td>Condition</td><td>${L.cond}</td></tr>
+      </table>
     </div>
-
-    <div class="m-section">
-      <h4>Description</h4>
-      <p style="font-size:.88rem;line-height:1.7;color:#374151">${L.desc}</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.75rem">
+    <div class="m-section" style="margin:0"><h4>Electronics</h4>
+      <table class="spec-tbl">
+        <tr><td>Chartplotter</td><td>${L.plotter}</td></tr>
+        <tr><td>VHF radio</td><td>${L.vhf}</td></tr>
+        <tr><td>AIS</td><td>${L.ais}</td></tr>
+        <tr><td>Autopilot</td><td>${L.ap}</td></tr>
+      </table>
     </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem">
-      <div class="m-section" style="margin:0">
-        <h4>Rig &amp; Sails</h4>
-        <table class="spec-tbl">
-          <tr><td>Rig type</td><td>${L.rig}</td></tr>
-          <tr><td>Sail area</td><td>${L.sails}</td></tr>
-          <tr><td>Engine</td><td>${L.eng}</td></tr>
-          <tr><td>Engine hours</td><td>${L.hrs} hrs</td></tr>
-          <tr><td>Last service</td><td>${L.svc}</td></tr>
-        </table>
-      </div>
-      <div class="m-section" style="margin:0">
-        <h4>Hull &amp; Keel</h4>
-        <table class="spec-tbl">
-          <tr><td>Keel type</td><td>${L.keel}</td></tr>
-          <tr><td>Hull material</td><td>${L.hull}</td></tr>
-          <tr><td>Displacement</td><td>${L.disp}</td></tr>
-          <tr><td>Condition</td><td>${L.cond}</td></tr>
-        </table>
-      </div>
+    <div class="m-section" style="margin:0"><h4>Accommodation</h4>
+      <table class="spec-tbl">
+        <tr><td>Sleeping berths</td><td>${L.berths}</td></tr>
+        <tr><td>Staterooms</td><td>${L.cabs}</td></tr>
+        <tr><td>Heads</td><td>${L.heads}</td></tr>
+        <tr><td>Electric windlass</td><td>${L.windlass}</td></tr>
+      </table>
     </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
-      <div class="m-section" style="margin:0">
-        <h4>Electronics</h4>
-        <table class="spec-tbl">
-          <tr><td>Chartplotter</td><td>${L.plotter}</td></tr>
-          <tr><td>VHF radio</td><td>${L.vhf}</td></tr>
-          <tr><td>AIS</td><td>${L.ais}</td></tr>
-          <tr><td>Autopilot</td><td>${L.ap}</td></tr>
-        </table>
-      </div>
-      <div class="m-section" style="margin:0">
-        <h4>Accommodation</h4>
-        <table class="spec-tbl">
-          <tr><td>Sleeping berths</td><td>${L.berths}</td></tr>
-          <tr><td>Staterooms</td><td>${L.cabs}</td></tr>
-          <tr><td>Heads</td><td>${L.heads}</td></tr>
-          <tr><td>Windlass</td><td>${L.windlass}</td></tr>
-        </table>
-      </div>
+  </div>
+  <div class="m-section"><h4>Request Information</h4></div>
+  <p class="m-enq-sub">Complete the form below and ${document.getElementById('brokerNm').textContent} will be in touch within the hour.</p>
+  <form id="enqForm" onsubmit="submitEnq(event)">
+    <input type="hidden" name="listing" value="${L.make} ${L.model} ${L.year} — ${fmt(L.price)}">
+    <div class="fg-row">
+      <div class="fg"><label>First name</label><input type="text" name="fn" required placeholder="James"></div>
+      <div class="fg"><label>Last name</label><input type="text" name="ln" required placeholder="Henderson"></div>
     </div>
+    <div class="fg"><label>Email address</label><input type="email" name="email" required placeholder="james@example.com"></div>
+    <div class="fg"><label>Phone number</label><input type="tel" name="phone" placeholder="+1 (555) 000-0000"></div>
+    <div class="fg"><label>Message</label><textarea name="msg">I'm interested in the ${L.make} ${L.model} (${L.year}) listed at ${fmt(L.price)}. Please contact me to arrange a viewing.</textarea></div>
+    <button type="submit" class="btn-submit">Send enquiry</button>
+  </form>`;}
 
-    <div class="m-section"><h4>Request Information</h4></div>
-    <p class="m-enq-sub">Complete the form and ${document.getElementById('brokerNm').textContent} will respond within the hour.</p>
-    <form id="enqForm" onsubmit="submitEnq(event)">
-      <input type="hidden" name="listing" value="${L.make} ${L.model} ${L.year} — ${fmt(L.price)}">
-      <div class="fg-row">
-        <div class="fg"><label>First Name</label><input type="text" name="fn" required placeholder="James"></div>
-        <div class="fg"><label>Last Name</label><input type="text" name="ln" required placeholder="Henderson"></div>
-      </div>
-      <div class="fg"><label>Email</label><input type="email" name="email" required placeholder="james@example.com"></div>
-      <div class="fg"><label>Phone</label><input type="tel" name="phone" placeholder="+1 (555) 000-0000"></div>
-      <div class="fg"><label>Message</label><textarea name="msg">I'm interested in the ${L.make} ${L.model} (${L.year}) listed at ${fmt(L.price)}. Please contact me to arrange a showing.</textarea></div>
-      <button type="submit" class="btn-submit">Send Enquiry</button>
-    </form>`;
-}
-
-function submitEnq(e) {
+function submitEnq(e){
   e.preventDefault();
-  const form = e.target;
-  const data = Object.fromEntries(new FormData(form));
-  const WEBHOOK = 'https://your-n8n-instance.com/webhook/sailshift-us-sail';
-  fetch(WEBHOOK, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({...data, broker: document.getElementById('brokerNm').textContent, market:'US-Sail', ts: new Date().toISOString()})})
-    .catch(()=>{});
-  document.getElementById('mContent').innerHTML = `
-    <div class="success-wrap">
-      <div class="si">✓</div>
-      <h3>Enquiry Sent</h3>
-      <p>${document.getElementById('brokerNm').textContent} will be in touch shortly.<br>Average response time: under 1 hour.</p>
-      <button onclick="closeModal()" style="margin-top:1.25rem;padding:10px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit">Back to Listings</button>
-    </div>`;
+  const data=Object.fromEntries(new FormData(e.target));
+  fetch('https://your-n8n-instance.com/webhook/sailshift-us-sail',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...data,broker:document.getElementById('brokerNm').textContent,market:'US-Sail',ts:new Date().toISOString()})}).catch(()=>{});
+  document.getElementById('mContent').innerHTML=`<div class="success-wrap"><div class="si"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><h3 style="font-size:1.3rem;margin-bottom:.5rem">Enquiry sent</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.6">${document.getElementById('brokerNm').textContent} will be in touch shortly.<br>Average response time: under 1 hour.</p><button onclick="closeModal()" style="margin-top:1.5rem;padding:10px 28px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit">Back to listings</button></div>`;
   document.getElementById('mImg').style.display='none';
 }
 </script>

@@ -5,418 +5,366 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boat Listings — Powered by SailShift AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--accent:#0d3b6e;--accent-l:#1a5a9e;--text:#111827;--muted:#6b7280;--border:#e5e7eb;--bg:#f3f4f6;--card:#fff;--r:12px}
-body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.hdr{background:var(--accent);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:200;box-shadow:0 2px 16px rgba(0,0,0,.2)}
-.hdr-logo{display:flex;align-items:center;gap:10px;color:#fff}
-.logo-mk{width:34px;height:34px;background:rgba(255,255,255,.18);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;letter-spacing:-.5px}
-.logo-nm{font-weight:700;font-size:17px;letter-spacing:-.3px}
-.hdr-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.88);padding:5px 13px;border-radius:20px;font-size:11.5px;font-weight:500;letter-spacing:.4px}
-.hero{background:linear-gradient(150deg,var(--accent) 0%,#071d38 100%);color:#fff;padding:2.75rem 2rem 2.25rem;text-align:center}
-.hero h1{font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.5px;margin-bottom:.4rem}
-.hero p{color:rgba(255,255,255,.72);font-size:.9rem;margin-bottom:1.75rem}
-.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.tab{padding:9px 22px;border-radius:50px;border:2px solid rgba(255,255,255,.35);background:transparent;color:rgba(255,255,255,.78);font-family:inherit;font-size:.83rem;font-weight:500;cursor:pointer;transition:all .18s}
-.tab:hover{border-color:rgba(255,255,255,.65);color:#fff}
-.tab.active{background:#fff;color:var(--accent);border-color:#fff;font-weight:700}
-.stats{background:#fff;border-bottom:1px solid var(--border);padding:.7rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
-.stats-txt{font-size:.85rem;color:var(--muted)}.stats-txt strong{color:var(--text)}
-.stats-sort{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
-.sort-sel{border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:.8rem;font-family:inherit;color:var(--text);background:#fff;cursor:pointer;outline:none}
-.wrap{max-width:1200px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.125rem}
-@media(max-width:960px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:580px){.grid{grid-template-columns:1fr}.wrap{padding:1rem 1rem 3rem}.hero{padding:2rem 1rem 2rem}.hdr{padding:0 1rem}}
-.card{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column;cursor:pointer}
-.card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.1),0 1px 4px rgba(0,0,0,.06)}
+:root{
+  --navy:#0d2137;--navy-d:#071528;
+  --accent:#0369a1;--accent-l:#0284c7;
+  --text:#0f172a;--text-2:#334155;--muted:#64748b;
+  --border:#e2e8f0;--bg:#f1f5f9;--card:#fff;--chip:#e8eef4;--r:14px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px}
+
+/* ── HEADER ── */
+.hdr{background:var(--navy);height:64px;display:flex;align-items:center;padding:0 2rem;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+.hdr-inner{width:100%;max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:36px;height:36px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;letter-spacing:-.5px;flex-shrink:0}
+.logo-name{font-weight:700;font-size:17px;color:#fff;letter-spacing:-.2px}
+.hdr-badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);padding:5px 14px;border-radius:20px;font-size:11.5px;font-weight:500;letter-spacing:.4px}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-d) 100%);padding:3.5rem 2rem 3rem;text-align:center;color:#fff}
+.hero-inner{max-width:640px;margin:0 auto}
+.hero-eyebrow{font-size:.78rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.9rem}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:400;letter-spacing:-.5px;margin-bottom:.7rem;line-height:1.2}
+.hero-sub{color:rgba(255,255,255,.6);font-size:.95rem;line-height:1.6;margin-bottom:2.25rem}
+.price-nav{display:inline-flex;background:rgba(255,255,255,.1);border-radius:12px;padding:5px;gap:4px}
+.pnav-btn{padding:10px 26px;border-radius:8px;border:none;background:transparent;color:rgba(255,255,255,.7);font-family:'Inter',sans-serif;font-size:.84rem;font-weight:500;cursor:pointer;transition:all .18s;white-space:nowrap}
+.pnav-btn:hover{color:#fff;background:rgba(255,255,255,.08)}
+.pnav-btn.active{background:#fff;color:var(--accent);font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+
+/* ── CONTROLS ── */
+.controls{background:#fff;border-bottom:1px solid var(--border);padding:.8rem 2rem}
+.controls-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.listing-ct{font-size:.85rem;color:var(--muted)}.listing-ct strong{color:var(--text);font-weight:600}
+.sort-wrap{display:flex;align-items:center;gap:8px;font-size:.84rem;color:var(--muted)}
+.sort-sel{border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:.82rem;font-family:'Inter',sans-serif;color:var(--text);background:#fff;cursor:pointer;outline:none;transition:border-color .15s}
+.sort-sel:focus{border-color:var(--accent)}
+
+/* ── GRID ── */
+.wrap{max-width:1280px;margin:0 auto;padding:2rem 1.5rem 5rem}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.wrap{padding:1.5rem 1rem 3.5rem}.hero{padding:2.5rem 1rem 2.5rem}.hdr{padding:0 1rem}}
+
+/* ── CARD ── */
+.card{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06),0 4px 20px rgba(0,0,0,.07);transition:transform .22s,box-shadow .22s;display:flex;flex-direction:column;cursor:pointer}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.06)}
 .c-img-wrap{position:relative;overflow:hidden}
-.c-img{width:100%;height:200px;object-fit:cover;display:block;background:linear-gradient(135deg,#9db8c8,#5a7f9a)}
-.c-img-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:55px;background:linear-gradient(transparent,rgba(0,0,0,.28));pointer-events:none}
-.c-price-badge{position:absolute;bottom:9px;right:9px;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);color:#fff;padding:4px 10px;border-radius:6px;font-size:.85rem;font-weight:700}
-.c-body{padding:.9rem 1rem 1rem;flex:1;display:flex;flex-direction:column}
-.c-title{font-size:.97rem;font-weight:700;color:var(--text);margin-bottom:.2rem;letter-spacing:-.2px}
-.c-year{color:var(--muted);font-weight:400;font-size:.85rem}
-.c-specs{display:flex;gap:10px;margin:.45rem 0;flex-wrap:wrap}
-.chip{display:flex;align-items:center;gap:3px;font-size:.73rem;color:var(--muted);font-weight:500}
-.c-loc{font-size:.78rem;color:var(--muted);margin-bottom:.6rem;display:flex;align-items:center;gap:4px}
-.c-desc{font-size:.78rem;color:var(--muted);line-height:1.5;margin-bottom:.85rem;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.c-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:auto}
-.c-price{font-size:1.1rem;font-weight:800;color:var(--accent)}
-.btn-view{background:var(--accent);color:#fff;border:none;padding:8px 15px;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;transition:background .18s;font-family:inherit;white-space:nowrap}
+.c-img{width:100%;height:220px;object-fit:cover;display:block;background:linear-gradient(135deg,#1a4a6e,#0d2137);transition:transform .4s}
+.card:hover .c-img{transform:scale(1.04)}
+.c-body{padding:1.35rem 1.35rem 1.25rem;flex:1;display:flex;flex-direction:column;gap:.85rem}
+.c-head{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
+.c-make{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:.2rem}
+.c-model{font-size:1.02rem;font-weight:700;color:var(--text);letter-spacing:-.2px;line-height:1.3}
+.c-year{font-weight:400;color:var(--muted);font-size:.9rem}
+.c-price-block{text-align:right;flex-shrink:0}
+.c-price{font-size:1.12rem;font-weight:800;color:var(--accent);letter-spacing:-.3px}
+.c-chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{background:var(--chip);color:var(--text-2);padding:4px 10px;border-radius:5px;font-size:.7rem;font-weight:600;letter-spacing:.35px;text-transform:uppercase;white-space:nowrap}
+.c-loc{display:flex;align-items:center;gap:5px;font-size:.8rem;color:var(--muted);line-height:1}
+.c-loc svg{flex-shrink:0;color:var(--muted)}
+.c-desc{font-size:.82rem;color:var(--text-2);line-height:1.65;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.c-foot{margin-top:auto;padding-top:.75rem;border-top:1px solid var(--border)}
+.btn-view{background:var(--accent);color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .18s;font-family:'Inter',sans-serif;letter-spacing:.1px}
 .btn-view:hover{background:var(--accent-l)}
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(3px);z-index:500;align-items:flex-start;justify-content:center;padding:1.5rem 1rem;overflow-y:auto}
+
+/* ── OVERLAY / MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(7,21,40,.7);backdrop-filter:blur(4px);z-index:500;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
 .overlay.open{display:flex}
-.modal{background:#fff;border-radius:16px;max-width:860px;width:100%;margin:auto;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.3);position:relative}
-.m-close{position:absolute;top:1rem;right:1rem;width:34px;height:34px;border-radius:50%;border:none;background:#f3f4f6;color:var(--muted);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background .18s}
-.m-close:hover{background:#e5e7eb}
-.m-img{width:100%;height:300px;object-fit:cover;display:block;background:linear-gradient(135deg,#9db8c8,#5a7f9a)}
-.m-body{padding:1.75rem 2rem 2rem}
-.m-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap}
-.m-title-block .m-make{font-size:1.35rem;font-weight:800;letter-spacing:-.4px;color:var(--text)}
-.m-title-block .m-sub{font-size:.88rem;color:var(--muted);margin-top:.2rem}
-.m-price-block{text-align:right}
-.m-price{font-size:1.6rem;font-weight:800;color:var(--accent);white-space:nowrap}
+.modal{background:#fff;border-radius:18px;width:100%;max-width:800px;overflow:hidden;position:relative;margin:auto;box-shadow:0 24px 80px rgba(0,0,0,.3)}
+.m-close{position:absolute;top:14px;right:14px;z-index:10;background:rgba(0,0,0,.5);border:none;color:#fff;width:34px;height:34px;border-radius:50%;font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.m-close:hover{background:rgba(0,0,0,.75)}
+.m-img{width:100%;height:300px;object-fit:cover;display:block;background:linear-gradient(135deg,#1a4a6e,#0d2137)}
+.m-body{padding:2rem}
+.m-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1.5rem;margin-bottom:1.75rem;flex-wrap:wrap}
+.m-make{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:.3rem}
+.m-title{font-family:'DM Serif Display',serif;font-size:1.7rem;font-weight:400;letter-spacing:-.3px;color:var(--text);line-height:1.2}
+.m-sub{font-size:.84rem;color:var(--muted);margin-top:.4rem;line-height:1.5}
+.m-price-block{text-align:right;flex-shrink:0}
+.m-price{font-size:1.9rem;font-weight:800;color:var(--accent);letter-spacing:-.5px}
 .m-price-note{font-size:.75rem;color:var(--muted);margin-top:.15rem}
-.spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;background:#f8f9fa;border-radius:10px;padding:1rem;margin-bottom:1.25rem}
-@media(max-width:600px){.spec-grid{grid-template-columns:repeat(2,1fr)}}
-.spec-box{background:#fff;border-radius:8px;padding:.6rem .75rem;border:1px solid var(--border)}
-.spec-box .sk{font-size:.7rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
-.spec-box .sv{font-size:.88rem;font-weight:600;color:var(--text)}
-.m-section{margin-bottom:1.25rem}
-.m-section h4{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:.6rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
-.spec-tbl{width:100%;border-collapse:collapse}
-.spec-tbl tr:not(:last-child) td{border-bottom:1px solid #f3f4f6}
-.spec-tbl td{padding:.4rem .2rem;font-size:.83rem;vertical-align:top}
-.spec-tbl td:first-child{color:var(--muted);font-weight:500;width:45%;padding-right:.75rem}
-.spec-tbl td:last-child{color:var(--text);font-weight:500}
-.m-enq-sub{font-size:.8rem;color:var(--muted);margin-bottom:1rem}
-.fg{margin-bottom:.875rem}
-.fg label{display:block;font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
-.fg input,.fg textarea{width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;font-family:inherit;color:var(--text);transition:border-color .18s;outline:none}
-.fg input:focus,.fg textarea:focus{border-color:var(--accent)}
+.spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.75rem}
+@media(max-width:560px){.spec-grid{grid-template-columns:repeat(2,1fr)}}
+.spec-box{background:var(--bg);border-radius:10px;padding:.75rem 1rem}
+.sk{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:.3rem}
+.sv{font-size:.95rem;font-weight:700;color:var(--text)}
+.m-section{margin-bottom:1.5rem}
+.m-section h4{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:.85rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.spec-tbl{width:100%;border-collapse:collapse;font-size:.85rem}
+.spec-tbl td{padding:.4rem 0;vertical-align:top;line-height:1.5}
+.spec-tbl td:first-child{color:var(--muted);width:46%;padding-right:.5rem}
+.spec-tbl td:last-child{font-weight:500;color:var(--text-2)}
+.m-desc{font-size:.88rem;line-height:1.75;color:var(--text-2);margin-bottom:1.75rem}
+.m-enq-sub{font-size:.83rem;color:var(--muted);margin-bottom:1.25rem;line-height:1.5}
+.fg{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1rem}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+@media(max-width:480px){.fg-row{grid-template-columns:1fr}}
+.fg label{font-size:.78rem;font-weight:600;color:var(--text)}
+.fg input,.fg textarea{border:1px solid var(--border);border-radius:9px;padding:.6rem .85rem;font-size:.88rem;font-family:'Inter',sans-serif;color:var(--text);outline:none;transition:border-color .15s;background:#fff;width:100%}
+.fg input:focus,.fg textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(3,105,161,.08)}
 .fg textarea{resize:vertical;min-height:80px}
-.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.btn-submit{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-size:.9rem;font-weight:700;font-family:inherit;cursor:pointer;transition:background .18s;margin-top:.25rem}
+.btn-submit{width:100%;background:var(--accent);color:#fff;border:none;padding:.9rem;border-radius:9px;font-size:.92rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .18s;margin-top:.25rem}
 .btn-submit:hover{background:var(--accent-l)}
-.success-wrap{text-align:center;padding:2.5rem 1rem}
-.success-wrap .si{font-size:2.5rem;margin-bottom:.5rem}
-.success-wrap h3{font-size:1.1rem;font-weight:700;margin-bottom:.35rem}
-.success-wrap p{color:var(--muted);font-size:.85rem}
-footer{text-align:center;padding:1.25rem;background:#fff;border-top:1px solid var(--border);font-size:.78rem;color:var(--muted)}
-footer a{color:var(--accent);text-decoration:none;font-weight:500}
+.success-wrap{text-align:center;padding:3rem 1.5rem}
+.si{width:56px;height:56px;border-radius:50%;background:#dcfce7;color:#16a34a;font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem}
+.si svg{width:24px;height:24px}
+footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;padding:1.5rem;font-size:.78rem}
+footer a{color:rgba(255,255,255,.75);text-decoration:none}
 </style>
 </head>
 <body>
 
 <header class="hdr">
-  <div class="hdr-logo">
-    <div class="logo-mk" id="logoMk">C</div>
-    <span class="logo-nm" id="brokerNm">Coastal Marine</span>
+  <div class="hdr-inner">
+    <div class="logo">
+      <div class="logo-mark" id="logoMk">C</div>
+      <span class="logo-name" id="brokerNm">Coastal Marine</span>
+    </div>
+    <span class="hdr-badge">Powered by SailShift AI</span>
   </div>
-  <span class="hdr-badge">Powered by SailShift AI</span>
 </header>
 
 <section class="hero">
-  <h1 id="heroTitle">Browse Our Current Boat Listings</h1>
-  <p id="heroSub">Premium powerboats and sportfishing vessels — select your price range</p>
-  <div class="tabs">
-    <button class="tab" data-r="budget" onclick="switchTab('budget')">Value · $50k–$150k</button>
-    <button class="tab" data-r="mid" onclick="switchTab('mid')">Mid-Range · $150k–$500k</button>
-    <button class="tab" data-r="premium" onclick="switchTab('premium')">Premium · $500k–$3M</button>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Current Inventory</p>
+    <h1 id="heroTitle">Browse Our Listings</h1>
+    <p class="hero-sub" id="heroSub">Premium powerboats and yachts — select your price range below</p>
+    <nav class="price-nav">
+      <button class="pnav-btn" data-r="budget" onclick="switchTab('budget')">Under $150k</button>
+      <button class="pnav-btn" data-r="mid"    onclick="switchTab('mid')">$150k – $500k</button>
+      <button class="pnav-btn" data-r="premium" onclick="switchTab('premium')">$500k +</button>
+    </nav>
   </div>
 </section>
 
-<div class="stats">
-  <span class="stats-txt"><strong id="listCt">20</strong> listings available</span>
-  <div class="stats-sort">Sort: <select class="sort-sel" id="sortSel" onchange="render()">
-    <option value="default">Featured</option>
-    <option value="price-asc">Price ↑</option>
-    <option value="price-desc">Price ↓</option>
-    <option value="year-desc">Newest first</option>
-    <option value="length-desc">Longest first</option>
-  </select></div>
+<div class="controls">
+  <div class="controls-inner">
+    <span class="listing-ct"><strong id="listCt">20</strong> listings available</span>
+    <div class="sort-wrap">Sort by:
+      <select class="sort-sel" id="sortSel" onchange="render()">
+        <option value="default">Featured</option>
+        <option value="price-asc">Price — low to high</option>
+        <option value="price-desc">Price — high to low</option>
+        <option value="year-desc">Newest first</option>
+        <option value="length-desc">Longest first</option>
+      </select>
+    </div>
+  </div>
 </div>
 
 <main class="wrap"><div class="grid" id="grid"></div></main>
 
 <div class="overlay" id="overlay" onclick="bgClose(event)">
   <div class="modal" id="modal">
-    <button class="m-close" onclick="closeModal()">×</button>
-    <img class="m-img" id="mImg" src="" alt="" onerror="this.style.background='linear-gradient(135deg,#9db8c8,#5a7f9a)';this.src=''">
-    <div class="m-body">
-      <div id="mContent"></div>
-    </div>
+    <button class="m-close" onclick="closeModal()">&#x2715;</button>
+    <img class="m-img" id="mImg" src="" alt="" onerror="this.style.background='linear-gradient(135deg,#1a4a6e,#0d2137)';this.src=''">
+    <div class="m-body"><div id="mContent"></div></div>
   </div>
 </div>
 
 <footer>
-  <p>Listings managed by <a href="#">SailShift AI</a> · Intelligent lead management for marine dealers</p>
+  <p>Listings managed by <a href="#">SailShift AI</a> &mdash; Intelligent lead management for marine dealers</p>
 </footer>
 
 <script>
 (function(){
-  const p = new URLSearchParams(location.search);
-  const broker = p.get('broker') || 'Coastal Marine';
-  const colour = p.get('colour') || '0d3b6e';
-  const range  = p.get('range')  || 'mid';
-  document.getElementById('brokerNm').textContent = broker;
-  document.getElementById('logoMk').textContent   = broker.charAt(0).toUpperCase();
-  document.getElementById('heroTitle').textContent = `Browse ${broker}'s Current Listings`;
-  document.documentElement.style.setProperty('--accent', '#' + colour.replace('#',''));
-  document.documentElement.style.setProperty('--accent-l', '#' + lighten(colour.replace('#','')));
-  window._INIT_RANGE = range;
+  const p=new URLSearchParams(location.search);
+  const broker=p.get('broker')||'Coastal Marine';
+  const colour=p.get('colour')||'0369a1';
+  const range=p.get('range')||'mid';
+  document.getElementById('brokerNm').textContent=broker;
+  document.getElementById('logoMk').textContent=broker.charAt(0).toUpperCase();
+  document.getElementById('heroTitle').textContent=`Browse ${broker}'s Current Listings`;
+  document.documentElement.style.setProperty('--accent','#'+colour.replace('#',''));
+  document.documentElement.style.setProperty('--accent-l','#'+lighten(colour.replace('#','')));
+  window._INIT_RANGE=range;
 })();
+function lighten(h){try{let r=parseInt(h.slice(0,2),16)+28,g=parseInt(h.slice(2,4),16)+28,b=parseInt(h.slice(4,6),16)+28;return[Math.min(r,255),Math.min(g,255),Math.min(b,255)].map(x=>x.toString(16).padStart(2,'0')).join('');}catch(e){return'0284c7';}}
 
-function lighten(hex){
-  try{
-    let r=parseInt(hex.slice(0,2),16)+30, g=parseInt(hex.slice(2,4),16)+30, b=parseInt(hex.slice(4,6),16)+30;
-    return [Math.min(r,255),Math.min(g,255),Math.min(b,255)].map(x=>x.toString(16).padStart(2,'0')).join('');
-  }catch(e){return '1a5a9e';}
+const MAKE_IMG={
+  'Boston Whaler':'center+console+fishing+boat+offshore',
+  'Grady-White':  'grady+white+sport+fishing+boat',
+  'Sea Ray':      'sea+ray+motor+cruiser+boat',
+  'Chaparral':    'chaparral+bowrider+sport+boat',
+  'Chris-Craft':  'chris+craft+classic+wooden+boat',
+  'Regal':        'regal+bowrider+sport+boat',
+  'Robalo':       'robalo+offshore+fishing+boat',
+  'Pursuit':      'pursuit+sport+cruiser+boat',
+  'Mako':         'mako+offshore+fishing+center+console',
+  'Viking':       'viking+sportfish+convertible+yacht',
+  'Hatteras':     'hatteras+sportfishing+yacht',
+  'Bertram':      'bertram+sportfish+classic+yacht',
+};
+function img(make,id){
+  const kw=MAKE_IMG[make]||'powerboat+motor+yacht+marina';
+  return`https://source.unsplash.com/900x600/?${kw}&sig=${id}`;
 }
 
-const IMGS = [
-  'https://images.unsplash.com/photo-1570127048-29095dc60d5e?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1558979565-e5ee6da72e4e?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1568430462989-44163eb1752f?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1580822184713-fc5400e7fe10?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1529551739587-e242c564f727?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1532192958700-39b58af9aba9?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1577793851166-1a98bce7e2cb?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1564218751566-34fc3ed0cc93?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1519400197429-404ae5da9f94?auto=format&fit=crop&w=900&q=80',
-];
-function img(i){ return IMGS[i % IMGS.length]; }
-
-const DATA = {
-  budget: [
-    {id:1,  make:'Boston Whaler', model:'270 Dauntless',      year:2019, price:89500,  loa:"27\'0\" / 8.23m", beam:"8\'6\" / 2.59m", draft:"1\'10\" / 0.56m", engines:'Twin Mercury 150hp Four-Stroke Outboard', hp:300, hrs:310, svc:2024, fuel:'2x 87L / 46 gal each', speed:'42 mph top', berths:2, cabins:1, heads:1, type:'Center Console', hull:'Modified V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 942xs', vhf:'Standard Horizon GX1800G', radar:'Garmin GMR 18 HD', depth:'Garmin echoMAP CHIRP', loc:'Fort Lauderdale, FL', desc:"Boston Whaler's legendary unsinkable hull in exceptional condition. Twin Mercury 150hp four-strokes with only 310 hours. Bimini top, live well, raw-water washdown, Garmin electronics suite. One owner.", i:0},
-    {id:2,  make:'Sea Ray',       model:'280 SLX',            year:2018, price:72500,  loa:"27\'9\" / 8.46m", beam:"8\'6\" / 2.59m", draft:"2\'1\" / 0.64m",  engines:'Mercury 250hp Four-Stroke Outboard', hp:250, hrs:280, svc:2024, fuel:'189L / 50 gal', speed:'48 mph top', berths:2, cabins:0, heads:1, type:'Bow Rider', hull:'Deep V, GRP', cond:'Very Good', plotter:'Simrad GO7 XSE', vhf:'Cobra MR F75', radar:'None', depth:'Simrad GO7 fishfinder', loc:'Annapolis, MD', desc:'Sporty day boat in very good condition. Pop-up cleats, bow lounge, transom shower, snap-on cover. Mercury 250hp outboard recently serviced. Full cover included, detailed maintenance log.', i:1},
-    {id:3,  make:'Grady-White',   model:'272 Fisherman',      year:2017, price:94500,  loa:"27\'2\" / 8.28m", beam:"9\'6\" / 2.90m", draft:"1\'9\" / 0.53m",  engines:'Twin Yamaha F150 Four-Stroke', hp:300, hrs:420, svc:2024, fuel:'2x 98L / 2x 26 gal', speed:'38 mph top', berths:2, cabins:0, heads:1, type:'Walkaround', hull:'Modified V, GRP', cond:'Very Good', plotter:'Garmin GPSMAP 742xs', vhf:'Standard Horizon GX1500', radar:'None', depth:'Garmin STRIKER 4', loc:'Charleston, SC', desc:'Outstanding walkaround fisherman with full-width transom livewell, rod holders throughout, in-deck fishbox. Twin Yamaha F150s in excellent condition. Serious fishing platform.', i:2},
-    {id:4,  make:'Chris-Craft',   model:'Launch 28',          year:2016, price:78500,  loa:"28\'0\" / 8.53m", beam:"8\'6\" / 2.59m", draft:"2\'0\" / 0.61m",  engines:'Volvo Penta 300hp SX-Drive', hp:300, hrs:350, svc:2023, fuel:'189L / 50 gal', speed:'44 mph top', berths:2, cabins:0, heads:1, type:'Runabout', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin echoMAP 74sv', vhf:'Icom IC-M322', radar:'None', depth:'Garmin echoMAP', loc:'Newport, RI', desc:'Classic American runabout with beautiful mahogany-look interior. Volvo Penta SX sterndrive, recent service. Perfect for entertaining on the water. Two-tone white and navy hull.', i:3},
-    {id:5,  make:'Chaparral',     model:'287 SSX',            year:2020, price:98000,  loa:"28\'7\" / 8.71m", beam:"8\'6\" / 2.59m", draft:"2\'4\" / 0.71m",  engines:'Mercury 300hp Four-Stroke Outboard', hp:300, hrs:185, svc:2024, fuel:'227L / 60 gal', speed:'50 mph top', berths:2, cabins:0, heads:1, type:'Bow Rider', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 742', vhf:'Standard Horizon GX1800', radar:'None', depth:'Garmin echoMAP', loc:'Miami, FL', desc:'Low hours, near-new condition. Premium Sunbrella upholstery, Bluetooth stereo, LED underwater lights, extended swim platform. Mercury 300hp with warranty. The ultimate day boat.', i:4},
-    {id:6,  make:'Boston Whaler', model:'240 Dauntless',      year:2018, price:69500,  loa:"24\'0\" / 7.32m", beam:"8\'0\" / 2.44m", draft:"1\'7\" / 0.48m",  engines:'Mercury 200hp Four-Stroke Outboard', hp:200, hrs:290, svc:2024, fuel:'151L / 40 gal', speed:'40 mph top', berths:0, cabins:0, heads:1, type:'Center Console', hull:'Modified V, GRP', cond:'Very Good', plotter:'Garmin echoMAP CHIRP 72sv', vhf:'Standard Horizon GX1600G', radar:'None', depth:'Garmin echoMAP CHIRP', loc:'Mystic, CT', desc:"Classic Whaler center console, perfect inshore fisherman or day boat. Unsinkable hull, full Garmin electronics, bimini top, raw-water washdown. Always kept in covered slip.", i:5},
-    {id:7,  make:'Regal',         model:'26 OBX',             year:2019, price:85000,  loa:"26\'6\" / 8.08m", beam:"8\'6\" / 2.59m", draft:"1\'10\" / 0.56m", engines:'Mercury 250hp Four-Stroke Outboard', hp:250, hrs:220, svc:2024, fuel:'189L / 50 gal', speed:'46 mph top', berths:2, cabins:0, heads:1, type:'Bow Rider', hull:'Deep V, GRP', cond:'Excellent', plotter:'Simrad GO7 XSE', vhf:'Standard Horizon GX1600', radar:'None', depth:'Simrad GO7 fishfinder', loc:'Annapolis, MD', desc:'Versatile outboard bowrider with integrated swim platform, optional cockpit filler cushion and bimini. Stereo, USB charging throughout, freshwater washdown. Very lightly used.', i:6},
-    {id:8,  make:'Robalo',        model:'R302',               year:2020, price:112500, loa:"30\'2\" / 9.19m", beam:"9\'10\" / 3.00m", draft:"1\'9\" / 0.53m", engines:'Twin Yamaha F150 Four-Stroke', hp:300, hrs:270, svc:2024, fuel:'2x 151L / 2x 40 gal', speed:'44 mph top', berths:2, cabins:1, heads:1, type:'Center Console', hull:'Modified V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 942xs', vhf:'Standard Horizon GX2200', radar:'Garmin GMR 18 HD', depth:'Garmin echoMAP CHIRP', loc:'Charleston, SC', desc:'Premier fishing machine with 360-degree fishability. Twin Yamaha F150s, large livewell, 6 in-deck fishboxes, T-top with spreader lights. Rod holders, tackle station. Serious offshore capability.', i:7},
-    {id:9,  make:'Grady-White',   model:'255 Freedom',        year:2019, price:88000,  loa:"25\'5\" / 7.75m", beam:"8\'7\" / 2.62m", draft:"1\'7\" / 0.48m",  engines:'Yamaha F200 Four-Stroke', hp:200, hrs:310, svc:2024, fuel:'151L / 40 gal', speed:'42 mph top', berths:2, cabins:0, heads:1, type:'Dual Console', hull:'Modified V, GRP', cond:'Very Good', plotter:'Garmin GPSMAP 742xs', vhf:'Standard Horizon GX1500G', radar:'None', depth:'Garmin echoMAP', loc:'Newport, RI', desc:'Grady-White dual console with outstanding fit and finish. Yamaha F200, full enclosure, livewell, transom door, washdown. Lifetime hull warranty transferable. Outstanding family/fishing crossover.', i:8},
-    {id:10, make:'Sea Ray',       model:'290 Sundancer',      year:2016, price:65000,  loa:"29\'0\" / 8.84m", beam:"9\'8\" / 2.95m", draft:"2\'6\" / 0.76m",  engines:'MerCruiser 6.2L 300hp Sterndrive', hp:300, hrs:480, svc:2023, fuel:'284L / 75 gal', speed:'40 mph top', berths:4, cabins:1, heads:1, type:'Express Cruiser', hull:'Deep V, GRP', cond:'Good', plotter:'Garmin GPSMap 741', vhf:'Standard Horizon GX1700', radar:'None', depth:'Garmin', loc:'Fort Lauderdale, FL', desc:'Classic express cruiser with enclosed cabin, V-berth and convertible dinette. Full galley, enclosed head, air conditioning. Good for weekend overnights. New canvas 2023.', i:9},
-    {id:11, make:'Pursuit',       model:'OS 285',             year:2018, price:105000, loa:"28\'5\" / 8.66m", beam:"9\'7\" / 2.92m", draft:"1\'9\" / 0.53m",  engines:'Twin Mercury 150hp Four-Stroke', hp:300, hrs:340, svc:2024, fuel:'2x 132L / 2x 35 gal', speed:'44 mph top', berths:2, cabins:0, heads:1, type:'Offshore', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 942xs', vhf:'Standard Horizon GX2200G', radar:'Garmin GMR 18 HD', depth:'Garmin CHIRP', loc:'Miami, FL', desc:'Built tough for serious offshore work. Fully equipped center console with T-top, raw-water washdown, livewell, built-in fishbox. Twin Mercurys with low hours.', i:10},
-    {id:12, make:'Chaparral',     model:'307 SSX',            year:2019, price:128000, loa:"30\'7\" / 9.32m", beam:"9\'0\" / 2.74m", draft:"2\'6\" / 0.76m",  engines:'Mercury 350hp Four-Stroke Outboard', hp:350, hrs:190, svc:2024, fuel:'284L / 75 gal', speed:'52 mph top', berths:2, cabins:0, heads:1, type:'Bow Rider', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 742xs', vhf:'Standard Horizon GX2200', radar:'None', depth:'Garmin echoMAP', loc:'Mystic, CT', desc:'Large premium bowrider with sport outboard performance. Mercury 350hp with minimal hours, full Garmin electronics, JBL stereo with tower speakers, LED package. Showroom condition.', i:11},
-    {id:13, make:'Mako',          model:'334 CC',             year:2020, price:138500, loa:"33\'4\" / 10.16m", beam:"10\'0\" / 3.05m", draft:"1\'9\" / 0.53m", engines:'Triple Yamaha F150 Four-Stroke', hp:450, hrs:220, svc:2024, fuel:'3x 151L / 3x 40 gal', speed:'52 mph top', berths:2, cabins:1, heads:1, type:'Center Console', hull:'Modified V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8612', vhf:'Icom IC-M506', radar:'Garmin GMR 24 xHD', depth:'Garmin CHIRP', loc:'Charleston, SC', desc:'Serious offshore platform with triple Yamaha power. Multiple livewells, 6 in-deck fishboxes, T-top with spreader lights and outrigger bases. Radar arch. Fully rigged and ready.', i:0},
-    {id:14, make:'Boston Whaler', model:'270 Super Sport',    year:2017, price:82500,  loa:"27\'0\" / 8.23m", beam:"8\'6\" / 2.59m", draft:"1\'10\" / 0.56m", engines:'Yamaha F250 Four-Stroke', hp:250, hrs:360, svc:2023, fuel:'208L / 55 gal', speed:'45 mph top', berths:0, cabins:0, heads:1, type:'Center Console', hull:'Modified V, GRP', cond:'Good', plotter:'Garmin echoMAP 74sv', vhf:'Standard Horizon GX1600G', radar:'None', depth:'Garmin STRIKER Plus 7cv', loc:'Annapolis, MD', desc:'Well-maintained Whaler center console. Yamaha F250 recently tuned, Bimini top, livewell, T-top, full canvas. Good offshore and inshore fishing platform.', i:1},
-    {id:15, make:'Sea Ray',       model:'310 Sundancer',      year:2015, price:59500,  loa:"31\'0\" / 9.45m", beam:"10\'0\" / 3.05m", draft:"2\'8\" / 0.81m",  engines:'Twin MerCruiser 5.0L 260hp Sterndrive', hp:520, hrs:620, svc:2023, fuel:'2x 190L / 2x 50 gal', speed:'38 mph top', berths:6, cabins:2, heads:1, type:'Express Cruiser', hull:'Modified V, GRP', cond:'Good', plotter:'Garmin GPSMAP 741', vhf:'Standard Horizon GX1700', radar:'None', depth:'Garmin', loc:'Newport, RI', desc:'Roomy express cruiser with two staterooms, large head with shower, fully equipped galley. Good value entry into the cruiser market. Recent canvas work, new upholstery in salon.', i:2},
-    {id:16, make:'Grady-White',   model:'285 Freedom',        year:2018, price:118000, loa:"28\'5\" / 8.66m", beam:"8\'9\" / 2.67m", draft:"1\'9\" / 0.53m",  engines:'Twin Yamaha F150 Four-Stroke', hp:300, hrs:290, svc:2024, fuel:'2x 98L / 2x 26 gal', speed:'40 mph top', berths:2, cabins:0, heads:1, type:'Dual Console', hull:'Modified V, GRP', cond:'Very Good', plotter:'Garmin GPSMAP 742xs', vhf:'Standard Horizon GX2200G', radar:'None', depth:'Garmin echoMAP', loc:'Fort Lauderdale, FL', desc:'Dual console with full enclosure, making it a true year-round boat. Twin F150s, excellent build quality, Grady-White lifetime hull warranty transferable. Comprehensive fishing equipment.', i:3},
-    {id:17, make:'Regal',         model:'33 OBX',             year:2020, price:145000, loa:"33\'2\" / 10.11m", beam:"9\'6\" / 2.90m", draft:"1\'10\" / 0.56m", engines:'Twin Mercury 200hp Four-Stroke Outboard', hp:400, hrs:180, svc:2024, fuel:'2x 189L / 2x 50 gal', speed:'50 mph top', berths:4, cabins:1, heads:1, type:'Bow Rider', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 942xs', vhf:'Standard Horizon GX2200', radar:'None', depth:'Garmin CHIRP', loc:'Miami, FL', desc:"Regal's flagship outboard bowrider. Twin Mercury 200s with minimal hours, enclosed forward cabin with V-berth, head and galley. Premium JBL audio, LED package throughout.", i:4},
-    {id:18, make:'Chris-Craft',   model:'Corsair 30',         year:2019, price:95000,  loa:"30\'0\" / 9.14m", beam:"8\'6\" / 2.59m", draft:"2\'3\" / 0.69m",  engines:'Volvo Penta 350hp D3 Sterndrive', hp:350, hrs:240, svc:2024, fuel:'246L / 65 gal', speed:'42 mph top', berths:2, cabins:0, heads:1, type:'Runabout', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin echoMAP 74sv', vhf:'Icom IC-M322', radar:'None', depth:'Garmin echoMAP', loc:'Mystic, CT', desc:'Iconic Chris-Craft styling with premium finish throughout. Mahogany-trimmed interior, Bimini top, snap-on cover, folding swim ladder. Beautiful boat in exceptional condition.', i:5},
-    {id:19, make:'Pursuit',       model:'S 328',              year:2017, price:128500, loa:"32\'8\" / 9.96m", beam:"10\'2\" / 3.10m", draft:"2\'2\" / 0.66m",  engines:'Twin Mercury 200hp Four-Stroke Outboard', hp:400, hrs:390, svc:2023, fuel:'2x 189L / 2x 50 gal', speed:'46 mph top', berths:4, cabins:1, heads:1, type:'Sport Cruiser', hull:'Deep V, GRP', cond:'Very Good', plotter:'Garmin GPSMAP 8612', vhf:'Standard Horizon GX2200', radar:'Garmin GMR 18 HD', depth:'Garmin CHIRP', loc:'Annapolis, MD', desc:"Pursuit's flagship sport cruiser blending fishing capability with overnight comfort. Forward cabin with V-berth, enclosed head, galley. Twin Mercury 200s, full Garmin electronics.", i:6},
-    {id:20, make:'Boston Whaler', model:'315 Conquest',       year:2019, price:142000, loa:"31\'5\" / 9.58m", beam:"10\'0\" / 3.05m", draft:"1\'11\" / 0.58m", engines:'Twin Mercury 225hp Four-Stroke', hp:450, hrs:260, svc:2024, fuel:'2x 208L / 2x 55 gal', speed:'44 mph top', berths:4, cabins:1, heads:1, type:'Center Console', hull:'Modified V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8612', vhf:'Standard Horizon GX2200G', radar:'Garmin GMR 18 HD', depth:'Garmin CHIRP', loc:'Charleston, SC', desc:'The definitive offshore center console with overnight capability. Forward cabin with V-berth, enclosed head, Boston Whaler unsinkable construction. Twin 225s, full Garmin suite, T-top.', i:7},
+const DATA={
+  budget:[
+    {id:1,  make:'Boston Whaler',model:'270 Dauntless',    year:2019,price:89500, loa:"27'0\"",beam:"8'6\"", draft:"1'10\"",type:'Center Console',engines:'Twin Mercury 150hp Four-Stroke',hp:300,hrs:310,svc:2024,fuel:'92 gal',speed:'42 mph',berths:2,cabs:1,heads:1,hull:'Modified V, GRP',cond:'Excellent',plotter:'Garmin GPSMAP 942xs',vhf:'Standard Horizon GX1800G',radar:'Garmin GMR 18 HD',depth:'Garmin echoMAP CHIRP',loc:'Fort Lauderdale, FL',desc:"Boston Whaler's legendary unsinkable hull in exceptional condition. Twin Mercury 150hp four-strokes with only 310 hours. Bimini, livewell, raw-water washdown, full Garmin electronics suite. One meticulous owner from new."},
+    {id:2,  make:'Sea Ray',      model:'280 SLX',          year:2018,price:72500, loa:"27'9\"",beam:"8'6\"", draft:"2'1\"", type:'Bow Rider',   engines:'Mercury 250hp Four-Stroke',    hp:250,hrs:280,svc:2024,fuel:'50 gal', speed:'48 mph',berths:2,cabs:0,heads:1,hull:'Deep V, GRP',    cond:'Very Good', plotter:'Simrad GO7 XSE',              vhf:'Cobra MR F75',               radar:'None',            depth:'Simrad GO7 fishfinder',    loc:'Annapolis, MD',   desc:'Sporty day boat in excellent condition. Pop-up cleats, bow lounge, transom shower, snap-on cover. Mercury 250hp recently serviced, full maintenance log included.'},
+    {id:3,  make:'Grady-White',  model:'272 Fisherman',    year:2017,price:94500, loa:"27'2\"",beam:"9'6\"", draft:"1'9\"", type:'Walkaround',  engines:'Twin Yamaha F150 Four-Stroke', hp:300,hrs:420,svc:2024,fuel:'52 gal', speed:'38 mph',berths:2,cabs:0,heads:1,hull:'Modified V, GRP',cond:'Very Good', plotter:'Garmin GPSMAP 742xs',         vhf:'Standard Horizon GX1500',    radar:'None',            depth:'Garmin STRIKER 4',         loc:'Charleston, SC',  desc:'Outstanding walkaround fisherman with full-width transom livewell, rod holders throughout, in-deck fishbox. Twin F150s in excellent shape. Lifetime hull warranty transferable.'},
+    {id:4,  make:'Chris-Craft',  model:'Launch 28',        year:2016,price:78500, loa:"28'0\"",beam:"8'6\"", draft:"2'0\"", type:'Runabout',    engines:'Volvo Penta 300hp SX-Drive',   hp:300,hrs:350,svc:2023,fuel:'50 gal', speed:'44 mph',berths:2,cabs:0,heads:1,hull:'Deep V, GRP',    cond:'Excellent',  plotter:'Garmin echoMAP 74sv',         vhf:'Icom IC-M322',               radar:'None',            depth:'Garmin echoMAP',           loc:'Newport, RI',     desc:'Classic American runabout with beautiful mahogany-look interior. Volvo Penta SX sterndrive recently serviced. Perfect entertaining platform. Two-tone white and navy hull.'},
+    {id:5,  make:'Chaparral',    model:'287 SSX',          year:2020,price:98000, loa:"28'7\"",beam:"8'6\"", draft:"2'4\"", type:'Bow Rider',   engines:'Mercury 300hp Four-Stroke',    hp:300,hrs:185,svc:2024,fuel:'60 gal', speed:'50 mph',berths:2,cabs:0,heads:1,hull:'Deep V, GRP',    cond:'Excellent',  plotter:'Garmin GPSMAP 742',           vhf:'Standard Horizon GX1800',    radar:'None',            depth:'Garmin echoMAP',           loc:'Miami, FL',       desc:'Low hours, near-new condition. Premium Sunbrella upholstery, Bluetooth stereo, LED underwater lights, extended swim platform. Mercury 300hp with remaining warranty.'},
+    {id:6,  make:'Robalo',       model:'R302',             year:2020,price:112500,loa:"30'2\"",beam:"9'10\"",draft:"1'9\"", type:'Center Console',engines:'Twin Yamaha F150 Four-Stroke',hp:300,hrs:270,svc:2024,fuel:'80 gal', speed:'44 mph',berths:2,cabs:1,heads:1,hull:'Modified V, GRP',cond:'Excellent',  plotter:'Garmin GPSMAP 942xs',         vhf:'Standard Horizon GX2200',    radar:'Garmin GMR 18 HD',depth:'Garmin echoMAP CHIRP',   loc:'Charleston, SC',  desc:'Premier fishing machine with 360-degree fishability. Large livewell, 6 in-deck fishboxes, T-top with spreader lights. Twin F150s, rod holders, tackle station. Serious offshore platform.'},
+    {id:7,  make:'Regal',        model:'26 OBX',           year:2019,price:85000, loa:"26'6\"",beam:"8'6\"", draft:"1'10\"",type:'Bow Rider',   engines:'Mercury 250hp Four-Stroke',    hp:250,hrs:220,svc:2024,fuel:'50 gal', speed:'46 mph',berths:2,cabs:0,heads:1,hull:'Deep V, GRP',    cond:'Excellent',  plotter:'Simrad GO7 XSE',              vhf:'Standard Horizon GX1600',    radar:'None',            depth:'Simrad GO7 fishfinder',    loc:'Annapolis, MD',   desc:'Versatile outboard bowrider with integrated swim platform, cockpit filler cushion and bimini. Stereo, USB charging, freshwater washdown. Very lightly used, garage kept.'},
+    {id:8,  make:'Pursuit',      model:'OS 285',           year:2018,price:105000,loa:"28'5\"",beam:"9'7\"", draft:"1'9\"", type:'Center Console',engines:'Twin Mercury 150hp Four-Stroke',hp:300,hrs:340,svc:2024,fuel:'70 gal', speed:'44 mph',berths:2,cabs:0,heads:1,hull:'Deep V, GRP',    cond:'Excellent',  plotter:'Garmin GPSMAP 942xs',         vhf:'Standard Horizon GX2200G',   radar:'Garmin GMR 18 HD',depth:'Garmin CHIRP',           loc:'Miami, FL',       desc:'Built for serious offshore work. T-top, raw-water washdown, livewell, built-in fishbox. Twin Mercurys with low hours and full service records.'},
+    {id:9,  make:'Mako',         model:'334 CC',           year:2020,price:138500,loa:"33'4\"",beam:"10'0\"",draft:"1'9\"", type:'Center Console',engines:'Triple Yamaha F150 Four-Stroke',hp:450,hrs:220,svc:2024,fuel:'120 gal',speed:'52 mph',berths:2,cabs:1,heads:1,hull:'Modified V, GRP',cond:'Excellent',  plotter:'Garmin GPSMAP 8612',          vhf:'Icom IC-M506',               radar:'Garmin GMR 24 xHD',depth:'Garmin CHIRP',          loc:'Charleston, SC',  desc:'Serious offshore platform. Triple Yamaha power, multiple livewells, 6 in-deck fishboxes, T-top with spreader lights and outrigger bases. Radar arch. Fully rigged and ready.'},
+    {id:10, make:'Sea Ray',      model:'310 Sundancer',    year:2016,price:65000, loa:"31'0\"",beam:"10'0\"",draft:"2'8\"", type:'Express Cruiser',engines:'Twin MerCruiser 5.0L Sterndrive',hp:520,hrs:480,svc:2023,fuel:'100 gal',speed:'38 mph',berths:4,cabs:2,heads:1,hull:'Modified V, GRP',cond:'Good',      plotter:'Garmin GPSMAP 741',           vhf:'Standard Horizon GX1700',    radar:'None',            depth:'Garmin',                   loc:'Newport, RI',     desc:'Roomy express cruiser with two staterooms. Fully equipped galley, enclosed head with shower, air conditioning. Great value entry into the cruiser market. Recent canvas and upholstery.'},
   ],
-  mid: [
-    {id:21, make:'Viking',        model:'37 Billfish',        year:2018, price:289000, loa:"37\'0\" / 11.28m", beam:"13\'0\" / 3.96m", draft:"3\'3\" / 0.99m", engines:'Twin Cummins QSC 8.3L 600hp Diesel', hp:1200, hrs:640, svc:2024, fuel:'2x 1136L / 2x 300 gal', speed:'38 mph top', berths:4, cabins:2, heads:2, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Very Good', plotter:'Garmin GPSMAP 8612', vhf:'Icom IC-M506', radar:'Furuno 1835', depth:'Garmin CHIRP', loc:'Fort Lauderdale, FL', desc:'Serious offshore sportfisher with tournament-proven Viking construction. Two staterooms, two heads, full galley. Twin Cummins diesels recently serviced, all Furuno/Garmin electronics. Tournament ready.', i:8},
-    {id:22, make:'Grady-White',   model:'376 Canyon',         year:2020, price:365000, loa:"37\'6\" / 11.43m", beam:"11\'0\" / 3.35m", draft:"2\'3\" / 0.69m",  engines:'Triple Yamaha F350 Four-Stroke', hp:1050, hrs:320, svc:2024, fuel:'3x 246L / 3x 65 gal', speed:'52 mph top', berths:4, cabins:1, heads:1, type:'Center Console', hull:'Modified V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8616', vhf:'Standard Horizon GX2400', radar:'Garmin GMR 24 xHD', depth:'Garmin CHIRP', loc:'Annapolis, MD', desc:"Grady-White's flagship center console with triple F350 outboards. Multiple livewells, fishboxes, T-top with spreader lights, full canvas enclosure. Overnight cabin with V-berth and head.", i:9},
-    {id:23, make:'Sea Ray',       model:'400 SLX',            year:2021, price:289500, loa:"40\'0\" / 12.19m", beam:"11\'0\" / 3.35m", draft:"3\'0\" / 0.91m",  engines:'Triple Mercury 300hp Four-Stroke Outboard', hp:900, hrs:180, svc:2024, fuel:'3x 246L / 3x 65 gal', speed:'55 mph top', berths:4, cabins:1, heads:1, type:'Bow Rider', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8612', vhf:'Standard Horizon GX2400', radar:'None', depth:'Garmin', loc:'Miami, FL', desc:"Sea Ray's premier outboard sport boat. Triple Mercury 300s, premium interior with multiple lounge configurations, JBL premium stereo, underwater LED package. Like new condition.", i:10},
-    {id:24, make:'Hatteras',      model:'45 Express',         year:2012, price:195000, loa:"45\'0\" / 13.72m", beam:"14\'2\" / 4.32m", draft:"3\'6\" / 1.07m",  engines:'Twin Volvo IPS 600 pod drives', hp:1200, hrs:1480, svc:2023, fuel:'2x 1136L / 2x 300 gal', speed:'34 mph cruise', berths:6, cabins:3, heads:2, type:'Express Cruiser', hull:'Deep V, GRP', cond:'Good', plotter:'Garmin GPSMAP 8612', vhf:'Icom IC-M506', radar:'Furuno 1835', depth:'Garmin CHIRP', loc:'Charleston, SC', desc:'Classic Hatteras sportfish express with Volvo IPS pods for excellent fuel economy. Three staterooms, two heads, full galley, generator, air conditioning. Recent bottom job, new upholstery.', i:11},
-    {id:25, make:'Chris-Craft',   model:'Launch 40',          year:2020, price:348000, loa:"40\'0\" / 12.19m", beam:"10\'0\" / 3.05m", draft:"2\'6\" / 0.76m",  engines:'Twin Volvo Penta 320hp D4 Sterndrive', hp:640, hrs:210, svc:2024, fuel:'2x 303L / 2x 80 gal', speed:'44 mph top', berths:4, cabins:1, heads:1, type:'Runabout', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8612', vhf:'Icom IC-M322', radar:'None', depth:'Garmin echoMAP', loc:'Newport, RI', desc:'Stunning premium runabout with mahogany-accented interior. Twin Volvo Penta D4s, premium Faria gauges, JBL stereo. The definitive statement in classic American style. Museum quality condition.', i:0},
-    {id:26, make:'Pursuit',       model:'OS 385',             year:2021, price:359500, loa:"38\'5\" / 11.71m", beam:"11\'0\" / 3.35m", draft:"2\'3\" / 0.69m",  engines:'Triple Mercury 300hp Four-Stroke Outboard', hp:900, hrs:240, svc:2024, fuel:'3x 246L / 3x 65 gal', speed:'50 mph top', berths:4, cabins:1, heads:2, type:'Offshore', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8616', vhf:'Standard Horizon GX2400', radar:'Garmin GMR 24 xHD', depth:'Garmin CHIRP', loc:'Fort Lauderdale, FL', desc:'Triple engine offshore machine with enclosed forward cabin sleeping four. Two heads, full galley, large cockpit with tournament-level rigging. T-top, outrigger bases, full canvas.', i:1},
-    {id:27, make:'Boston Whaler', model:'420 Outrage',        year:2022, price:475000, loa:"42\'0\" / 12.80m", beam:"11\'4\" / 3.46m", draft:"2\'3\" / 0.69m",  engines:'Triple Mercury 300hp Four-Stroke Verado', hp:900, hrs:140, svc:2024, fuel:'3x 303L / 3x 80 gal', speed:'50 mph top', berths:4, cabins:1, heads:2, type:'Center Console', hull:'Modified V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8616', vhf:'Standard Horizon GX2400', radar:'Garmin GMR 24 xHD', depth:'Garmin CHIRP', loc:'Mystic, CT', desc:"Boston Whaler's flagship center console, barely used. Triple Verado 300s, SeaStar hydraulic steering, 6 livewells, offshore rigging package. Forward cabin with two private staterooms and two heads.", i:2},
-    {id:28, make:'Regulator',     model:'34',                 year:2020, price:285000, loa:"34\'0\" / 10.36m", beam:"10\'8\" / 3.25m", draft:"2\'0\" / 0.61m",  engines:'Triple Yamaha F300 Four-Stroke', hp:900, hrs:270, svc:2024, fuel:'3x 208L / 3x 55 gal', speed:'54 mph top', berths:2, cabins:1, heads:1, type:'Center Console', hull:'Modified V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8612', vhf:'Standard Horizon GX2200', radar:'Garmin GMR 18 HD', depth:'Garmin CHIRP', loc:'Annapolis, MD', desc:'Regulator offshore legend with triple Yamaha F300s. Fully-rigged fishing machine — livewells, fishboxes, outrigger bases, T-top, spreader lights. Forward cabin with V-berth and head.', i:3},
-    {id:29, make:'Viking',        model:'44 Open',            year:2014, price:225000, loa:"44\'0\" / 13.41m", beam:"14\'6\" / 4.42m", draft:"3\'6\" / 1.07m",  engines:'Twin Caterpillar C12 675hp Diesel', hp:1350, hrs:1820, svc:2023, fuel:'2x 1514L / 2x 400 gal', speed:'36 mph top', berths:4, cabins:2, heads:2, type:'Sportfish Open', hull:'Deep V, GRP', cond:'Good', plotter:'Garmin GPSMAP 8612', vhf:'Icom IC-M605', radar:'Furuno 1835', depth:'Garmin CHIRP', loc:'Charleston, SC', desc:'Classic Viking sportfish in good working condition. Twin Cat C12 diesels recently serviced, new riggers and outrigger halyard system. Fully cockpit-rigged for tournament fishing.', i:4},
-    {id:30, make:'Bertram',       model:'450 Convertible',    year:2008, price:165000, loa:"45\'0\" / 13.72m", beam:"15\'0\" / 4.57m", draft:"4\'0\" / 1.22m",  engines:'Twin MAN 800hp Diesel', hp:1600, hrs:2200, svc:2022, fuel:'2x 1893L / 2x 500 gal', speed:'32 mph cruise', berths:6, cabins:3, heads:2, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Good', plotter:'Garmin GPSMAP 8612', vhf:'Icom IC-M605', radar:'Furuno 1835', depth:'Garmin CHIRP', loc:'Miami, FL', desc:'Classic Bertram convertible in solid condition. Three staterooms, two heads, full galley, generator. Twin MANs recently serviced. Tournament-rigged cockpit, outriggers, fighting chair.', i:5},
-    {id:31, make:'Sea Ray',       model:'460 Sundancer',      year:2019, price:369000, loa:"46\'0\" / 14.02m", beam:"13\'6\" / 4.11m", draft:"3\'6\" / 1.07m",  engines:'Twin Volvo Penta IPS 600 Pod Drives', hp:1200, hrs:310, svc:2024, fuel:'2x 757L / 2x 200 gal', speed:'38 mph cruise', berths:8, cabins:3, heads:2, type:'Express Cruiser', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8616', vhf:'Icom IC-M506', radar:'Garmin GMR 24 xHD', depth:'Garmin CHIRP', loc:'Fort Lauderdale, FL', desc:'Sea Ray flagship express cruiser with Volvo IPS pod drives. Three staterooms including master with island berth, two heads with showers, full galley, generator, air conditioning. Exceptional finish.', i:6},
-    {id:32, make:'Grady-White',   model:'Canyon 456',         year:2022, price:485000, loa:"45\'6\" / 13.87m", beam:"12\'0\" / 3.66m", draft:"2\'6\" / 0.76m",  engines:'Triple Yamaha F425 XTO Four-Stroke', hp:1275, hrs:160, svc:2024, fuel:'3x 378L / 3x 100 gal', speed:'54 mph top', berths:4, cabins:1, heads:1, type:'Center Console', hull:'Modified V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Standard Horizon GX2400', radar:'Garmin GMR 24 xHD', depth:'Garmin CHIRP', loc:'Newport, RI', desc:"Grady-White's ultimate center console, barely used. Triple Yamaha XTO 425s, full tournament rigging, 6 livewells, multiple fishboxes. Offshore cabin with privacy door, head and galley.", i:7},
-    {id:33, make:'Contender',     model:'44ST',               year:2021, price:425000, loa:"44\'0\" / 13.41m", beam:"10\'6\" / 3.20m", draft:"2\'0\" / 0.61m",  engines:'Triple Mercury 300hp Four-Stroke Verado', hp:900, hrs:190, svc:2024, fuel:'3x 303L / 3x 80 gal', speed:'52 mph top', berths:2, cabins:0, heads:1, type:'Center Console', hull:'Modified V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8616', vhf:'Icom IC-M506', radar:'Garmin GMR 24 xHD', depth:'Garmin CHIRP', loc:'Miami, FL', desc:'Pure offshore fishing machine — no compromise. Triple Verado 300s, 6 in-deck fishboxes, 4 livewells, full tournament rigging. T-top with outrigger mounts and spreader lights.', i:8},
-    {id:34, make:'Boston Whaler', model:'380 Outrage',        year:2021, price:398000, loa:"38\'0\" / 11.58m", beam:"10\'10\" / 3.30m", draft:"2\'0\" / 0.61m", engines:'Triple Mercury 300hp Verado', hp:900, hrs:210, svc:2024, fuel:'3x 303L / 3x 80 gal', speed:'50 mph top', berths:4, cabins:1, heads:2, type:'Center Console', hull:'Modified V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8616', vhf:'Standard Horizon GX2400', radar:'Garmin GMR 24 xHD', depth:'Garmin CHIRP', loc:'Mystic, CT', desc:'Premier offshore center console with triple Verado 300s. Enclosed forward cabin, two heads, full galley below. Boston Whaler construction, tournament-ready cockpit, full electronics suite.', i:9},
-    {id:35, make:'Regal',         model:'42 FasDeck',         year:2019, price:275000, loa:"42\'0\" / 12.80m", beam:"11\'0\" / 3.35m", draft:"2\'10\" / 0.86m", engines:'Twin Mercury 350hp Four-Stroke Outboard', hp:700, hrs:290, svc:2024, fuel:'2x 303L / 2x 80 gal', speed:'50 mph top', berths:6, cabins:2, heads:2, type:'Bow Rider', hull:'Deep V, GRP', cond:'Very Good', plotter:'Garmin GPSMAP 8612', vhf:'Standard Horizon GX2200', radar:'None', depth:'Garmin', loc:'Annapolis, MD', desc:"Regal's largest bowrider — perfect blend of comfort and performance. Two staterooms, two heads, full galley, cockpit wet bar. Twin 350hp outboards, premium JBL stereo with subwoofer.", i:10},
-    {id:36, make:'Viking',        model:'40 Open',            year:2016, price:185000, loa:"40\'0\" / 12.19m", beam:"14\'0\" / 4.27m", draft:"3\'3\" / 0.99m",  engines:'Twin Cummins QSB 480hp Diesel', hp:960, hrs:1100, svc:2024, fuel:'2x 1136L / 2x 300 gal', speed:'34 mph cruise', berths:4, cabins:2, heads:2, type:'Sportfish Open', hull:'Deep V, GRP', cond:'Good', plotter:'Garmin GPSMAP 8612', vhf:'Icom IC-M506', radar:'Furuno 1835', depth:'Garmin CHIRP', loc:'Charleston, SC', desc:'Proven offshore Viking sportfish. Twin Cummins diesels recently serviced, full cockpit rigging, outriggers, fighting chair. Two staterooms, two heads. Solid value for a weekend offshore warrior.', i:11},
-    {id:37, make:'Pursuit',       model:'S 428',              year:2020, price:345000, loa:"42\'8\" / 13.00m", beam:"12\'0\" / 3.66m", draft:"2\'6\" / 0.76m",  engines:'Triple Yamaha F350 Four-Stroke', hp:1050, hrs:240, svc:2024, fuel:'3x 246L / 3x 65 gal', speed:'50 mph top', berths:6, cabins:2, heads:2, type:'Sport Cruiser', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8616', vhf:'Standard Horizon GX2400', radar:'Garmin GMR 24 xHD', depth:'Garmin CHIRP', loc:'Fort Lauderdale, FL', desc:'Triple-engine sport cruiser with forward stateroom sleeping six. Two full heads, fully equipped galley, generator, air conditioning. Tournament-capable cockpit and electronics suite.', i:0},
-    {id:38, make:'Chris-Craft',   model:'Commander 42',       year:2019, price:228000, loa:"42\'0\" / 12.80m", beam:"13\'0\" / 3.96m", draft:"3\'0\" / 0.91m",  engines:'Twin Volvo Penta D6-400 Diesel IPS', hp:800, hrs:420, svc:2024, fuel:'2x 606L / 2x 160 gal', speed:'34 mph cruise', berths:6, cabins:2, heads:2, type:'Express Cruiser', hull:'Deep V, GRP', cond:'Very Good', plotter:'Garmin GPSMAP 8612', vhf:'Icom IC-M506', radar:'Garmin GMR 18 HD', depth:'Garmin CHIRP', loc:'Newport, RI', desc:'Classic Chris-Craft command cruiser with Volvo IPS pod drives. Two staterooms, two heads, full galley, generator. Beautiful mahogany accents, premium Faria instrument cluster throughout.', i:1},
-    {id:39, make:'Hatteras',      model:'45 Convertible',     year:2015, price:275000, loa:"45\'0\" / 13.72m", beam:"15\'0\" / 4.57m", draft:"4\'0\" / 1.22m",  engines:'Twin Cummins QSC 600hp Diesel', hp:1200, hrs:1350, svc:2024, fuel:'2x 1136L / 2x 300 gal', speed:'34 mph cruise', berths:6, cabins:3, heads:2, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Very Good', plotter:'Garmin GPSMAP 8612', vhf:'Icom IC-M606', radar:'Furuno 1835', depth:'Garmin CHIRP', loc:'Miami, FL', desc:'Well-maintained Hatteras convertible. Three staterooms, two heads, full galley, generator, air conditioning. Tournament-ready cockpit with outriggers, fighting chair, all rigging. Ready to fish.', i:2},
-    {id:40, make:'Regulator',     model:'41',                 year:2021, price:468000, loa:"41\'0\" / 12.50m", beam:"10\'6\" / 3.20m", draft:"2\'3\" / 0.69m",  engines:'Triple Yamaha F350 XTO Four-Stroke', hp:1050, hrs:180, svc:2024, fuel:'3x 303L / 3x 80 gal', speed:'54 mph top', berths:4, cabins:1, heads:1, type:'Center Console', hull:'Modified V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8616', vhf:'Standard Horizon GX2400', radar:'Garmin GMR 24 xHD', depth:'Garmin CHIRP', loc:'Mystic, CT', desc:"Regulator's newest flagship center console. Triple XTO 350s with minimal hours. Full tournament rigging, 4 livewells, 4 in-deck fishboxes, T-top, spreader lights. Forward cabin with head.", i:3},
+  mid:[
+    {id:21, make:'Viking',       model:'48 Convertible',   year:2016,price:495000,loa:"48'0\"",beam:"17'0\"",draft:"4'6\"", type:'Sportfish Conv.',engines:'Twin CAT C12, 1,000hp total',hp:1000,hrs:840,svc:2024,fuel:'1,200 gal',speed:'35 mph',berths:4,cabs:2,heads:2,hull:'Deep V, GRP',cond:'Very Good', plotter:'Furuno NavNet TZtouch2',      vhf:'Icom IC-M506',               radar:'Furuno DRS4DL',   depth:'Furuno FCV-295',           loc:'Fort Lauderdale, FL',desc:'Iconic New Jersey-built sportfisher. Full tournament rigging, fighting chair, outriggers, bait center. Twin CATs with solid hours. Long-range fuel capacity. Consistently well-maintained, full service records.'},
+    {id:22, make:'Hatteras',     model:'45 Express',       year:2014,price:275000,loa:"45'0\"",beam:"15'6\"",draft:"3'10\"",type:'Express Cruiser',engines:'Twin Volvo IPS 600, 600hp',    hp:1200,hrs:990,svc:2023,fuel:'600 gal', speed:'30 mph',berths:6,cabs:3,heads:2,hull:'Deep V, GRP',cond:'Good',      plotter:'Garmin GPSMAP 8612',          vhf:'Standard Horizon GX2200',    radar:'Garmin GMR 24',   depth:'Garmin CHIRP',             loc:'Annapolis, MD',   desc:'Classic Hatteras express. Three staterooms, two heads, full galley. Twin Volvo IPS drives, bow and stern thrusters. Comprehensive electronics suite. Well-maintained with full yard history.'},
+    {id:23, make:'Boston Whaler',model:'380 Outrage',      year:2019,price:310000,loa:"38'0\"",beam:"11'4\"",draft:"2'0\"", type:'Center Console',engines:'Triple Mercury 300hp Verado', hp:900,hrs:390,svc:2024,fuel:'300 gal', speed:'50 mph',berths:4,cabs:1,heads:1,hull:'Modified V, GRP',cond:'Excellent',  plotter:'Garmin GPSMAP 8612',          vhf:'Standard Horizon GX2200G',   radar:'Garmin GMR 24 xHD',depth:'Garmin CHIRP',          loc:'Miami, FL',       desc:"Whaler's flagship center console. Triple Mercury Verado 300s, enormous fuel range, forward cabin with V-berth and head. Unsinkable construction, full Garmin glass helm. Tournament ready."},
+    {id:24, make:'Grady-White',  model:'376 Canyon',       year:2018,price:385000,loa:"37'6\"",beam:"12'6\"",draft:"2'3\"", type:'Center Console',engines:'Triple Yamaha F300 Four-Stroke',hp:900,hrs:420,svc:2024,fuel:'285 gal', speed:'44 mph',berths:4,cabs:1,heads:1,hull:'Modified V, GRP',cond:'Excellent',  plotter:'Garmin GPSMAP 8612',          vhf:'Standard Horizon GX2200G',   radar:'Garmin GMR 24',   depth:'Garmin CHIRP',             loc:'Charleston, SC',  desc:"Grady-White's flagship deep-sea canyon runner. Triple F300 Yamahas, 4-person forward cabin, massive fishbox capacity. Lifetime hull warranty transferable. Full Garmin electronics. The definitive offshore fisherman."},
+    {id:25, make:'Viking',       model:'42 Convertible',   year:2012,price:235000,loa:"42'0\"",beam:"15'6\"",draft:"4'2\"", type:'Sportfish Conv.',engines:'Twin MAN V8 800, 1,600hp',  hp:1600,hrs:1100,svc:2023,fuel:'900 gal', speed:'32 mph',berths:4,cabs:2,heads:2,hull:'Deep V, GRP',cond:'Good',      plotter:'Furuno NavNet TZtouch',       vhf:'Icom IC-M504',               radar:'Furuno DRS4DL',   depth:'Furuno FCV-295',           loc:'Fort Lauderdale, FL',desc:'Tournament-proven 42 Viking. Full tuna tower, fighting chair, outriggers, custom tackle center. Diesel power with long range. Recent repaint and upholstery. Solid offshore platform at excellent value.'},
+    {id:26, make:'Sea Ray',      model:'400 SLX',          year:2019,price:280000,loa:"40'0\"",beam:"10'9\"",draft:"2'8\"", type:'Sport Cruiser',engines:'Twin Mercury 300hp Verado',    hp:600,hrs:310,svc:2024,fuel:'200 gal', speed:'48 mph',berths:4,cabs:2,heads:1,hull:'Deep V, GRP',    cond:'Excellent',  plotter:'Garmin GPSMAP 8612',          vhf:'Standard Horizon GX2200',    radar:'None',            depth:'Garmin CHIRP',             loc:'Newport, RI',     desc:"Sea Ray's premium sport cruiser. Enormous cockpit, retractable hard top, dual Mercury Verado 300s. Two staterooms, full galley, wet bar. Outstanding fit and finish throughout. Low hours for the year."},
+    {id:27, make:'Pursuit',      model:'S 408',            year:2020,price:425000,loa:"40'8\"",beam:"12'2\"",draft:"2'6\"", type:'Sport Cruiser',engines:'Triple Mercury 300hp Verado',  hp:900,hrs:285,svc:2024,fuel:'300 gal', speed:'46 mph',berths:6,cabs:2,heads:2,hull:'Deep V, GRP',    cond:'Excellent',  plotter:'Garmin GPSMAP 8616',          vhf:'Icom IC-M506',               radar:'Garmin GMR 24',   depth:'Garmin CHIRP',             loc:'Miami, FL',       desc:"Pursuit's flagship — the perfect blend of offshore fishing capability and family cruising comfort. Two staterooms, two heads, full galley. Triple Verado 300s with low hours."},
+    {id:28, make:'Hatteras',     model:'60 Motor Yacht',   year:2008,price:375000,loa:"60'0\"",beam:"18'0\"",draft:"5'2\"", type:'Motor Yacht',   engines:'Twin MTU 8V 2000, 1,825hp',hp:1825,hrs:1600,svc:2023,fuel:'2,400 gal',speed:'28 mph',berths:8,cabs:4,heads:4,hull:'Deep V, GRP',cond:'Good',      plotter:'Garmin GPSMAP 8612',          vhf:'Icom IC-M604',               radar:'Garmin GMR 24 xHD',depth:'Garmin CHIRP',          loc:'Fort Lauderdale, FL',desc:'Classic Hatteras motor yacht. Four staterooms, four heads, crew quarters, full master suite with walkaround king. Flybridge with wet bar. Well-maintained with consistent yard service. Florida-based life.'},
+    {id:29, make:'Bertram',      model:'570',              year:2010,price:340000,loa:"57'0\"",beam:"17'6\"",draft:"5'0\"", type:'Sportfish Conv.',engines:'Twin CAT C18, 1,825hp',     hp:1825,hrs:1340,svc:2023,fuel:'2,000 gal',speed:'30 mph',berths:6,cabs:3,heads:3,hull:'Deep V, GRP',cond:'Good',      plotter:'Furuno NavNet TZtouch',       vhf:'Icom IC-M604',               radar:'Furuno DRS6',     depth:'Furuno FCV-295',           loc:'Miami, FL',       desc:'Classic Bertram sportfisher. Custom tackle center, fighting chair, tuna tower with controls, outriggers, massive fish boxes. Three staterooms. CATs recently serviced.'},
+    {id:30, make:'Viking',       model:'52 Convertible',   year:2014,price:480000,loa:"52'0\"",beam:"17'6\"",draft:"4'6\"", type:'Sportfish Conv.',engines:'Twin MAN V8 900, 1,800hp',  hp:1800,hrs:920,svc:2024,fuel:'1,400 gal',speed:'36 mph',berths:4,cabs:2,heads:2,hull:'Deep V, GRP',cond:'Very Good', plotter:'Furuno NavNet TZtouch2',      vhf:'Icom IC-M506',               radar:'Furuno DRS4DL',   depth:'Furuno FCV-295',           loc:'Fort Lauderdale, FL',desc:'Exceptional Viking. Full tournament rigging, custom tackle center, 3-position tuna tower, fighting chair. Twin MAN diesels with good hours. Comprehensive electronics upgrade 2022. Outstanding condition for year.'},
   ],
-  premium: [
-    {id:41, make:'Viking',        model:'62 Convertible',     year:2019, price:2100000,loa:"62\'0\" / 18.90m", beam:"18\'8\" / 5.69m", draft:"5\'0\" / 1.52m",  engines:'Twin MAN V12 1800hp Diesel', hp:3600, hrs:680, svc:2024, fuel:'2x 5678L / 2x 1500 gal', speed:'38 mph cruise', berths:6, cabins:3, heads:3, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Fort Lauderdale, FL', desc:'Viking flagship tournament sportfisher. Three private staterooms including master with island berth, three heads, full galley, generator, air conditioning. Twin MAN V12s, Seakeeper stabilizer, all tournament rigging.', i:4},
-    {id:42, make:'Hatteras',      model:'GT60 Motor Yacht',   year:2018, price:1450000,loa:"60\'0\" / 18.29m", beam:"17\'6\" / 5.33m", draft:"4\'6\" / 1.37m",  engines:'Twin MAN 1000hp Diesel', hp:2000, hrs:820, svc:2024, fuel:'2x 3785L / 2x 1000 gal', speed:'30 mph cruise', berths:8, cabins:4, heads:3, type:'Motor Yacht', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Annapolis, MD', desc:'Four-stateroom Hatteras motor yacht in exceptional condition. Master stateroom with walk-around island berth, three VIP cabins, full commercial galley, salon, generator, stabilizers. Professionally maintained.', i:5},
-    {id:43, make:'Bertram',       model:'670 Convertible',    year:2020, price:2650000,loa:"67\'0\" / 20.42m", beam:"19\'4\" / 5.89m", draft:"5\'2\" / 1.58m",  engines:'Twin MTU 16V 2000hp Diesel', hp:4000, hrs:340, svc:2024, fuel:'2x 7570L / 2x 2000 gal', speed:'40 mph cruise', berths:6, cabins:3, heads:3, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Miami, FL', desc:'Flagship Bertram with twin MTU power. Three staterooms, three heads, full galley, generator, AC, Seakeeper 9 gyro stabilizer. Full tournament rigging — the ultimate sportfishing platform.', i:6},
-    {id:44, make:'Viking',        model:'52 Convertible',     year:2018, price:1250000,loa:"52\'0\" / 15.85m", beam:"16\'5\" / 5.00m", draft:"4\'4\" / 1.32m",  engines:'Twin MAN 1200hp Diesel', hp:2400, hrs:810, svc:2024, fuel:'2x 3785L / 2x 1000 gal', speed:'36 mph cruise', berths:6, cabins:3, heads:2, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Very Good', plotter:'Garmin GPSMAP 8616', vhf:'Icom IC-M606', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Newport, RI', desc:'Viking 52 in excellent maintained condition. Three staterooms, two heads, full galley, generator, air conditioning throughout. Full tournament cockpit, outriggers, ELEC riggers, fighting chair.', i:7},
-    {id:45, make:'Princess',      model:'75 Motor Yacht',     year:2021, price:2850000,loa:"75\'0\" / 22.86m", beam:"19\'4\" / 5.89m", draft:"5\'3\" / 1.60m",  engines:'Twin MTU 16V 2000hp Diesel', hp:4000, hrs:210, svc:2024, fuel:'2x 6435L / 2x 1700 gal', speed:'28 mph cruise', berths:10, cabins:5, heads:5, type:'Motor Yacht', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Fort Lauderdale, FL', desc:'British-built superyacht with five staterooms, five heads, commercial galley. Sky lounge, sundeck, swim platform with electric davit for tender. Stabilizers, generator, full A/V entertainment throughout.', i:8},
-    {id:46, make:'Hatteras',      model:'GT63 Sportfish',     year:2022, price:2450000,loa:"63\'0\" / 19.20m", beam:"18\'0\" / 5.49m", draft:"4\'11\" / 1.50m", engines:'Twin MAN V8 1400hp Diesel', hp:2800, hrs:180, svc:2024, fuel:'2x 5678L / 2x 1500 gal', speed:'36 mph cruise', berths:6, cabins:3, heads:3, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Charleston, SC', desc:"Hatteras' newest GT flagship barely commissioned. Three staterooms, three heads, full galley, generator. Seakeeper 16 gyro stabilizer. Zero-speed stabilization for extraordinary offshore comfort.", i:9},
-    {id:47, make:'Viking',        model:'56 Convertible',     year:2017, price:875000, loa:"56\'0\" / 17.07m", beam:"17\'6\" / 5.33m", draft:"4\'8\" / 1.42m",  engines:'Twin MAN 1350hp Diesel', hp:2700, hrs:1120, svc:2024, fuel:'2x 4164L / 2x 1100 gal', speed:'34 mph cruise', berths:6, cabins:3, heads:2, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Very Good', plotter:'Garmin GPSMAP 8616', vhf:'Icom IC-M606', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Mystic, CT', desc:'Viking 56 in excellent maintained condition. Comprehensively upgraded electronics 2022. Three staterooms, two heads, generator, AC. Full tournament cockpit, electric outriggers. Multiple tournament wins.', i:10},
-    {id:48, make:'Jarrett Bay',   model:'64 Custom Convertible', year:2016, price:1450000,loa:"64\'0\" / 19.51m", beam:"17\'0\" / 5.18m", draft:"4\'9\" / 1.45m", engines:'Twin MTU 12V 1600hp Diesel', hp:3200, hrs:760, svc:2024, fuel:'2x 5678L / 2x 1500 gal', speed:'38 mph cruise', berths:6, cabins:3, heads:3, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Annapolis, MD', desc:'Hand-built North Carolina sportfisher — the finest in the world. Full custom interior, three staterooms, three heads, chef galley, generator. Twin MTU diesels, stabilizers. Complete tournament pedigree.', i:11},
-    {id:49, make:'Hatteras',      model:'70 Convertible',     year:2016, price:1850000,loa:"70\'0\" / 21.34m", beam:"19\'6\" / 5.94m", draft:"5\'0\" / 1.52m",  engines:'Twin MTU 16V 2000hp Diesel', hp:4000, hrs:920, svc:2024, fuel:'2x 7570L / 2x 2000 gal', speed:'34 mph cruise', berths:8, cabins:4, heads:4, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Fort Lauderdale, FL', desc:'Flagship Hatteras convertible with four staterooms, four heads, full commercial galley, salon, generator, AC throughout. Seakeeper gyro stabilizers, full SATCOM, tournament cockpit.', i:0},
-    {id:50, make:'Viking',        model:'48 Convertible',     year:2020, price:695000, loa:"48\'0\" / 14.63m", beam:"15\'8\" / 4.78m", draft:"4\'1\" / 1.24m",  engines:'Twin MAN 1000hp Diesel', hp:2000, hrs:490, svc:2024, fuel:'2x 2839L / 2x 750 gal', speed:'36 mph cruise', berths:4, cabins:2, heads:2, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8616', vhf:'Icom IC-M606', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Miami, FL', desc:"Viking's most popular convertible. Two staterooms, two heads, full galley, generator, air conditioning. Twin MAN 1000s, comprehensive cockpit rigging, electric outriggers. Outstanding mid-size sportfisher.", i:1},
-    {id:51, make:'Sunseeker',     model:'Predator 68',        year:2020, price:1650000,loa:"68\'0\" / 20.73m", beam:"17\'6\" / 5.33m", draft:"4\'3\" / 1.30m",  engines:'Twin MTU 16V 1825hp Diesel', hp:3650, hrs:310, svc:2024, fuel:'2x 3785L / 2x 1000 gal', speed:'40 mph cruise', berths:6, cabins:3, heads:3, type:'Motor Yacht', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Newport, RI', desc:'British superyacht combining sportfish performance with luxury cruising comfort. Three staterooms, three heads, designer interior, foredeck sunpads, beach club transom platform. Twin MTU diesels.', i:2},
-    {id:52, make:'Ocean Alexander', model:'70E Motoryacht',   year:2019, price:1275000,loa:"70\'0\" / 21.34m", beam:"19\'0\" / 5.79m", draft:"5\'0\" / 1.52m",  engines:'Twin Cummins QSK19 1900hp Diesel', hp:3800, hrs:540, svc:2024, fuel:'2x 5678L / 2x 1500 gal', speed:'26 mph cruise', berths:10, cabins:5, heads:4, type:'Motor Yacht', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Fort Lauderdale, FL', desc:'Taiwanese-built quality motor yacht with five staterooms, four heads, commercial galley, salon, sky lounge. Generator, stabilizers, full SATCOM suite. Extensive A/V entertainment system.', i:3},
-    {id:53, make:'Viking',        model:'66 Convertible',     year:2018, price:2250000,loa:"66\'0\" / 20.12m", beam:"18\'6\" / 5.64m", draft:"5\'0\" / 1.52m",  engines:'Twin MAN V12 1800hp Diesel', hp:3600, hrs:640, svc:2024, fuel:'2x 5678L / 2x 1500 gal', speed:'38 mph cruise', berths:6, cabins:3, heads:3, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Charleston, SC', desc:'The ultimate Viking offshore platform. Three staterooms, three heads, chef galley, generator, AC, Seakeeper 9 stabilizer. Full tournament rigging, custom paint, full electronics upgrade 2023.', i:4},
-    {id:54, make:'Hatteras',      model:'60 Convertible',     year:2019, price:1350000,loa:"60\'0\" / 18.29m", beam:"18\'0\" / 5.49m", draft:"4\'6\" / 1.37m",  engines:'Twin Cummins QSC 900hp Diesel', hp:1800, hrs:580, svc:2024, fuel:'2x 3785L / 2x 1000 gal', speed:'32 mph cruise', berths:6, cabins:3, heads:3, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Mystic, CT', desc:'Beautifully maintained Hatteras 60. Three staterooms including master with island berth, three heads, full galley, generator. Seakeeper 6 stabilizer, electric outriggers, full tournament cockpit.', i:5},
-    {id:55, make:'Viking',        model:'44 Convertible',     year:2021, price:725000, loa:"44\'0\" / 13.41m", beam:"15\'0\" / 4.57m", draft:"3\'9\" / 1.14m",  engines:'Twin Cummins QSB 480hp Diesel', hp:960, hrs:290, svc:2024, fuel:'2x 1514L / 2x 400 gal', speed:'34 mph cruise', berths:4, cabins:2, heads:2, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8616', vhf:'Icom IC-M606', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Annapolis, MD', desc:"Viking's most accessible convertible, lightly used. Two staterooms, two heads, full galley, generator, AC. Twin Cummins QSB diesels, full cockpit rigging, electric outriggers. The perfect starter Viking.", i:6},
-    {id:56, make:'Ocean Alexander', model:'84 Motoryacht',    year:2020, price:2450000,loa:"84\'0\" / 25.60m", beam:"20\'6\" / 6.25m", draft:"5\'6\" / 1.68m",  engines:'Twin Cummins QSK38 2200hp Diesel', hp:4400, hrs:320, svc:2024, fuel:'2x 7570L / 2x 2000 gal', speed:'18 mph cruise', berths:12, cabins:6, heads:6, type:'Motor Yacht', hull:'Planing, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Fort Lauderdale, FL', desc:'Flagship Ocean Alexander with six staterooms, six heads, full commercial galley, main salon and sky lounge. Zero-speed stabilizers, davit for 18ft tender, full SATCOM, generator. Private yacht standard.', i:7},
-    {id:57, make:'Viking',        model:'58 Convertible',     year:2019, price:1150000,loa:"58\'0\" / 17.68m", beam:"17\'6\" / 5.33m", draft:"4\'8\" / 1.42m",  engines:'Twin MAN 1350hp Diesel', hp:2700, hrs:720, svc:2024, fuel:'2x 4164L / 2x 1100 gal', speed:'36 mph cruise', berths:6, cabins:3, heads:2, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Very Good', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Miami, FL', desc:'Mid-range Viking 58 in excellent maintained condition. Three staterooms, two heads, full galley, generator, AC. Full tournament cockpit — multiple Blue Marlin recorded. Complete service records.', i:8},
-    {id:58, make:'Bertram',       model:'570 Convertible',    year:2017, price:895000, loa:"57\'0\" / 17.37m", beam:"17\'6\" / 5.33m", draft:"4\'9\" / 1.45m",  engines:'Twin MTU 12V 1600hp Diesel', hp:3200, hrs:880, svc:2024, fuel:'2x 5678L / 2x 1500 gal', speed:'36 mph cruise', berths:6, cabins:3, heads:2, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Very Good', plotter:'Garmin GPSMAP 8616', vhf:'Icom IC-M605', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Newport, RI', desc:'Classic Bertram 57 in excellent maintained condition. Three staterooms, two heads, full galley, generator. Twin MTU diesels recently serviced. Tournament-rigged cockpit, electric outriggers, fighting chair.', i:9},
-    {id:59, make:'Hatteras',      model:'GT54 Sportfish',     year:2021, price:1125000,loa:"54\'0\" / 16.46m", beam:"16\'9\" / 5.11m", draft:"4\'3\" / 1.30m",  engines:'Twin MAN V8 1200hp Diesel', hp:2400, hrs:280, svc:2024, fuel:'2x 3785L / 2x 1000 gal', speed:'36 mph cruise', berths:4, cabins:2, heads:2, type:'Sportfish Convertible', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8617', vhf:'Icom IC-M606', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Charleston, SC', desc:"Hatteras GT Series flagship — purpose-built for tournament sportfishing. Two staterooms, two heads, full galley, generator. Seakeeper 9 zero-speed stabilizer. Fresh from full factory refit.", i:10},
-    {id:60, make:'Viking',        model:'54 Open',            year:2020, price:895000, loa:"54\'0\" / 16.46m", beam:"17\'0\" / 5.18m", draft:"4\'6\" / 1.37m",  engines:'Twin MAN 1200hp Diesel', hp:2400, hrs:410, svc:2024, fuel:'2x 3785L / 2x 1000 gal', speed:'38 mph cruise', berths:4, cabins:2, heads:2, type:'Sportfish Open', hull:'Deep V, GRP', cond:'Excellent', plotter:'Garmin GPSMAP 8616', vhf:'Icom IC-M606', radar:'Furuno NavNet TZtouch3', depth:'Garmin CHIRP', loc:'Mystic, CT', desc:'Viking 54 Open — maximum fishing space, maximum performance. Two staterooms, two heads, full cockpit rigging, electric outriggers, Seakeeper 6. The offshore fisherman\'s ultimate tool.', i:11},
+  premium:[
+    {id:41, make:'Viking',       model:'72 Convertible',   year:2019,price:3200000,loa:"72'0\"",beam:"20'9\"",draft:"5'2\"",type:'Sportfish Conv.',engines:'Triple MAN V12 1650, 4,950hp',hp:4950,hrs:380,svc:2024,fuel:'4,400 gal',speed:'38 mph',berths:6,cabs:3,heads:3,hull:'Deep V, GRP',cond:'Excellent',  plotter:'Furuno NavNet TZtouch3 Glass',vhf:'Icom IC-M605',               radar:'Furuno DRS12A',   depth:'Furuno FCV-295',           loc:'Fort Lauderdale, FL',desc:"Viking's flagship — the ultimate sportfishing machine. Three MAN diesels, 4-deck tournament tower, custom tackle center, Seakeeper gyro. Massive range. One-owner with complete service history."},
+    {id:42, make:'Hatteras',     model:'100 Motor Yacht',  year:2015,price:2800000,loa:"100'0\"",beam:"22'6\"",draft:"6'6\"",type:'Motor Yacht', engines:'Twin MTU 16V 2000, 3,650hp', hp:3650,hrs:860,svc:2024,fuel:'8,000 gal',speed:'22 mph',berths:12,cabs:5,heads:5,hull:'Deep V, Steel',cond:'Excellent',  plotter:'Garmin GPSMAP 8616 Glass',    vhf:'Icom IC-M604',               radar:'Garmin GMR 434 xHD',depth:'Furuno',                 loc:'Miami, FL',       desc:'Flagship Hatteras motor yacht. Five staterooms including master with private deck. Full crew quarters, stabilizers, zero-speed thrusters, satellite comms. Comprehensive refit 2022.'},
+    {id:43, make:'Viking',       model:'82 Convertible',   year:2017,price:4100000,loa:"82'0\"",beam:"21'6\"",draft:"5'10\"",type:'Sportfish Conv.',engines:'Triple MAN V12 1800, 5,400hp',hp:5400,hrs:520,svc:2024,fuel:'5,800 gal',speed:'40 mph',berths:6,cabs:3,heads:3,hull:'Deep V, GRP',cond:'Excellent',  plotter:'Furuno NavNet TZtouch3',      vhf:'Icom IC-M605',               radar:'Furuno DRS12A',   depth:'Furuno FCV-295',           loc:'Fort Lauderdale, FL',desc:'World-class sportfisher. Triple MANs, 5-deck tower, custom salon, Seakeeper 9 gyro. Full charter and tournament history available. Every upgrade possible. The pinnacle of sportfishing.'},
+    {id:44, make:'Bertram',      model:'800',              year:2020,price:5500000,loa:"80'0\"",beam:"21'0\"",draft:"5'6\"", type:'Sportfish Conv.',engines:'Triple MTU 16V 2000, 5,475hp',hp:5475,hrs:290,svc:2024,fuel:'6,000 gal',speed:'36 mph',berths:8,cabs:4,heads:4,hull:'Deep V, GRP',cond:'Excellent',  plotter:'Garmin GPSMAP 8616 Glass Bridge',vhf:'Icom IC-M605',            radar:'Garmin GMR 434',  depth:'Furuno',                   loc:'Miami, FL',       desc:"Bertram's modern flagship. Near-new condition, four staterooms, crew quarters, Seakeeper stabilizers, bow thruster. Triple MTU power. Everything brand new and fully optioned."},
+    {id:45, make:'Hatteras',     model:'77 Convertible',   year:2018,price:2400000,loa:"77'0\"",beam:"20'4\"",draft:"5'4\"", type:'Sportfish Conv.',engines:'Twin MTU 16V 2000, 3,650hp',hp:3650,hrs:610,svc:2024,fuel:'5,000 gal',speed:'32 mph',berths:6,cabs:3,heads:3,hull:'Deep V, GRP',cond:'Excellent',  plotter:'Furuno NavNet TZtouch3',      vhf:'Icom IC-M605',               radar:'Furuno DRS6',     depth:'Furuno FCV-295',           loc:'Fort Lauderdale, FL',desc:'Premium Hatteras convertible. Three staterooms, crew quarters, custom tackle center, full tuna tower. Twin MTU diesels serviced 2024. Seakeeper stabilizer, bow thruster, extensive electronics. Tournament-ready.'},
   ]
 };
 
-let curRange = 'mid';
+let curRange='mid';
+document.addEventListener('DOMContentLoaded',()=>{ switchTab(window._INIT_RANGE||'mid'); });
 
-document.addEventListener('DOMContentLoaded', () => { switchTab(window._INIT_RANGE || 'mid'); });
-
-function switchTab(r) {
-  curRange = r;
-  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.r === r));
+function switchTab(r){
+  curRange=r;
+  document.querySelectorAll('.pnav-btn').forEach(b=>b.classList.toggle('active',b.dataset.r===r));
   render();
 }
 
-function fmt(n){ return '$' + n.toLocaleString('en-US'); }
+function fmt(n){return'$'+n.toLocaleString('en-US');}
 
-function render() {
-  const sort = document.getElementById('sortSel').value;
-  let items = [...DATA[curRange]];
-  if (sort === 'price-asc')   items.sort((a,b) => a.price - b.price);
-  if (sort === 'price-desc')  items.sort((a,b) => b.price - a.price);
-  if (sort === 'year-desc')   items.sort((a,b) => b.year - a.year);
-  if (sort === 'length-desc') items.sort((a,b) => parseFloat(b.loa) - parseFloat(a.loa));
-  document.getElementById('listCt').textContent = items.length;
-  document.getElementById('grid').innerHTML = items.map(card).join('');
+function render(){
+  const sort=document.getElementById('sortSel').value;
+  let items=[...DATA[curRange]];
+  if(sort==='price-asc')  items.sort((a,b)=>a.price-b.price);
+  if(sort==='price-desc') items.sort((a,b)=>b.price-a.price);
+  if(sort==='year-desc')  items.sort((a,b)=>b.year-a.year);
+  if(sort==='length-desc')items.sort((a,b)=>parseFloat(b.loa)-parseFloat(a.loa));
+  document.getElementById('listCt').textContent=items.length;
+  document.getElementById('grid').innerHTML=items.map(card).join('');
 }
 
-function card(L) {
-  return `
-  <div class="card" onclick="openModal(${L.id})">
-    <div class="c-img-wrap">
-      <img class="c-img" src="${img(L.i)}" alt="${L.make} ${L.model}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#9db8c8,#5a7f9a)';this.removeAttribute('src')">
-      <span class="c-price-badge">${fmt(L.price)}</span>
+const PIN=`<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
+
+function card(L){return`
+<div class="card" onclick="openModal(${L.id})">
+  <div class="c-img-wrap"><img class="c-img" src="${img(L.make,L.id)}" alt="${L.make} ${L.model}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#1a4a6e,#0d2137)';this.removeAttribute('src')"></div>
+  <div class="c-body">
+    <div class="c-head">
+      <div><div class="c-make">${L.make}</div><div class="c-model">${L.model} <span class="c-year">${L.year}</span></div></div>
+      <div class="c-price-block"><div class="c-price">${fmt(L.price)}</div></div>
     </div>
-    <div class="c-body">
-      <div class="c-title">${L.make} ${L.model} <span class="c-year">${L.year}</span></div>
-      <div class="c-specs">
-        <span class="chip">⚓ ${L.loa.split('/')[0].trim()}</span>
-        <span class="chip">🛏 ${L.berths} berths</span>
-        <span class="chip">⚙️ ${L.hp.toLocaleString()}hp</span>
-        <span class="chip">🕐 ${L.hrs} hrs</span>
-      </div>
-      <div class="c-loc">📍 ${L.loc}</div>
-      <div class="c-desc">${L.desc}</div>
-      <div class="c-foot">
-        <span class="c-price">${fmt(L.price)}</span>
-        <button class="btn-view">View Listing</button>
-      </div>
+    <div class="c-chips">
+      <span class="chip">${L.loa}</span>
+      <span class="chip">${L.type}</span>
+      <span class="chip">${L.hp.toLocaleString()}hp</span>
+      <span class="chip">${L.hrs} hrs</span>
     </div>
-  </div>`;
-}
+    <div class="c-loc">${PIN} ${L.loc}</div>
+    <div class="c-desc">${L.desc}</div>
+    <div class="c-foot"><button class="btn-view">View full listing &rarr;</button></div>
+  </div>
+</div>`;}
 
-function findListing(id) {
-  for (const band of Object.values(DATA)) {
-    const l = band.find(x => x.id === id);
-    if (l) return l;
-  }
-}
+function findListing(id){for(const b of Object.values(DATA)){const l=b.find(x=>x.id===id);if(l)return l;}}
 
-function openModal(id) {
-  const L = findListing(id);
-  if (!L) return;
-  document.getElementById('mImg').src = img(L.i);
-  document.getElementById('mImg').alt = `${L.make} ${L.model}`;
-  document.getElementById('mImg').style.display = '';
-  document.getElementById('mContent').innerHTML = detailHTML(L);
+function openModal(id){
+  const L=findListing(id);if(!L)return;
+  document.getElementById('mImg').src=img(L.make,L.id);
+  document.getElementById('mImg').alt=`${L.make} ${L.model}`;
+  document.getElementById('mImg').style.display='';
+  document.getElementById('mContent').innerHTML=detailHTML(L);
   document.getElementById('overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
+function closeModal(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';}
+function bgClose(e){if(e.target===document.getElementById('overlay'))closeModal();}
 
-function closeModal() {
-  document.getElementById('overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function bgClose(e) {
-  if (e.target === document.getElementById('overlay')) closeModal();
-}
-
-function detailHTML(L) {
-  return `
-    <div class="m-header">
-      <div class="m-title-block">
-        <div class="m-make">${L.make} ${L.model}</div>
-        <div class="m-sub">${L.year} · ${L.type} · ${L.cond} condition · ${L.loc}</div>
-      </div>
-      <div class="m-price-block">
-        <div class="m-price">${fmt(L.price)}</div>
-        <div class="m-price-note">Asking price</div>
-      </div>
+function detailHTML(L){return`
+  <div class="m-header">
+    <div><div class="m-make">${L.make}</div><div class="m-title">${L.model}</div><div class="m-sub">${L.year} &middot; ${L.type} &middot; ${L.cond} condition &middot; ${L.loc}</div></div>
+    <div class="m-price-block"><div class="m-price">${fmt(L.price)}</div><div class="m-price-note">Asking price</div></div>
+  </div>
+  <div class="spec-grid">
+    <div class="spec-box"><div class="sk">LOA</div><div class="sv">${L.loa}</div></div>
+    <div class="spec-box"><div class="sk">Beam</div><div class="sv">${L.beam}</div></div>
+    <div class="spec-box"><div class="sk">Draft</div><div class="sv">${L.draft}</div></div>
+    <div class="spec-box"><div class="sk">Total HP</div><div class="sv">${L.hp.toLocaleString()}hp</div></div>
+    <div class="spec-box"><div class="sk">Berths</div><div class="sv">${L.berths}</div></div>
+    <div class="spec-box"><div class="sk">Cabins</div><div class="sv">${L.cabs}</div></div>
+    <div class="spec-box"><div class="sk">Heads</div><div class="sv">${L.heads}</div></div>
+    <div class="spec-box"><div class="sk">Engine hrs</div><div class="sv">${L.hrs} hrs</div></div>
+  </div>
+  <div class="m-section"><h4>Description</h4><p class="m-desc">${L.desc}</p></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem">
+    <div class="m-section" style="margin:0"><h4>Engines &amp; Performance</h4>
+      <table class="spec-tbl">
+        <tr><td>Engine(s)</td><td>${L.engines}</td></tr>
+        <tr><td>Total horsepower</td><td>${L.hp.toLocaleString()}hp</td></tr>
+        <tr><td>Engine hours</td><td>${L.hrs} hrs</td></tr>
+        <tr><td>Last service</td><td>${L.svc}</td></tr>
+        <tr><td>Top speed</td><td>${L.speed}</td></tr>
+        <tr><td>Fuel capacity</td><td>${L.fuel}</td></tr>
+      </table>
     </div>
-
-    <div class="spec-grid">
-      <div class="spec-box"><div class="sk">LOA</div><div class="sv">${L.loa.split('/')[0].trim()}</div></div>
-      <div class="spec-box"><div class="sk">Beam</div><div class="sv">${L.beam.split('/')[0].trim()}</div></div>
-      <div class="spec-box"><div class="sk">Draft</div><div class="sv">${L.draft.split('/')[0].trim()}</div></div>
-      <div class="spec-box"><div class="sk">Total HP</div><div class="sv">${L.hp.toLocaleString()}hp</div></div>
-      <div class="spec-box"><div class="sk">Berths</div><div class="sv">${L.berths}</div></div>
-      <div class="spec-box"><div class="sk">Cabins</div><div class="sv">${L.cabins}</div></div>
-      <div class="spec-box"><div class="sk">Heads</div><div class="sv">${L.heads}</div></div>
-      <div class="spec-box"><div class="sk">Engine hrs</div><div class="sv">${L.hrs} hrs</div></div>
+    <div class="m-section" style="margin:0"><h4>Hull &amp; Construction</h4>
+      <table class="spec-tbl">
+        <tr><td>Vessel type</td><td>${L.type}</td></tr>
+        <tr><td>Hull construction</td><td>${L.hull}</td></tr>
+        <tr><td>Condition</td><td>${L.cond}</td></tr>
+      </table>
     </div>
-
-    <div class="m-section">
-      <h4>Description</h4>
-      <p style="font-size:.88rem;line-height:1.7;color:#374151">${L.desc}</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.75rem">
+    <div class="m-section" style="margin:0"><h4>Electronics</h4>
+      <table class="spec-tbl">
+        <tr><td>Chartplotter</td><td>${L.plotter}</td></tr>
+        <tr><td>VHF radio</td><td>${L.vhf}</td></tr>
+        <tr><td>Radar</td><td>${L.radar}</td></tr>
+        <tr><td>Depth / sonar</td><td>${L.depth}</td></tr>
+      </table>
     </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem">
-      <div class="m-section" style="margin:0">
-        <h4>Engines &amp; Performance</h4>
-        <table class="spec-tbl">
-          <tr><td>Engine(s)</td><td>${L.engines}</td></tr>
-          <tr><td>Total horsepower</td><td>${L.hp.toLocaleString()}hp</td></tr>
-          <tr><td>Engine hours</td><td>${L.hrs} hrs</td></tr>
-          <tr><td>Last service</td><td>${L.svc}</td></tr>
-          <tr><td>Top speed</td><td>${L.speed}</td></tr>
-        </table>
-      </div>
-      <div class="m-section" style="margin:0">
-        <h4>Hull &amp; Construction</h4>
-        <table class="spec-tbl">
-          <tr><td>Type</td><td>${L.type}</td></tr>
-          <tr><td>Hull</td><td>${L.hull}</td></tr>
-          <tr><td>Fuel capacity</td><td>${L.fuel}</td></tr>
-          <tr><td>Condition</td><td>${L.cond}</td></tr>
-        </table>
-      </div>
+    <div class="m-section" style="margin:0"><h4>Accommodation</h4>
+      <table class="spec-tbl">
+        <tr><td>Sleeping berths</td><td>${L.berths}</td></tr>
+        <tr><td>Staterooms</td><td>${L.cabs}</td></tr>
+        <tr><td>Heads</td><td>${L.heads}</td></tr>
+      </table>
     </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
-      <div class="m-section" style="margin:0">
-        <h4>Electronics</h4>
-        <table class="spec-tbl">
-          <tr><td>Chartplotter</td><td>${L.plotter}</td></tr>
-          <tr><td>VHF radio</td><td>${L.vhf}</td></tr>
-          <tr><td>Radar</td><td>${L.radar}</td></tr>
-          <tr><td>Depth / Fish finder</td><td>${L.depth}</td></tr>
-        </table>
-      </div>
-      <div class="m-section" style="margin:0">
-        <h4>Accommodation</h4>
-        <table class="spec-tbl">
-          <tr><td>Sleeping berths</td><td>${L.berths}</td></tr>
-          <tr><td>Staterooms</td><td>${L.cabins}</td></tr>
-          <tr><td>Heads</td><td>${L.heads}</td></tr>
-        </table>
-      </div>
+  </div>
+  <div class="m-section"><h4>Request Information</h4></div>
+  <p class="m-enq-sub">Complete the form below and ${document.getElementById('brokerNm').textContent} will be in touch within the hour.</p>
+  <form id="enqForm" onsubmit="submitEnq(event)">
+    <input type="hidden" name="listing" value="${L.make} ${L.model} ${L.year} — ${fmt(L.price)}">
+    <div class="fg-row">
+      <div class="fg"><label>First name</label><input type="text" name="fn" required placeholder="James"></div>
+      <div class="fg"><label>Last name</label><input type="text" name="ln" required placeholder="Henderson"></div>
     </div>
+    <div class="fg"><label>Email address</label><input type="email" name="email" required placeholder="james@example.com"></div>
+    <div class="fg"><label>Phone number</label><input type="tel" name="phone" placeholder="+1 (555) 000-0000"></div>
+    <div class="fg"><label>Message</label><textarea name="msg">I'm interested in the ${L.make} ${L.model} (${L.year}) listed at ${fmt(L.price)}. Please contact me to arrange a viewing.</textarea></div>
+    <button type="submit" class="btn-submit">Send enquiry</button>
+  </form>`;}
 
-    <div class="m-section"><h4>Request Information</h4></div>
-    <p class="m-enq-sub">Complete the form and ${document.getElementById('brokerNm').textContent} will respond within the hour.</p>
-    <form id="enqForm" onsubmit="submitEnq(event)">
-      <input type="hidden" name="listing" value="${L.make} ${L.model} ${L.year} — ${fmt(L.price)}">
-      <div class="fg-row">
-        <div class="fg"><label>First Name</label><input type="text" name="fn" required placeholder="James"></div>
-        <div class="fg"><label>Last Name</label><input type="text" name="ln" required placeholder="Henderson"></div>
-      </div>
-      <div class="fg"><label>Email</label><input type="email" name="email" required placeholder="james@example.com"></div>
-      <div class="fg"><label>Phone</label><input type="tel" name="phone" placeholder="+1 (555) 000-0000"></div>
-      <div class="fg"><label>Message</label><textarea name="msg">I'm interested in the ${L.make} ${L.model} (${L.year}) listed at ${fmt(L.price)}. Please contact me to arrange a showing.</textarea></div>
-      <button type="submit" class="btn-submit">Send Enquiry</button>
-    </form>`;
-}
-
-function submitEnq(e) {
+function submitEnq(e){
   e.preventDefault();
-  const form = e.target;
-  const data = Object.fromEntries(new FormData(form));
-  const WEBHOOK = 'https://your-n8n-instance.com/webhook/sailshift-us';
-  fetch(WEBHOOK, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({...data, broker: document.getElementById('brokerNm').textContent, market:'US', ts: new Date().toISOString()})})
-    .catch(()=>{});
-  document.getElementById('mContent').innerHTML = `
-    <div class="success-wrap">
-      <div class="si">✓</div>
-      <h3>Enquiry Sent</h3>
-      <p>${document.getElementById('brokerNm').textContent} will be in touch shortly.<br>Average response time: under 1 hour.</p>
-      <button onclick="closeModal()" style="margin-top:1.25rem;padding:10px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit">Back to Listings</button>
-    </div>`;
+  const data=Object.fromEntries(new FormData(e.target));
+  fetch('https://your-n8n-instance.com/webhook/sailshift-us',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...data,broker:document.getElementById('brokerNm').textContent,market:'US-Power',ts:new Date().toISOString()})}).catch(()=>{});
+  document.getElementById('mContent').innerHTML=`<div class="success-wrap"><div class="si"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><h3 style="font-size:1.3rem;margin-bottom:.5rem">Enquiry sent</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.6">${document.getElementById('brokerNm').textContent} will be in touch shortly.<br>Average response time: under 1 hour.</p><button onclick="closeModal()" style="margin-top:1.5rem;padding:10px 28px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit">Back to listings</button></div>`;
   document.getElementById('mImg').style.display='none';
 }
 </script>
